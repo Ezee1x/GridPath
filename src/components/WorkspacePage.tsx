@@ -9,10 +9,11 @@ import { Documents } from "./sites/Documents";
 import { integrationTargets } from "@/lib/adapters";
 import { Badge, Empty } from "./ui";
 import { PageHeader } from "./layout/PageHeader";
+import { GoogleAddressWorkspace } from "./maps/GoogleAddressWorkspace";
 const headings: Record<string, [string, string]> = {
   explorer: [
     "Site explorer",
-    "Find and open the engineering intake records in your workspace.",
+    "Search Massachusetts addresses and inspect overhead satellite imagery.",
   ],
   verification: [
     "Verification queue",
@@ -58,7 +59,14 @@ export function WorkspacePage({ section }: { section: string }) {
           ) : undefined
         }
       />
-      {section === "explorer" && <SiteTable sites={sites} />}
+      {section === "explorer" && (
+        <>
+          <GoogleAddressWorkspace />
+          <div className="explorer-records">
+            <SiteTable sites={sites} />
+          </div>
+        </>
+      )}
       {["verification", "documents"].includes(section) && (
         <>
           <div className="site-picker">
@@ -99,8 +107,9 @@ export function WorkspacePage({ section }: { section: string }) {
         <>
           <div className="notice">
             <ShieldCheck size={19} />
-            No external data is fetched in this demo. The interfaces are ready
-            for future adapters; all sources below are disconnected.
+            Google Places provides live address lookup and Google Maps supplies
+            satellite visualization when configured. Engineering datasets below
+            remain disconnected.
           </div>
           <div className="source-connections">
             {integrationTargets.map((s) => (
@@ -132,7 +141,9 @@ export function WorkspacePage({ section }: { section: string }) {
               contents are held in memory only and must be re-added after a page
               refresh.
             </p>
-            <Badge tone="teal">No account or API keys required</Badge>
+            <Badge tone="teal">
+              Saved records work without a Google Maps key
+            </Badge>
           </section>
           <section className="card panel-padding">
             <h2>Review limitations</h2>

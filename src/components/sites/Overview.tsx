@@ -10,6 +10,7 @@ import { BRAND } from "@/lib/brand";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SiteTable } from "./SiteTable";
 import { ProjectSearch } from "./ProjectSearch";
+import { GoogleAddressWorkspace } from "@/components/maps/GoogleAddressWorkspace";
 
 export function Overview() {
   const { sites, save } = useWorkspace();
@@ -66,36 +67,42 @@ export function Overview() {
           </div>
           <span className="record-type">Engineering intake</span>
         </div>
-        <form onSubmit={submit} noValidate>
-          <label className="input-label" htmlFor="facility-address">
-            Commercial property address
-          </label>
-          <div className="intake-form-row">
-            <ProjectSearch
-              variant="intake"
-              value={address}
-              onChange={(value) => {
-                setAddress(value);
-                setError("");
-              }}
-              invalid={Boolean(error)}
-              describedBy={error ? "address-error intake-help" : "intake-help"}
-            />
-            <button className="button primary" disabled={loading}>
-              {loading ? "Creating…" : "Create site record"}
-              <ArrowRight size={17} />
-            </button>
-          </div>
-          {error && (
-            <p id="address-error" className="form-error" role="alert">
-              {error}
-            </p>
-          )}
-        </form>
-        <p id="intake-help" className="intake-note">
-          Manual intake · Automatic property and utility retrieval is not
-          connected.
-        </p>
+        <GoogleAddressWorkspace compact />
+        <details className="manual-site-intake">
+          <summary>Enter a site address manually</summary>
+          <form onSubmit={submit} noValidate>
+            <label className="input-label" htmlFor="facility-address">
+              Commercial property address
+            </label>
+            <div className="intake-form-row">
+              <ProjectSearch
+                variant="intake"
+                value={address}
+                onChange={(value) => {
+                  setAddress(value);
+                  setError("");
+                }}
+                invalid={Boolean(error)}
+                describedBy={
+                  error ? "address-error intake-help" : "intake-help"
+                }
+              />
+              <button className="button primary" disabled={loading}>
+                {loading ? "Creating…" : "Create site record"}
+                <ArrowRight size={17} />
+              </button>
+            </div>
+            {error && (
+              <p id="address-error" className="form-error" role="alert">
+                {error}
+              </p>
+            )}
+          </form>
+          <p id="intake-help" className="intake-note">
+            Manual intake creates a preliminary record. Parcel and utility
+            retrieval are not connected.
+          </p>
+        </details>
         <Link className="reference-banner" href="/sites/century-tywood">
           <span className="reference-label">Reference site</span>
           <span>

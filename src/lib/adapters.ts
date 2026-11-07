@@ -6,7 +6,8 @@ export interface SiteRepository {
   save(site: SiteRecord): Promise<SiteRecord>;
 }
 export interface GeographicSourceAdapter {
-  provider: "MassGIS" | "Municipal GIS" | "FEMA" | "OpenStreetMap";
+  provider:
+    "MassGIS" | "Municipal GIS" | "FEMA" | "OpenStreetMap" | "Google Places";
   lookup(
     address: string,
     signal?: AbortSignal,
