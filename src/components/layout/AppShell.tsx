@@ -2,37 +2,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Plus, X } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
-import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
 import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 import { BRAND } from "@/lib/brand";
 import { BrandMark } from "./BrandMark";
 import { ProjectSearch } from "@/components/sites/ProjectSearch";
 
-const navigation = [
-  ["/", "Sites"],
-  ["/explorer", "Site explorer"],
-  ["/verification", "Verification queue"],
-  ["/documents", "Documents"],
-  ["/sources", "Data sources"],
-  ["/settings", "Settings"],
-] as const;
-
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   useIntakeUpdates();
-  const { sites, ready, warning } = useWorkspace();
+  const { ready, warning } = useWorkspace();
   const [query, setQuery] = useState("");
   const [menu, setMenu] = useState(false);
-  const isCurrent = (href: string) =>
-    path === href || (href === "/" && path.startsWith("/sites/"));
-  const outstanding = sites.reduce(
-    (n, s) => n + currentSavedSiteReadiness(s).outstanding,
-    0,
-  );
+  // Pages that open on a dark image band get a transparent bar over it.
+  const overImage = path === "/" || path.startsWith("/sites/");
+  const sitesCurrent = path === "/" || path.startsWith("/sites/");
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${overImage ? "over-image" : ""}`}>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
@@ -40,35 +27,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="topbar-inner">
           <Link href="/" className="brand" onClick={() => setMenu(false)}>
             <BrandMark />
-            <span className="brand-name">
-              <span>QORE</span> {BRAND.shortName}
-            </span>
+            <span className="brand-name">{BRAND.shortName}</span>
           </Link>
           <nav
             id="main-nav"
             className={`main-nav ${menu ? "open" : ""}`}
             aria-label="Main navigation"
           >
-            {navigation.map(([href, label]) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMenu(false)}
-                aria-current={isCurrent(href) ? "page" : undefined}
-                className="nav-item"
-              >
-                {label}
-                {href === "/verification" && outstanding > 0 && (
-                  <span className="nav-count">
-                    <span className="sr-only">, </span>
-                    {outstanding}
-                    <span className="sr-only"> open</span>
-                  </span>
-                )}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              className="nav-item"
+              aria-current={sitesCurrent ? "page" : undefined}
+              onClick={() => setMenu(false)}
+            >
+              Your sites
+            </Link>
+            <Link
+              href="/settings"
+              className="nav-item"
+              aria-current={path === "/settings" ? "page" : undefined}
+              onClick={() => setMenu(false)}
+            >
+              Settings
+            </Link>
           </nav>
           <ProjectSearch variant="global" value={query} onChange={setQuery} />
+          <Link
+            href="/new"
+            className="button lime nav-cta"
+            aria-current={path === "/new" ? "page" : undefined}
+            onClick={() => setMenu(false)}
+          >
+            <Plus size={16} aria-hidden="true" />
+            Add a site
+          </Link>
           <button
             type="button"
             className="icon-button mobile-menu"
@@ -77,7 +69,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             aria-expanded={menu}
             aria-controls="main-nav"
           >
-            {menu ? <X size={19} /> : <Menu size={19} />}
+            {menu ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </header>
@@ -91,8 +83,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
       <footer className="site-footer">
         <p>
-          {BRAND.name} is a prototype for EQORE. Records and files are saved in
-          this browser only.
+          {BRAND.name} is a prototype for EQORE. Your sites and files are saved
+          in this browser only.
         </p>
         <p>MIT Energy & Climate Hack 2026</p>
       </footer>

@@ -1,144 +1,183 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
+import { Plus, Search } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
-import { createSiteMetadata } from "@/lib/site-metadata";
 import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
 import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
+import { dateLabel } from "@/lib/calculations";
 import type { SiteRecord } from "@/lib/types";
-import { SiteTable } from "./SiteTable";
-import { ProjectSearch } from "./ProjectSearch";
-import { SiteHero } from "./SiteHero";
-import { GoogleAddressWorkspace } from "@/components/maps/GoogleAddressWorkspace";
+import { aerialImageUrl, providerFor } from "@/lib/annotations/aerial";
+import { STEPS } from "./SiteDetail";
+import { displayName } from "@/lib/display-name";
 
-const STEPS = [
-  [
-    "Gather site data",
-    "Public parcel, environmental and utility records, plus documents from the customer.",
-  ],
-  [
-    "Annotate the site",
-    "Detect equipment and open ground in aerial imagery and site photos.",
-  ],
-  [
-    "Verify the evidence",
-    "Resolve missing fields and record who reviewed each value.",
-  ],
-  [
-    "Export the record",
-    "Hand off structured data with its original sources.",
-  ],
-] as const;
+/** Public area shown before any site has a location. Not a site record. */
+const DEFAULT_VIEW = { lat: 42.2617, lng: -71.7944, zoom: 16 };
+const DEFAULT_PLACE = "Worcester, Massachusetts";
+
+function heroImage(sites: SiteRecord[]) {
+  const located = [...sites]
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+    .map((s) => {
+      const c = s.siteContext?.location;
+      if (c) return { lat: c.lat, lng: c.lng, place: displayName(s.facilityName) };
+      const p = s.location.coordinates;
+      return p ? { lat: p[1], lng: p[0], place: displayName(s.facilityName) } : null;
+    })
+    .find(Boolean);
+  const view = located
+    ? { lat: located.lat, lng: located.lng, zoom: 17 }
+    : DEFAULT_VIEW;
+  return {
+    url: aerialImageUrl(view),
+    caption: `${located?.place ?? DEFAULT_PLACE}. ${providerFor(view.lat, view.lng).attribution}`,
+  };
+}
 
 export function Overview() {
-  const { sites, save } = useWorkspace();
+  const { sites } = useWorkspace();
   useIntakeUpdates();
-  const readiness = (site: SiteRecord) => currentSavedSiteReadiness(site);
-  const router = useRouter();
-  const [address, setAddress] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  function submit(event: FormEvent) {
-    event.preventDefault();
-    if (!address.trim()) {
-      setError("Enter a commercial property address to continue.");
-      return;
-    }
-    setLoading(true);
-    const site = createSiteMetadata(address.trim());
-    save(site);
-    router.push(`/sites/${site.id}`);
-  }
-  const metrics = [
-    { label: "Site records", value: sites.length },
-    {
-      label: "Need verification",
-      value: sites.filter((site) => readiness(site).outstanding > 0).length,
-    },
-    {
-      label: "Missing required fields",
-      value: sites.reduce((count, site) => count + readiness(site).missing, 0),
-    },
-    {
-      label: "Ready for review",
-      value: sites.filter(
-        (site) =>
-          readiness(site).missing === 0 && readiness(site).outstanding === 0,
-      ).length,
-    },
-  ];
+  const image = heroImage(sites);
   return (
     <>
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <h1 id="hero-title">Know the site before the site visit.</h1>
-          <p className="hero-lede">
-            Gather property, environmental and electrical evidence for battery
-            storage sites in Massachusetts, annotate them from above, and see
-            exactly what is still missing.
+      <section
+        className="home-hero"
+        aria-labelledby="home-title"
+        style={{ ["--hero-image" as string]: `url("${image.url}")` }}
+      >
+        <div className="home-hero-inner">
+          <h1 id="home-title">Know the site before the site visit.</h1>
+          <p className="home-lede">
+            Pull parcel, flood, wetland and utility records for a Massachusetts
+            property, spot equipment from the air, and get a clear list of what
+            to ask the customer for.
           </p>
-          <div className="hero-intake">
-            <GoogleAddressWorkspace compact />
-            <form onSubmit={submit} noValidate className="hero-manual">
-              <label className="input-label" htmlFor="facility-address">
-                Or enter a property address
-              </label>
-              <div className="intake-form-row">
-                <ProjectSearch
-                  variant="intake"
-                  value={address}
-                  onChange={(value) => {
-                    setAddress(value);
-                    setError("");
-                  }}
-                  invalid={Boolean(error)}
-                  describedBy={
-                    error ? "address-error intake-help" : "intake-help"
-                  }
-                />
-                <button className="button primary" disabled={loading}>
-                  {loading ? "Creating…" : "Create site record"}
-                </button>
-              </div>
-              {error && (
-                <p id="address-error" className="form-error" role="alert">
-                  {error}
-                </p>
-              )}
-              <p id="intake-help" className="field-help">
-                Creates a preliminary record. Public GIS layers load in Site
-                explorer.
-              </p>
-            </form>
+          <div className="home-actions">
+            <Link className="button lime large" href="/new">
+              <Plus size={18} aria-hidden="true" />
+              Add a site
+            </Link>
+            {sites.length > 0 && (
+              <a className="button ghost large" href="#your-sites">
+                Your sites
+              </a>
+            )}
           </div>
         </div>
-        <SiteHero sites={sites} />
+        <p className="home-hero-caption">{image.caption}</p>
       </section>
 
-      {sites.length > 0 && (
-        <dl className="metrics" aria-label="Site record summary">
-          {metrics.map((metric) => (
-            <div className="metric" key={metric.label}>
-              <dt>{metric.label}</dt>
-              <dd>{metric.value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
+      <section
+        id="your-sites"
+        className="home-section"
+        aria-labelledby="sites-title"
+      >
+        <div className="section-head">
+          <h2 id="sites-title">Your sites</h2>
+          {sites.length > 0 && (
+            <p>
+              {sites.length} {sites.length === 1 ? "site" : "sites"}, saved in
+              this browser
+            </p>
+          )}
+        </div>
+        <SiteList sites={sites} />
+      </section>
 
-      <SiteTable sites={sites} />
-
-      <section className="workflow" aria-labelledby="workflow-title">
-        <h2 id="workflow-title">From address to engineering record</h2>
-        <ol>
-          {STEPS.map(([title, description]) => (
-            <li key={title}>
-              <h3>{title}</h3>
+      <section className="home-section how" aria-labelledby="how-title">
+        <div className="section-head">
+          <h2 id="how-title">How a site comes together</h2>
+          <p>Every site follows the same four steps.</p>
+        </div>
+        <ol className="how-steps">
+          {STEPS.map(([key, label, description]) => (
+            <li key={key}>
+              <h3>{label}</h3>
               <p>{description}</p>
             </li>
           ))}
         </ol>
       </section>
+    </>
+  );
+}
+
+function SiteList({ sites }: { sites: SiteRecord[] }) {
+  const [query, setQuery] = useState("");
+  if (!sites.length)
+    return (
+      <div className="sites-empty">
+        <h3>No sites yet</h3>
+        <p>
+          Add a property address to start. Public records load automatically
+          once the parcel is confirmed.
+        </p>
+        <Link className="button primary" href="/new">
+          <Plus size={16} aria-hidden="true" />
+          Add your first site
+        </Link>
+      </div>
+    );
+  const rows = [...sites]
+    .filter((s) =>
+      `${s.facilityName} ${s.address}`
+        .toLowerCase()
+        .includes(query.toLowerCase()),
+    )
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  return (
+    <>
+      {sites.length > 5 && (
+        <label className="site-filter">
+          <Search size={16} aria-hidden="true" />
+          <span className="sr-only">Find a site</span>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Find a site by name or address"
+          />
+        </label>
+      )}
+      <ul className="site-list">
+        {rows.map((site) => {
+          const r = currentSavedSiteReadiness(site);
+          return (
+            <li key={site.id}>
+              <Link href={`/sites/${site.id}`} className="site-row">
+                <span className="site-row-name">
+                  <strong>{displayName(site.facilityName)}</strong>
+                  {site.address !== site.facilityName && (
+                    <small>{site.address}</small>
+                  )}
+                </span>
+                <span className="site-row-progress">
+                  <span className="meter" aria-hidden="true">
+                    <span style={{ width: `${r.percent}%` }} />
+                  </span>
+                  <small>
+                    {r.populated} of {r.total} fields collected
+                  </small>
+                </span>
+                <span className="site-row-todo">
+                  {r.outstanding > 0 ? (
+                    <>
+                      <strong>{r.outstanding}</strong> to collect or review
+                    </>
+                  ) : (
+                    "Nothing outstanding"
+                  )}
+                </span>
+                <span className="site-row-date">
+                  Updated {dateLabel(site.updatedAt)}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+      {query && !rows.length && (
+        <p className="field-help">No site matches “{query}”.</p>
+      )}
     </>
   );
 }

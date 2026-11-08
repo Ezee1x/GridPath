@@ -28,7 +28,11 @@ export function GoogleAddressWorkspace({
   dashboard,
   fixedSite = false,
   onContourAction,
+  mode = "site",
+  onSaved,
 }: {
+  mode?: "new" | "site";
+  onSaved?: (siteId: string) => void;
   compact?: boolean;
   initialPlaceId?: string;
   initialParcelId?: string | null;
@@ -92,8 +96,8 @@ export function GoogleAddressWorkspace({
       <div className="google-search-section">
         {!fixedSite && <GoogleAddressSearch onSelect={handleSelection} />}
         {compact && (
-          <Link href="/explorer" className="text-link">
-            Open site explorer
+          <Link href="/new" className="text-link">
+            Add a site on the map
             <ArrowUpRight size={15} />
           </Link>
         )}
@@ -115,6 +119,8 @@ export function GoogleAddressWorkspace({
           hideDashboard={hideDashboard}
           dashboard={dashboard}
           onContourAction={onContourAction}
+          mode={mode}
+          onSaved={onSaved}
           initialFieldId={
             selected?.placeId === initialPlaceId ? initialFieldId : undefined
           }
@@ -145,20 +151,10 @@ export function GoogleAddressWorkspace({
               </dl>
             ) : (
               <p className="location-empty">
-                Search for a Massachusetts street address or open the
-                Century-Tywood example to see its location.
+                Search for a Massachusetts street address to see its location.
               </p>
             )}
           </section>
-          {selected?.city === "Holliston" &&
-            selected.formattedAddress.includes("79 Lowland") &&
-            selected.postalCode !== "01747" && (
-              <p className="notice">
-                Address review: Google returns ZIP{" "}
-                {selected.postalCode ?? "unavailable"}; the supplied reference
-                record says 01747. The saved record has not been changed.
-              </p>
-            )}
         </GisSiteContext>
       )}
     </div>
