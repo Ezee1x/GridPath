@@ -133,15 +133,6 @@ export function TerrainControls({
               </div>
             ))}
           </dl>
-          <p>
-            {s.validSamples.toLocaleString()} valid parcel pixel centers ·{" "}
-            {(s.validCoverageFraction * 100).toFixed(1)}% valid in sampled
-            extent ·{" "}
-            {s.completeParcelExtent
-              ? "Parcel extent included"
-              : "Partial parcel extent"}
-            . Bare-earth elevation, not building height.
-          </p>
         </>
       ) : (
         <p>
@@ -151,55 +142,7 @@ export function TerrainControls({
               "Ground elevation not retrieved. Select a parcel and run Analyze Site.")}
         </p>
       )}
-      {data && (
-        <>
-          <p>
-            <span className="contour-legend-line" />{" "}
-            {data.contours.intervalFeet}-foot contours ·{" "}
-            {data.contours.method === "official-vectors"
-              ? "Official MassGIS vector contours"
-              : data.contours.method === "dem-isolines"
-                ? "Generated from MassGIS DEM pixels"
-                : "Contour source unavailable"}{" "}
-            · {data.contours.features.length} mapped line features
-          </p>
-          <p>
-            {data.raster?.verticalDatum ?? "Vertical datum unavailable"} ·{" "}
-            {data.raster
-              ? `${data.raster.pixelSizeMeters.map((v) => v.toFixed(2)).join(" × ")} m returned grid; EPSG:${data.raster.epsg}`
-              : "Raster not retrieved"}
-          </p>
-          {data.contours.error && <p role="alert">{data.contours.error}</p>}
-          {data.contours.status === "ready" &&
-            !data.contours.features.length && (
-              <p>
-                No contour line at this interval crosses the bounded view; this
-                does not imply perfectly flat terrain.
-              </p>
-            )}
-          <details>
-            <summary>Terrain sources, dates & limitations</summary>
-            {data.tiles.map((t) => (
-              <p key={t.id}>
-                {t.name} · {t.project}{" "}
-                {t.demUrl && (
-                  <a href={t.demUrl} target="_blank" rel="noreferrer">
-                    DEM tile ↗
-                  </a>
-                )}{" "}
-                {t.contourUrl && (
-                  <a href={t.contourUrl} target="_blank" rel="noreferrer">
-                    Official contour tile ↗
-                  </a>
-                )}
-              </p>
-            ))}
-            {data.warnings.map((w) => (
-              <p key={w}>{w}</p>
-            ))}
-          </details>
-        </>
-      )}
+      {data?.contours.error && <p role="alert">{data.contours.error}</p>}
     </div>
   );
 }

@@ -1,1 +1,1 @@
-QORE ProjectSync — Engineering site intake and traceable source evidence. Team-built prototype for EQORE.
+QoreSites — Site intelligence for battery storage. Built for EQORE · MIT Energy & Climate Hack 2026.

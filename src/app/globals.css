@@ -152,6 +152,12 @@ label {
   height: 34px;
   color: var(--text);
 }
+.brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
 .brand-name {
   display: flex;
   flex-direction: column;
@@ -4303,3 +4309,83 @@ gmp-place-autocomplete::part(prediction-item-selected) {
 .map-label-editor label { font-size:14px; font-weight:600; }
 .map-label-editor input { width:100%; min-width:0; font-size:15px; padding:8px; border:1px solid var(--border-strong); border-radius:var(--radius); }
 .map-label-editor .button-row { gap:8px; margin:0; }
+
+.address-autocomplete {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  min-height: 54px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+.address-autocomplete:focus-within {
+  outline: 2px solid var(--text-secondary);
+  outline-offset: 2px;
+}
+.address-autocomplete-input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 14px 0;
+  color: var(--text);
+  font: inherit;
+}
+.address-autocomplete-input:focus { outline: none; }
+.energy-demo {
+  padding: 14px 16px;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+}
+.energy-raw-preview {
+  max-height: 180px;
+  overflow: auto;
+  padding: 12px;
+  font-size: 13px;
+  white-space: pre;
+}
+.inline-field-editor {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  max-width: 560px;
+}
+.inline-field-editor label { display: grid; gap: 4px; font-size: 14px; }
+.inline-field-editor textarea,
+.inline-field-editor input { width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; font: inherit; background: var(--surface); color: var(--text); }
+.document-folders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.document-folder { display: flex; flex-direction: column; gap: 12px; padding: 28px; text-align: left; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); color: var(--text); cursor: pointer; min-height: 210px; font: inherit; }
+.document-folder > svg { color: #326b60; }
+.document-folder strong { font-size: 20px; }
+.document-folder span, .document-folder small { color: var(--text-secondary); line-height: 1.5; }
+.document-folder small { display: flex; align-items: center; gap: 5px; }
+.document-folder:hover { border-color: #326b60; }
+.document-folder-header { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+.document-file-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); gap: 18px; margin-top: 20px; }
+.document-file { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); overflow-wrap: anywhere; }
+.document-file img { width: 100%; height: 160px; object-fit: contain; background: white; }
+.document-upload { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+.document-missing-views { display: flex; gap: 20px; flex-wrap: wrap; margin: 16px 0; }
+.document-missing-views > div { display: grid; gap: 5px; max-width: 260px; }
+@media(max-width:800px) { .document-folders { grid-template-columns: 1fr; } .document-folder { min-height: 150px; } }
+.document-library-actions { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+
+/* Readable road summaries; full source records remain in Source & method. */
+.intake-road-value { max-height: none; overflow: visible; line-height: 1.45; }
+.road-name-list { display: flex; flex-wrap: wrap; gap: 5px 8px; }
+.intake-table-wrap .road-name-list > span { display: inline-block; margin: 0; padding: 3px 8px; background: var(--surface-muted); border: 1px solid var(--border); border-radius: 4px; font-size: 14px; }
+.road-value details { margin-top: 6px; }
+.road-value details:first-child { margin-top: 0; }
+.road-value summary { cursor: pointer; font-size: 14px; }
+.road-value details[open] > summary { margin-bottom: 7px; }
+.intake-table-wrap .road-count { display: inline; margin: 0; color: var(--text-secondary); }
+.intake-row-missing .intake-review-summary { gap: 0; }
+.intake-row-missing .intake-review-line > small { margin-bottom: 0; }
+.intake-table-wrap .sample-energy-value { display: inline-block; padding: 2px 7px; border-radius: 4px; background: var(--surface-muted); color: var(--accent); font-size: 13px; margin-top: 4px; }

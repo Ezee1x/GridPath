@@ -424,7 +424,7 @@ export function analyzeSite(input: AnalysisInput): SiteAnalysis {
   const locId = String(parcel?.properties.attributes.LOC_ID ?? "").trim();
   return {
     schemaVersion: "1.0",
-    recordType: "QORE preliminary geographic site record",
+    recordType: "QoreSites preliminary geographic site record",
     generatedAt: new Date().toISOString(),
     query: {
       address: input.address,

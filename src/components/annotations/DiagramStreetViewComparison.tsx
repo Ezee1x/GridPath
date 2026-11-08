@@ -14,6 +14,7 @@ export function DiagramStreetViewComparison({
   analysisPermitted = false,
   busy = false,
   onCapture = () => undefined,
+  moveTarget,
 }: {
   analysisPermitted?: boolean;
   busy?: boolean;
@@ -21,6 +22,7 @@ export function DiagramStreetViewComparison({
   address: string;
   location: { lat: number; lng: number } | null;
   diagram: (position: StreetViewPosition | null) => ReactNode;
+  moveTarget?: { lat: number; lng: number; id: number } | null;
 }) {
   const [position, setPosition] = useState<StreetViewPosition | null>(null);
   return (
@@ -52,6 +54,7 @@ export function DiagramStreetViewComparison({
           onCapture={onCapture}
           onPositionChange={setPosition}
           authorizedComparison
+          moveTarget={moveTarget}
         />
       </section>
     </div>

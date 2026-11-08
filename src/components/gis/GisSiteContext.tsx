@@ -7,6 +7,7 @@ import {
   useRef,
   useCallback,
 } from "react";
+import { createPortal } from "react-dom";
 import { Download, Layers, X } from "lucide-react";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisFeature, LayerKind, Measurement } from "@/lib/gis/types";
@@ -32,6 +33,7 @@ import { useSearchParams } from "next/navigation";
 import { useWorkspace } from "@/lib/store";
 import { savedMapSite } from "@/lib/saved-map-site";
 import { SiteAnnotations } from "@/components/annotations/SiteAnnotations";
+import { SavedMapImages } from "./SavedMapImages";
 import type { SiteRecord } from "@/lib/types";
 import { annotationLayerContext } from "@/lib/annotations/layer-context";
 const kinds: LayerKind[] = ["parcels", "buildings", "roads"];
@@ -167,6 +169,7 @@ export function GisSiteContext({
   hideDashboard = false,
   dashboard,
   onContourAction,
+  sourcesContainer,
 }: {
   address: SelectedAddress | null;
   children: ReactNode;
@@ -174,12 +177,14 @@ export function GisSiteContext({
   initialFieldId?: string | null;
   hideDashboard?: boolean;
   dashboard?: ReactNode;
+  sourcesContainer?: HTMLElement | null;
   onContourAction?: (action: (() => void) | null) => void;
 }) {
   const params = useSearchParams();
   const gis = useSiteGis(address, initialParcelId);
   const { sites, save, warning: saveWarning } = useWorkspace();
   const [saveMessage, setSaveMessage] = useState("");
+  const [imageSaveMessage, setImageSaveMessage] = useState("");
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const saved = sites.find(
     (s) =>
@@ -280,6 +285,7 @@ export function GisSiteContext({
             "Geographic analysis could not be calculated. Review source geometry and retry.",
           );
       });
+
     return () => {
       active = false;
     };
@@ -538,7 +544,7 @@ export function GisSiteContext({
   }
   function exportGis() {
     const record = {
-      type: "QORE ProjectSync public GIS context",
+      type: "QoreSites public GIS context",
       generatedAt: new Date().toISOString(),
       verification:
         "Public records and unverified associations; not engineer verified",
@@ -556,10 +562,52 @@ export function GisSiteContext({
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = "qore-public-gis-context.json";
+    a.download = "QoreSites_Public_GIS_Context.json";
     a.click();
     URL.revokeObjectURL(url);
   }
+  const sourcesPanel = (
+    <section className="gis-sources">
+      <h3>Public sources & dataset dates</h3>
+      {available.length ? (
+        available.map((k) => {
+          const s = gis.layers[k].result!.source;
+          return (
+            <div key={k}>
+              <a href={s.url} target="_blank" rel="noreferrer">
+                {s.name} ↗
+              </a>
+              <span>
+                Service data update:{" "}
+                {s.datasetUpdated?.slice(0, 10) ?? "Not available"} · native
+                EPSG:{s.nativeWkid ?? "unknown"} → WGS84
+              </span>
+              <small>
+                Retrieved {s.retrievedAt.replace("T", " ").slice(0, 19)} UTC.
+                Record dates may be older; service updates are not imagery
+                capture dates.
+              </small>
+              {gis.layers[k].result!.warnings.map((w) => (
+                <p className="notice" key={w}>
+                  {w}
+                </p>
+              ))}
+            </div>
+          );
+        })
+      ) : (
+        <p>
+          Sources appear after retrieval. No GIS evidence has been retrieved
+          yet.
+        </p>
+      )}
+      <small>
+        MassGIS, Commonwealth of Massachusetts and dataset contributors.
+        Jurisdiction check: U.S. Census Bureau TIGERweb state boundary.
+      </small>
+    </section>
+  );
+
   return (
     <div className="site-intelligence-experience">
       <div
@@ -1115,45 +1163,21 @@ export function GisSiteContext({
           />
         ))}
       {dashboard}
-      <section className="gis-sources">
-        <h3>Public sources & dataset dates</h3>
-        {available.length ? (
-          available.map((k) => {
-            const s = gis.layers[k].result!.source;
-            return (
-              <div key={k}>
-                <a href={s.url} target="_blank" rel="noreferrer">
-                  {s.name} ↗
-                </a>
-                <span>
-                  Service data update:{" "}
-                  {s.datasetUpdated?.slice(0, 10) ?? "Not available"} · native
-                  EPSG:{s.nativeWkid ?? "unknown"} → WGS84
-                </span>
-                <small>
-                  Retrieved {s.retrievedAt.replace("T", " ").slice(0, 19)} UTC.
-                  Record dates may be older; service updates are not imagery
-                  capture dates.
-                </small>
-                {gis.layers[k].result!.warnings.map((w) => (
-                  <p className="notice" key={w}>
-                    {w}
-                  </p>
-                ))}
-              </div>
-            );
-          })
-        ) : (
-          <p>
-            Sources appear after retrieval. No GIS evidence has been retrieved
-            yet.
-          </p>
-        )}
-        <small>
-          MassGIS, Commonwealth of Massachusetts and dataset contributors.
-          Jurisdiction check: U.S. Census Bureau TIGERweb state boundary.
-        </small>
-      </section>
+      <SavedMapImages
+        site={saved}
+        point={publicPoint ?? undefined}
+        parcels={gis.layers.parcels.result}
+        buildings={gis.layers.buildings.result}
+        roads={gis.layers.roads.result}
+        terrain={environment.elevation.data}
+        flood={environment.flood.data}
+        wetlands={environment.wetlands.data}
+        onStatus={setImageSaveMessage}
+      />
+      {imageSaveMessage && <p role="status">{imageSaveMessage}</p>}
+      {sourcesContainer === undefined
+        ? sourcesPanel
+        : sourcesContainer && createPortal(sourcesPanel, sourcesContainer)}
     </div>
   );
 }

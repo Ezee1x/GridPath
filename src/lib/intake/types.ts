@@ -12,6 +12,8 @@ export type JsonValue =
 export type RequestStatus =
   "Missing" | "Requested" | "Received" | "Under review" | "Verified";
 export interface EvidenceReference extends FeatureReference {
+  documentFolder?: "map-images" | "additional-files" | "site-photos";
+  mapImageKind?: "gis" | "contour" | "annotated";
   originalRecord?: JsonValue;
   provider: string;
   documentId?: string;

@@ -67,7 +67,11 @@ export function InformationRequest({ record }: { record: IntakeRecord }) {
             <button
               className="text-link"
               onClick={() =>
-                downloadText(text, "qore-information-request.txt", "text/plain")
+                downloadText(
+                  text,
+                  "QoreSites_Information_Request.txt",
+                  "text/plain",
+                )
               }
             >
               Download checklist

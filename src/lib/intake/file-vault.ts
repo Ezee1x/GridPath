@@ -1,3 +1,4 @@
+// Legacy IndexedDB namespace retained for existing file/image compatibility after the QoreSites rebrand.
 /**
  * Local file-content storage for attached evidence.
  *

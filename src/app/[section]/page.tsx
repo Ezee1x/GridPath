@@ -6,11 +6,7 @@ export default async function Page({
   params: Promise<{ section: string }>;
 }) {
   const { section } = await params;
-  if (
-    !["explorer", "verification", "documents", "sources", "settings"].includes(
-      section,
-    )
-  )
+  if (!["explorer", "verification", "documents", "settings"].includes(section))
     notFound();
   return <WorkspacePage section={section} />;
 }

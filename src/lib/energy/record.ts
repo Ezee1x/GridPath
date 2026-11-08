@@ -22,6 +22,10 @@ export function acceptEnergy(
     );
   if (energy.blocking)
     throw Error("Resolve blocking data-quality problems before acceptance.");
+  if (energy.synthetic && energy.classification !== "Modeled / synthetic")
+    throw Error(
+      "Synthetic demo readings cannot be accepted as actual facility consumption.",
+    );
   const modeled = energy.classification === "Modeled / synthetic";
   const method = `${energy.classification}; ${energy.format}; timestamps normalized to UTC; display/month totals use ${energy.timezone}. ${energy.demandBasis}. Actual interval durations retained; gaps not filled. Month-crossing intervals, when present, are allocated by duration with a uniform-within-interval assumption. File SHA-256 ${energy.fileHash}.`;
   const values: [string, JsonValue, string | null][] = [
@@ -102,4 +106,26 @@ export function acceptEnergy(
       energy,
     ],
   };
+}
+
+/** Preview sample results in empty table cells without selecting them as site evidence. */
+export function sampleEnergyObservation(record: IntakeRecord, fieldId: string) {
+  if (!["energyUse", "demand", "interval"].includes(fieldId)) return undefined;
+  const field = record.fields.find((field) => field.id === fieldId);
+  if (!field || field.pinned || field.review.status === "Engineer verified")
+    return undefined;
+  const sample = record.energyImports?.at(-1);
+  if (!sample || sample.classification !== "Modeled / synthetic")
+    return undefined;
+  const observation = field.observations.find(
+    (observation) =>
+      observation.provider === "Customer energy import" &&
+      observation.condition === "unknown" &&
+      observation.sourceKeys.includes(sample.sourceKey) &&
+      !field.rejectedObservations?.[observation.id],
+  );
+  // Older saved packages could select the last retained observation on reload.
+  return !field.selectedId || field.selectedId === observation?.id
+    ? observation
+    : undefined;
 }

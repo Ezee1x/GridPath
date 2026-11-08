@@ -9,7 +9,6 @@ import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
 import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 import type { SiteRecord } from "@/lib/types";
 import { BRAND } from "@/lib/brand";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { SiteTable } from "./SiteTable";
 import { ProjectSearch } from "./ProjectSearch";
 import { GoogleAddressWorkspace } from "@/components/maps/GoogleAddressWorkspace";
@@ -19,6 +18,8 @@ export function Overview() {
   useIntakeUpdates();
   const readiness = (site: SiteRecord) => currentSavedSiteReadiness(site);
   const router = useRouter();
+  const [sourcesContainer, setSourcesContainer] =
+    useState<HTMLDivElement | null>(null);
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,10 +57,6 @@ export function Overview() {
   ];
   return (
     <>
-      <PageHeader
-        title="Site intelligence"
-        description="Engineering site intake and source evidence for commercial battery storage."
-      />
       <section className="intake-panel" aria-labelledby="intake-title">
         <div className="intake-heading">
           <div>
@@ -71,7 +68,7 @@ export function Overview() {
           </div>
           <span className="record-type">Engineering intake</span>
         </div>
-        <GoogleAddressWorkspace compact />
+        <GoogleAddressWorkspace compact sourcesContainer={sourcesContainer} />
         <details className="manual-site-intake">
           <summary>Enter a site address manually</summary>
           <form onSubmit={submit} noValidate>
@@ -108,6 +105,7 @@ export function Overview() {
           </p>
         </details>
       </section>
+      <SiteTable sites={sites} />
       <dl className="metrics" aria-label="Site record summary">
         {metrics.map((metric) => (
           <div className="metric" key={metric.label}>
@@ -118,7 +116,7 @@ export function Overview() {
         ))}
       </dl>
       <ImportSitePackage />
-      <SiteTable sites={sites} />
+      <div ref={setSourcesContainer} />
       <footer className="page-footer">
         <span>{BRAND.name}</span>
         <span>{BRAND.attribution}</span>

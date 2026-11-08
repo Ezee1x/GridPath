@@ -117,7 +117,7 @@ const requirement = (
     : "Site and permitting",
   jurisdiction: "Massachusetts; exact AHJ requires confirmation",
   standard:
-    "ProjectSync engineering intake checklist; referenced standards are guidance, not quoted rules",
+    "QoreSites engineering intake checklist; referenced standards are guidance, not quoted rules",
   edition: null,
   section: null,
   sourceUrl:

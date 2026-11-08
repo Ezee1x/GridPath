@@ -2,12 +2,11 @@
 import { TeamWorkspace } from "./team/TeamWorkspace";
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, RotateCcw, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, RotateCcw } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
 import { SiteTable } from "./sites/SiteTable";
 import { MissingInformation } from "./sites/MissingInformation";
 import { Documents } from "./sites/Documents";
-import { integrationTargets } from "@/lib/adapters";
 import { Badge, Empty } from "./ui";
 import { PageHeader } from "./layout/PageHeader";
 import { GoogleAddressWorkspace } from "./maps/GoogleAddressWorkspace";
@@ -20,14 +19,7 @@ const headings: Record<string, [string, string]> = {
     "Verification queue",
     "Resolve missing information and record the evidence behind each review.",
   ],
-  documents: [
-    "Documents",
-    "Manage source records and stage customer documents by site.",
-  ],
-  sources: [
-    "Data sources",
-    "A clear view of what is connected, and what is prepared for integration.",
-  ],
+  documents: ["Documents", "Saved map images, customer files and site photos."],
   settings: [
     "Workspace settings",
     "Manage the local workspace and understand its storage boundaries.",
@@ -35,6 +27,8 @@ const headings: Record<string, [string, string]> = {
 };
 export function WorkspacePage({ section }: { section: string }) {
   const { sites, reset } = useWorkspace();
+  const [sourcesContainer, setSourcesContainer] =
+    useState<HTMLDivElement | null>(null);
   const [selected, setSelected] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [resetDone, setResetDone] = useState(false);
@@ -62,10 +56,11 @@ export function WorkspacePage({ section }: { section: string }) {
       />
       {section === "explorer" && (
         <>
-          <GoogleAddressWorkspace />
+          <GoogleAddressWorkspace sourcesContainer={sourcesContainer} />
           <div className="explorer-records">
             <SiteTable sites={sites} />
           </div>
+          <div ref={setSourcesContainer} />
         </>
       )}
       {["verification", "documents"].includes(section) && (
@@ -79,7 +74,9 @@ export function WorkspacePage({ section }: { section: string }) {
               >
                 {sites.map((s) => (
                   <option key={s.id} value={s.id}>
-                    {s.facilityName} — {s.address}
+                    {s.facilityName === s.address
+                      ? s.address
+                      : `${s.facilityName} — ${s.address}`}
                   </option>
                 ))}
               </select>
@@ -102,39 +99,6 @@ export function WorkspacePage({ section }: { section: string }) {
               Create a record to start gathering evidence.
             </Empty>
           )}
-        </>
-      )}
-      {section === "sources" && (
-        <>
-          <div className="notice">
-            <ShieldCheck size={19} />
-            Google Places provides live address lookup and Google Maps supplies
-            satellite visualization when configured. MassGIS parcel, roofprint
-            and road queries are available in Site Explorer. Other engineering
-            integrations remain disconnected.
-          </div>
-          <div className="source-connections">
-            {integrationTargets.map((s) => (
-              <section className="integration-card" key={s.name}>
-                <Badge>
-                  {s.name === "MassGIS"
-                    ? "Live public GIS queries"
-                    : "Not connected"}
-                </Badge>
-                <h2>{s.name}</h2>
-                <p>{s.detail}</p>
-              </section>
-            ))}
-          </div>
-          <section className="card panel-padding">
-            <h2>Evidence requirements</h2>
-            <p className="muted">
-              Each imported record needs field values, existing / proposed
-              classification, source references, retrieval timestamps,
-              confidence, and human review state. Retrieval must never imply
-              engineering verification.
-            </p>
-          </section>
         </>
       )}
       {section === "settings" && (
@@ -165,15 +129,16 @@ export function WorkspacePage({ section }: { section: string }) {
           <section className="card panel-padding">
             <h2>Clear saved site records</h2>
             <p className="muted">
-              Remove saved site records from this browser. Export any records
-              you want to keep first.
+              Remove saved site records, edited values, imported data and
+              verification statuses from this browser. Export any records you
+              want to keep first.
             </p>
             {confirm ? (
               <div className="button-row">
                 <button
                   className="button danger"
                   onClick={() => {
-                    reset();
+                    if (!reset()) return;
                     setConfirm(false);
                     setResetDone(true);
                   }}
@@ -196,7 +161,11 @@ export function WorkspacePage({ section }: { section: string }) {
                 Clear site records
               </button>
             )}
-            {resetDone && <p role="status">Site records cleared.</p>}
+            {resetDone && (
+              <p role="status">
+                Site records, values and verification statuses cleared.
+              </p>
+            )}
           </section>
         </div>
       )}

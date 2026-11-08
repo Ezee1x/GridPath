@@ -281,7 +281,18 @@ export function parseEnergy(
       demand >= 0 && r[demand] !== "" ? number(r[demand], "demand") : null,
     ];
   });
-  return summarize(readings, timezone, "CSV", meterIds[0] ?? null);
+  const summary = summarize(readings, timezone, "CSV", meterIds[0] ?? null);
+  const classification = index("data_classification");
+  if (
+    classification >= 0 &&
+    rows.some((row) => row[classification] === "SYNTHETIC_DEMO")
+  ) {
+    summary.synthetic = true;
+    summary.warnings.push(
+      "Synthetic demo readings; not actual customer or facility consumption.",
+    );
+  }
+  return summary;
 }
 // Restricted ESPI electricity interval subset. No external entities, utility login, cumulative or mixed-meter aggregation.
 function greenButton(text: string, timezone: string): EnergyPreview {

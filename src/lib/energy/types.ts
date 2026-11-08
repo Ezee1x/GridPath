@@ -1,6 +1,7 @@
 /** start UTC seconds, actual duration seconds, kWh, interval-average kW, source demand kW (if provided). */
 export type EnergyReading = [number, number, number, number, number | null];
 export interface EnergyPreview {
+  synthetic?: boolean;
   readings: EnergyReading[];
   timezone: string;
   format: "CSV" | "Green Button XML";

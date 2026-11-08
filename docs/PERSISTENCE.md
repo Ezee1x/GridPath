@@ -1,6 +1,6 @@
 # Records and document persistence
 
-ProjectSync has two storage tiers. Only the first exists today.
+QoreSites supports browser-local storage and an optional shared workspace. See [TEAM_WORKSPACE.md](TEAM_WORKSPACE.md) for authenticated shared storage configuration.
 
 ## Tier 1: local demo (implemented)
 
@@ -8,7 +8,7 @@ Everything stays in one browser on one device.
 
 | What | Where | Survives refresh | Shared with teammates |
 | --- | --- | --- | --- |
-| Saved site list | `localStorage` `qore-projectsync-workspace-v1` | Yes | No |
+| Saved site list | `localStorage` `qoresites-workspace-v1` | Yes | No |
 | Engineering record per address/parcel | `localStorage` `qore-engineering-intake-v2:<siteKey>` | Yes | No |
 | Attached file contents | IndexedDB `qore-projectsync-files`, store `files` | Yes | No |
 | Google Places address and coordinates | Active Maps session only | No (re-fetched by Place ID) | No |
@@ -48,3 +48,10 @@ Shared review across authorized teammates needs server-side storage. Recommended
 - Backups, deployment configuration and monitoring before production use.
 
 Until Tier 2 exists, use **Export Site Record** to hand a record to someone else.
+
+
+## Product rename compatibility
+
+The current saved-site namespace is `qoresites-workspace-v1`. On first use, records migrate from `qore-projectsync-workspace-v1`, or from `gridpath-workspace-v1` if that earlier backup is the only available copy. Existing IDs, notes, evidence, selected parcels and reviews are unchanged. The original key is retained; a present current workspace, including an intentionally empty list, wins over old copies. Failed writes still return readable records with a warning. The previous explorer Place ID is copied to `qoresites-explorer-place-id` without removing its old value.
+
+The IndexedDB namespaces `qore-projectsync-files` and `qore-projectsync-annotation-images` are intentionally retained. They are internal compatibility identifiers, not product branding. This avoids orphaning file bytes or annotated images. Engineering record keys, shared-session cookies, protocol format identifiers and configured `QORE_*` environment variables also remain stable.

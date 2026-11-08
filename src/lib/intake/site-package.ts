@@ -5,6 +5,7 @@ import { engineeringExport } from "../engineering/coverage";
 import { portableIntake } from "./portable";
 import { loadIntake, INTAKE_STORAGE } from "./model";
 import { sha256 } from "./file-vault";
+import { BRAND } from "../brand";
 interface Asset {
   key: string;
   path: string;
@@ -16,6 +17,7 @@ interface Asset {
   analysisId?: string;
 }
 export interface SitePackageManifest {
+  application?: string;
   format: "qore-site-package";
   version: 1;
   exportedAt: string;
@@ -101,6 +103,7 @@ export async function makeSitePackage(
     else missing.push(analysis.image.fileName);
   }
   const manifest: SitePackageManifest = {
+    application: BRAND.name,
     engineering: engineeringExport(portable),
     format: "qore-site-package",
     version: 1,

@@ -1,8 +1,80 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseEnergy, timestamp } from "./energy/parse";
-import { acceptEnergy } from "./energy/record";
+import { acceptEnergy, sampleEnergyObservation } from "./energy/record";
 import { createIntakeRecord } from "./intake/model";
+import { prepareCustomerEnergy } from "./energy/upload";
+import { folderSources } from "./documents/folders";
+import { portableIntake } from "./intake/portable";
+
+test("one-step customer analysis fills supported fields unverified and stores the original in Additional files", async () => {
+  const record = createIntakeRecord("upload-test", "Customer site", null);
+  const file = new File(
+    [
+      "start,duration_seconds,energy_kwh\n2026-01-01T00:00:00-05:00,900,5\n2026-01-01T00:15:00-05:00,900,6",
+    ],
+    "customer.csv",
+    { type: "text/csv" },
+  );
+  const prepared = await prepareCustomerEnergy(record, file);
+  assert.equal(prepared.error, "");
+  assert.ok(prepared.energy);
+  const next = acceptEnergy(record, prepared.energy, prepared.source);
+  for (const id of ["energyUse", "demand", "interval"]) {
+    const field = next.fields.find((f) => f.id === id)!;
+    assert.ok(field.selectedId);
+    assert.notEqual(field.review.status, "Engineer verified");
+  }
+  assert.equal(
+    folderSources(next.sources, "additional-files")[0].fileName,
+    file.name,
+  );
+  assert.equal(
+    await prepared.bytes.get(prepared.source.key)!.text(),
+    await file.text(),
+  );
+  const protectedRecord = {
+    ...next,
+    fields: next.fields.map((field) =>
+      field.id === "demand"
+        ? {
+            ...field,
+            pinned: true,
+            review: { ...field.review, status: "Engineer verified" as const },
+          }
+        : field,
+    ),
+  };
+  const another = await prepareCustomerEnergy(
+    protectedRecord,
+    new File(
+      ["start,duration_seconds,energy_kwh\n2026-02-01T00:00:00-05:00,900,100"],
+      "later.csv",
+    ),
+  );
+  const after = acceptEnergy(protectedRecord, another.energy!, another.source);
+  assert.equal(
+    after.fields.find((f) => f.id === "demand")!.selectedId,
+    protectedRecord.fields.find((f) => f.id === "demand")!.selectedId,
+  );
+});
+
+test("unreadable and conflicting uploads remain available without autofilling values", async () => {
+  const record = createIntakeRecord("bad-upload", "Customer site", null);
+  for (const text of [
+    "not interval data",
+    "start,duration_seconds,energy_kwh\n2026-01-01T00:00Z,900,1\n2026-01-01T00:00Z,900,2",
+  ]) {
+    const prepared = await prepareCustomerEnergy(
+      record,
+      new File([text], "customer.csv"),
+    );
+    assert.equal(prepared.energy, null);
+    assert.ok(prepared.error);
+    assert.equal(prepared.source.documentFolder, "additional-files");
+    assert.equal(await prepared.bytes.get(prepared.source.key)!.text(), text);
+  }
+});
 test("interval energy derives average demand using actual duration, preserves source demand, and detects gaps/duplicates", () => {
   const p = parseEnergy(
     "start,duration_minutes,energy_kwh,demand_kw\n2026-01-01T00:00:00Z,30,10,25\n2026-01-01T00:30:00Z,30,12,30\n2026-01-01T00:30:00Z,30,12,30\n2026-01-01T01:30:00Z,30,5,20",
@@ -127,4 +199,76 @@ test("a full non-leap-year 15-minute profile preserves all 35040 readings and 12
   assert.equal(profile.totalKwh, 35040);
   assert.equal(profile.monthlyKwh.length, 12);
   assert.equal(profile.gapSeconds, 0);
+});
+
+test("customer demo parses a complete month and cannot be accepted as actual usage", async () => {
+  const { customerEnergyDemoCsv, ENERGY_DEMO_FILE } =
+    await import("./energy/demo");
+  const text = customerEnergyDemoCsv();
+  const preview = parseEnergy(text, ENERGY_DEMO_FILE);
+  assert.equal(preview.synthetic, true);
+  assert.equal(preview.readings.length, 2976);
+  assert.equal(preview.missingIntervals, 0);
+  assert.equal(preview.blocking, false);
+  assert.deepEqual(preview.durationsSeconds, [900]);
+  assert.equal(preview.maximumObservedKw, 295);
+  assert.equal(preview.meterReference, "DEMO-MTR-01");
+  assert.equal(preview.monthlyKwh.length, 1);
+  assert.equal(preview.monthlyKwh[0].month, "2026-05");
+  assert.equal(parseEnergy(text, "renamed.csv").synthetic, true);
+  const record = createIntakeRecord(
+    "demo-test",
+    "Fictional demo property",
+    null,
+  );
+  const source = {
+    key: "demo-source",
+    provider: "Demo",
+    dataset: "Synthetic customer attachment",
+    serviceUrl: "",
+    featureId: null,
+    featureName: null,
+    recordDate: null,
+    datasetUpdated: null,
+    retrievedAt: "2026-11-08T12:00:00Z",
+    fileHash: "demo-hash",
+  };
+  const energy = {
+    ...preview,
+    id: "demo",
+    siteKey: record.siteKey,
+    sourceKey: source.key,
+    fileHash: source.fileHash,
+    fileName: ENERGY_DEMO_FILE,
+    acceptedAt: source.retrievedAt,
+    classification: "Customer supplied" as const,
+  };
+  assert.throws(() => acceptEnergy(record, energy, source), /Synthetic demo/);
+  const saved = acceptEnergy(
+    record,
+    { ...energy, classification: "Modeled / synthetic" },
+    source,
+  );
+  for (const id of ["energyUse", "demand", "interval"]) {
+    assert.equal(
+      saved.fields.find((field) => field.id === id)?.selectedId,
+      null,
+    );
+    assert.ok(sampleEnergyObservation(saved, id));
+  }
+  assert.equal(sampleEnergyObservation(saved, "demand")?.value, 295);
+  assert.equal(sampleEnergyObservation(saved, "utilityBills"), undefined);
+  assert.equal(sampleEnergyObservation(saved, "tariff"), undefined);
+  const restored = JSON.parse(JSON.stringify(saved));
+  assert.equal(sampleEnergyObservation(restored, "demand")?.value, 295);
+  const portable = portableIntake(saved);
+  assert.equal(portable.fields.find(field => field.id === "demand")!.selectedId, null);
+  assert.equal(sampleEnergyObservation(portable, "demand")?.value, 295);
+  const actualSelected = {
+    ...saved,
+    fields: saved.fields.map(field => field.id === "demand"
+      ? { ...field, selectedId: "actual-value" }
+      : field),
+  };
+  assert.equal(sampleEnergyObservation(actualSelected, "demand"), undefined);
 });

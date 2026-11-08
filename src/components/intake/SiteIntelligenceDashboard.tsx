@@ -10,8 +10,7 @@ import { UtilityRatesPanel } from "@/components/rates/UtilityRatesPanel";
 import { EnergyImportPanel } from "@/components/energy/EnergyImportPanel";
 import { CollectionBenchmark } from "@/components/engineering/CollectionBenchmark";
 import { useState } from "react";
-import { MetricEvidence } from "@/components/gis/SiteAnalysisPanel";
-import type { AnalysisMetric, SiteAnalysis } from "@/lib/gis/analysis-types";
+import type { SiteAnalysis } from "@/lib/gis/analysis-types";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisLayerResult } from "@/lib/gis/types";
 import type { IntakeRecord } from "@/lib/intake/types";
@@ -39,6 +38,9 @@ import {
 import { SiteFiles, FileAttachmentDialog, fieldFileKeys } from "./SiteFiles";
 import { ElectricalDiscoveryPanel } from "./ElectricalDiscoveryPanel";
 import { FieldEvidence, valueText } from "./FieldEvidence";
+import { InlineFieldEditor } from "./InlineFieldEditor";
+import { RoadFieldValue } from "./RoadFieldValue";
+import { sampleEnergyObservation } from "@/lib/energy/record";
 export function SiteIntelligenceDashboard({
   analysis,
   address,
@@ -82,7 +84,6 @@ export function EngineeringRecordDashboard({
   propertyStatus = "Public property sources load in the site map.",
   retryProperty,
   files,
-  analysis,
   address,
   onViewContours,
   initialFieldId,
@@ -99,7 +100,7 @@ export function EngineeringRecordDashboard({
   initialFieldId?: string | null;
 }) {
   const [uploadField, setUploadField] = useState<string | null>(null);
-  const [measurement, setMeasurement] = useState<AnalysisMetric | null>(null);
+  const [manualReviewer, setManualReviewer] = useState("");
   const [fieldId, setFieldId] = useState<string | null>(
     initialFieldId && FIELD_SCHEMA.some((d) => d.id === initialFieldId)
       ? initialFieldId
@@ -110,31 +111,6 @@ export function EngineeringRecordDashboard({
   const counts = readiness(record);
   const dashboardCategories = ACTIVE_CATEGORIES;
   const dashboardFields = ACTIVE_FIELDS;
-  // Prioritize measured land constraints and public-record screening findings.
-  // Electrical capacity and access approval require separate engineering evidence.
-  const metrics = [
-    ["parcelArea", "Parcel area"],
-    ["unbuiltArea", "Approximate unbuilt parcel area"],
-    ["zoning", "Zoning district"],
-    ["flood", "FEMA flood hazard"],
-    ["wetlands", "Wetlands proximity"],
-    ["boundarySummary", "Building-to-parcel-boundary distance"],
-    ["roadProximity", "Nearest mapped road centerline"],
-    ["totalRoofArea", "Total contained roofprint area (union)"],
-  ];
-  const crossing = (analysis?.buildings ?? []).some((b) =>
-    b.association.startsWith("Crosses"),
-  );
-  const measured = (analysis?.buildings ?? [])
-    .filter(
-      (b) => b.association.startsWith("Within") && b.boundaryDistance.values,
-    )
-    .sort(
-      (a, b) =>
-        a.boundaryDistance.values!.find((v) => v.unit === "ft")!.value -
-        b.boundaryDistance.values!.find((v) => v.unit === "ft")!.value,
-    );
-  const closest = measured[0];
   const missingCritical = verificationItems(record).filter(
     (item) =>
       item.priority === "Critical" &&
@@ -161,151 +137,17 @@ export function EngineeringRecordDashboard({
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = "qore-engineering-site-record.json";
+    a.download = "QoreSites_Site_Record.json";
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   return (
     <div className="intelligence-dashboard">
-      <section className="next-actions" aria-label="Next actions">
-        <h2>Next actions</h2>
-        <ul>
-          {verificationItems(record)
-            .slice(0, 4)
-            .map((item) => (
-              <li key={item.id}>
-                <div>
-                  <strong>{item.definition.label}</strong>
-                  <small>
-                    {item.priority} priority · {item.field.request.status} ·{" "}
-                    {item.field.request.owner}
-                  </small>
-                </div>
-                <button
-                  className="text-link"
-                  onClick={() => setFieldId(item.id)}
-                >
-                  Review field
-                </button>
-                <button
-                  className="text-link"
-                  onClick={() => setUploadField(item.id)}
-                >
-                  Add file
-                </button>
-              </li>
-            ))}
-        </ul>
-        {!verificationItems(record).length && (
-          <p>No outstanding actions in the active site record.</p>
-        )}
-      </section>
-      <section aria-labelledby="site-highlights-title">
-        <div className="intelligence-heading">
-          <div>
-            <h2 id="site-highlights-title">Highlights of Site</h2>
-            <p>{address?.formattedAddress ?? record.identity.address}</p>
-          </div>
-          <span>Preliminary engineering record</span>
-        </div>
-        {warning && (
-          <p className="notice" role="status">
-            {warning}
-          </p>
-        )}
-        <div className="intelligence-metrics">
-          {analysis &&
-            metrics.map(([id, label]) => {
-              const field = record.fields.find((f) => f.id === id),
-                obs = field && selectedObservation(field);
-              let text = obs ? valueText(obs.value) : "Not retrieved",
-                provenance = obs
-                  ? field!.review.status === "Engineer verified"
-                    ? "Engineer verified"
-                    : obs.provenance
-                  : "Not available";
-              let target = id;
-              if (obs) {
-                if (typeof obs.value !== "object" && obs.unit)
-                  text = `${text} ${obs.unit}`;
-                if (
-                  Array.isArray(obs.value) &&
-                  ["parcelArea", "totalRoofArea", "unbuiltArea"].includes(id)
-                ) {
-                  const rows = obs.value.filter(
-                    (v) =>
-                      v && typeof v === "object" && "unit" in v && "value" in v,
-                  ) as { unit: string; value: number }[];
-                  const units =
-                    id === "parcelArea" ? ["sq ft", "acres"] : ["sq ft"];
-                  if (rows.length)
-                    text = rows
-                      .filter((v) => units.includes(v.unit))
-                      .map(
-                        (v) =>
-                          `${v.value.toLocaleString(undefined, { maximumFractionDigits: v.unit === "acres" ? 3 : 1 })} ${v.unit}`,
-                      )
-                      .join(" · ");
-                }
-              }
-              if (id === "roadProximity") {
-                text =
-                  analysis.metrics.roadProximity.values
-                    ?.filter((v) => v.unit === "ft")
-                    .map(
-                      (v) =>
-                        `${v.value.toLocaleString(undefined, { maximumFractionDigits: 1 })} ft`,
-                    )
-                    .join("") ?? "Not retrieved";
-                provenance = analysis.metrics.roadProximity.values
-                  ? "Calculated from GIS geometry"
-                  : "Not available";
-                target = "roadNames";
-              }
-              if (id === "boundarySummary") {
-                text = crossing
-                  ? "Geometry intersects boundary — needs verification"
-                  : closest
-                    ? `${closest.boundaryDistance.values!.find((v) => v.unit === "ft")!.value.toLocaleString(undefined, { maximumFractionDigits: 1 })} ft`
-                    : "Not retrieved";
-                provenance =
-                  !crossing && closest
-                    ? "Calculated from GIS geometry"
-                    : "Not available";
-                target = "boundaryDistances";
-              }
-              return (
-                <button
-                  className="intelligence-metric"
-                  key={id}
-                  type="button"
-                  onClick={() => {
-                    if (id === "roadProximity")
-                      setMeasurement(analysis.metrics.roadProximity);
-                    else if (id === "boundarySummary" && !crossing && closest)
-                      setMeasurement(closest.boundaryDistance);
-                    else setFieldId(target);
-                  }}
-                >
-                  <span>{label}</span>
-                  <strong>{text}</strong>
-                  <small>
-                    {provenance === "Calculated from GIS geometry"
-                      ? "Estimated"
-                      : provenance === "Not available"
-                        ? "Missing"
-                        : provenance === "Engineer verified"
-                          ? "Engineer verified"
-                          : "Needs review"}
-                  </small>
-                  <small className="intelligence-source-link">
-                    Source & method ↗
-                  </small>
-                </button>
-              );
-            })}
-        </div>
-      </section>
+      {warning && (
+        <p className="notice" role="status">
+          {warning}
+        </p>
+      )}
       <section
         className="intake-readiness"
         aria-labelledby="engineering-readiness-title"
@@ -325,29 +167,13 @@ export function EngineeringRecordDashboard({
             </span>
           ))}
         </div>
-        <p>
-          Counts use active existing-condition fields. Retired categories are
-          excluded. Partially collected municipality/AHJ information remains
-          incomplete.
-        </p>
-        <h3>Critical information needed</h3>
+        <p></p>
+
         <p>
           {missingCritical.map((item) => item.definition.label).join(" · ") ||
             "No missing Critical-priority fields."}
         </p>
       </section>
-      <SiteFiles
-        record={record}
-        onAdd={setUploadField}
-        fields={dashboardFields}
-      />
-      <RequirementsEvidenceMatrix
-        record={record}
-        onField={setFieldId}
-        onUpload={setUploadField}
-      />
-      <InformationRequest record={record} />
-      <CollectionBenchmark record={record} update={update} />
       <details className="full-intake" open>
         <summary className="intelligence-heading">
           <h2>Full Site Record</h2>
@@ -536,9 +362,16 @@ export function EngineeringRecordDashboard({
                               const f = record.fields.find(
                                   (f) => f.id === d.id,
                                 )!,
-                                o = selectedObservation(f);
+                                sample = sampleEnergyObservation(record, d.id),
+                                o = selectedObservation(f) ?? sample;
                               return (
-                                <tr key={d.id} id={`field-${d.id}`}>
+                                <tr
+                                  key={d.id}
+                                  id={`field-${d.id}`}
+                                  className={
+                                    !o ? "intake-row-missing" : undefined
+                                  }
+                                >
                                   <td>
                                     {d.label}
                                     <small>
@@ -550,7 +383,7 @@ export function EngineeringRecordDashboard({
                                   </td>
                                   <td>
                                     <div
-                                      className={`intake-value${d.id === "codes" ? " intake-code-value" : ""}`}
+                                      className={`intake-value${d.id === "codes" ? " intake-code-value" : ""}${d.id === "roadNames" || d.id === "roadClass" ? " intake-road-value" : ""}`}
                                     >
                                       {d.id === "codes" &&
                                       Array.isArray(o?.value) ? (
@@ -559,6 +392,13 @@ export function EngineeringRecordDashboard({
                                             <li key={index}>{String(entry)}</li>
                                           ))}
                                         </ul>
+                                      ) : o &&
+                                        (d.id === "roadNames" ||
+                                          d.id === "roadClass") ? (
+                                        <RoadFieldValue
+                                          fieldId={d.id}
+                                          value={o.value}
+                                        />
                                       ) : o ? (
                                         valueText(o.value)
                                       ) : applicable(record, d) ? (
@@ -577,6 +417,19 @@ export function EngineeringRecordDashboard({
                                         ? ` ${o.unit}`
                                         : ""}
                                     </div>
+                                    <InlineFieldEditor
+                                      record={record}
+                                      fieldId={d.id}
+                                      label={d.label}
+                                      update={update}
+                                      reviewer={manualReviewer}
+                                      setReviewer={setManualReviewer}
+                                    />
+                                    {sample && (
+                                      <small className="sample-energy-value">
+                                        Sample data · demo only
+                                      </small>
+                                    )}
                                     {record.electricalDiscovery?.fieldResults[
                                       d.id
                                     ] && (
@@ -600,7 +453,7 @@ export function EngineeringRecordDashboard({
                                               : "Customer information needed"}
                                       </small>
                                     )}
-                                    {o?.complete === false && (
+                                    {!sample && o?.complete === false && (
                                       <small>
                                         Partially collected — needs verification
                                       </small>
@@ -623,13 +476,21 @@ export function EngineeringRecordDashboard({
                                   <td>
                                     <div className="intake-review-summary">
                                       <div className="intake-review-line">
-                                        <small>{f.review.status}</small>
+                                        <small>
+                                          {sample
+                                            ? "Sample · not verified"
+                                            : f.review.status}
+                                        </small>
                                       </div>
                                       <div className="intake-review-line intake-review-meta">
                                         <small>
                                           {f.priority ?? d.criticality} priority
                                         </small>
-                                        <small>{f.request.status}</small>
+                                        <small>
+                                          {sample
+                                            ? "Demo preview"
+                                            : f.request.status}
+                                        </small>
                                         <small>{f.request.owner}</small>
                                       </div>
                                       <div className="intake-row-actions">
@@ -669,6 +530,18 @@ export function EngineeringRecordDashboard({
           })}
         </div>
       </details>
+      <SiteFiles
+        record={record}
+        onAdd={setUploadField}
+        fields={dashboardFields}
+      />
+      <RequirementsEvidenceMatrix
+        record={record}
+        onField={setFieldId}
+        onUpload={setUploadField}
+      />
+      <InformationRequest record={record} />
+      <CollectionBenchmark record={record} update={update} />
       <section className="intake-sources">
         <h2>Source references & export</h2>
         <p>
@@ -697,7 +570,7 @@ export function EngineeringRecordDashboard({
           onClick={() =>
             downloadText(
               printableSummary(portableIntake(record)),
-              "qore-site-summary.html",
+              "QoreSites_Site_Summary.html",
               "text/html",
             )
           }
@@ -715,13 +588,6 @@ export function EngineeringRecordDashboard({
           exports retain independently sourced public records.
         </p>
       </section>
-      {measurement && analysis && (
-        <MetricEvidence
-          metric={measurement}
-          analysis={analysis}
-          onClose={() => setMeasurement(null)}
-        />
-      )}
       {uploadField && (
         <FileAttachmentDialog
           key={`${record.siteKey}:${uploadField}`}

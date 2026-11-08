@@ -149,7 +149,7 @@ export function CollectionBenchmark({
             <input name="manualReview" type="number" min="0" required />
           </label>
           <label>
-            ProjectSync review seconds
+            QoreSites review seconds
             <input name="autoReview" type="number" min="0" required />
           </label>
           <label>
@@ -163,7 +163,7 @@ export function CollectionBenchmark({
             Baseline: {benchmark.manualComparison.fieldIds.length} identical
             target fields; manual collection{" "}
             {benchmark.manualComparison.manualSeconds}s + review{" "}
-            {benchmark.manualComparison.manualReviewSeconds}s; ProjectSync
+            {benchmark.manualComparison.manualReviewSeconds}s; QoreSites
             review {benchmark.manualComparison.automatedReviewSeconds}s.{" "}
             {benchmark.manualComparison.note}
           </p>

@@ -19,6 +19,7 @@ export function createEngineeringStore(
 ) {
   const entries = new Map<string, ReturnType<typeof makeEntry>>();
   function makeEntry(key: string, initialize: () => IntakeRecord) {
+    let disposed = false;
     let saved: IntakeRecord | null = null,
       blocked = false,
       warning = "";
@@ -44,6 +45,7 @@ export function createEngineeringStore(
     // Every attachment written to the shared map is also kept in the vault.
     class FileMap extends Map<string, File> {
       set(fileKey: string, file: File) {
+        if (disposed) return this;
         super.set(fileKey, file);
         syncTeamFile(fileKey, key, file);
         if (vault && belongsToSite(fileKey, key))
@@ -66,6 +68,7 @@ export function createEngineeringStore(
       try {
         let restored = 0;
         for (const row of await sharedFiles(key)) {
+          if (disposed) return;
           if (!snapshot.record.sources[row.key]?.fileName || files.has(row.key))
             continue;
           if ((await sha256(row.file)) !== row.hash) continue;
@@ -75,6 +78,7 @@ export function createEngineeringStore(
             await vault.put(storedFile(row.key, key, row.hash, row.file));
         }
         for (const row of (await vault?.list(key)) ?? []) {
+          if (disposed) return;
           const source = snapshot.record.sources[row.key];
           // Restore only files this site's record still references, unaltered.
           if (!source?.fileName || files.has(row.key)) continue;
@@ -84,7 +88,7 @@ export function createEngineeringStore(
           Map.prototype.set.call(files, row.key, toFile(row));
           restored++;
         }
-        if (restored) {
+        if (restored && !disposed) {
           snapshot = { ...snapshot, record: current(snapshot.record) };
           persist();
           notify();
@@ -98,7 +102,7 @@ export function createEngineeringStore(
     const restoring = restoreFiles();
     let persisted = "";
     function persist() {
-      if (snapshot.blocked || !storage) return;
+      if (disposed || snapshot.blocked || !storage) return;
       try {
         const raw = JSON.stringify({
           ...portableIntake(snapshot.record),
@@ -130,11 +134,16 @@ export function createEngineeringStore(
       },
       files,
       restoring,
+      dispose: () => {
+        disposed = true;
+        files.clear();
+      },
       flush: () => {
         persist();
         notify();
       },
       update: (fn: (r: IntakeRecord) => IntakeRecord) => {
+        if (disposed) return;
         const record = current(fn(snapshot.record));
         if (record.siteKey !== key)
           throw Error("Engineering update belongs to another site.");
@@ -144,6 +153,7 @@ export function createEngineeringStore(
         notify();
       },
       reload: () => {
+        if (disposed) return;
         try {
           const record = storage && loadIntake(storage, key);
           if (record) {
@@ -167,6 +177,10 @@ export function createEngineeringStore(
       return entry;
     },
     reload: (key: string) => entries.get(key)?.reload(),
+    reset: () => {
+      for (const entry of entries.values()) entry.dispose();
+      entries.clear();
+    },
   };
 }
 let browserStore: ReturnType<typeof createEngineeringStore> | undefined;

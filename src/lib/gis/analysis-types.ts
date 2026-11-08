@@ -37,7 +37,7 @@ export interface ElectricalRequirement {
 }
 export interface SiteAnalysis {
   schemaVersion: "1.0";
-  recordType: "QORE preliminary geographic site record";
+  recordType: "QoreSites preliminary geographic site record";
   generatedAt: string;
   query: {
     address: string;

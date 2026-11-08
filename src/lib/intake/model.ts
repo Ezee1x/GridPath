@@ -1,4 +1,5 @@
 import { ENGINEERING_REQUIREMENTS } from "../engineering/library";
+import { BRAND } from "../brand";
 import { engineeringExport } from "../engineering/coverage";
 import { normalizedStreet } from "../gis/geometry";
 import { FIELD_SCHEMA, ACTIVE_FIELDS, ADDED_FIELD_IDS } from "./schema";
@@ -508,6 +509,8 @@ export function loadIntake(
 export function exportIntake(record: IntakeRecord) {
   return {
     ...record,
+    application: BRAND.name,
+    applicationDescription: BRAND.description,
     retiredFields: undefined,
     extraRequests: undefined,
     exportedAt: new Date().toISOString(),

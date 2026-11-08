@@ -18,7 +18,7 @@ import { GoogleAddressSearch } from "./GoogleAddressSearch";
 import { GisSiteContext } from "@/components/gis/GisSiteContext";
 import { useWorkspace } from "@/lib/store";
 import { savedParcelForPlace } from "@/lib/parcel-selection";
-const PLACE_ID_KEY = "qore-projectsync-explorer-place-id";
+import { EXPLORER_PLACE_ID_KEY, loadExplorerPlaceId } from "@/lib/persistence";
 export function GoogleAddressWorkspace({
   compact = false,
   initialPlaceId,
@@ -28,6 +28,7 @@ export function GoogleAddressWorkspace({
   dashboard,
   fixedSite = false,
   onContourAction,
+  sourcesContainer,
 }: {
   compact?: boolean;
   initialPlaceId?: string;
@@ -35,6 +36,7 @@ export function GoogleAddressWorkspace({
   initialFieldId?: string | null;
   hideDashboard?: boolean;
   dashboard?: ReactNode;
+  sourcesContainer?: HTMLElement | null;
   fixedSite?: boolean;
   onContourAction?: (action: (() => void) | null) => void;
 }) {
@@ -50,7 +52,7 @@ export function GoogleAddressWorkspace({
     setResolving(false);
     // Only the Place ID is retained. Address content is fetched again after refresh.
     try {
-      sessionStorage.setItem(PLACE_ID_KEY, address.placeId);
+      sessionStorage.setItem(EXPLORER_PLACE_ID_KEY, address.placeId);
     } catch {
       /* Preview still works when session storage is unavailable. */
     }
@@ -61,7 +63,7 @@ export function GoogleAddressWorkspace({
     const version = selectionVersion.current;
     let placeId: string | null = null;
     try {
-      placeId = initialPlaceId ?? sessionStorage.getItem(PLACE_ID_KEY);
+      placeId = initialPlaceId ?? loadExplorerPlaceId(sessionStorage);
     } catch {
       return;
     }
@@ -112,6 +114,7 @@ export function GoogleAddressWorkspace({
               : "no-address"
           }
           address={selected}
+          sourcesContainer={sourcesContainer}
           hideDashboard={hideDashboard}
           dashboard={dashboard}
           onContourAction={onContourAction}

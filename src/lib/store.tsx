@@ -8,6 +8,8 @@ import {
 } from "react";
 import { refreshTeam, syncTeamSite } from "./team/client";
 import { SiteRecord } from "./types";
+import { engineeringStore } from "./intake/record-store";
+import { clearBrowserRecords } from "./workspace-reset";
 
 import { loadSavedWorkspace, WORKSPACE_STORAGE_KEY } from "./persistence";
 interface Snapshot {
@@ -18,7 +20,7 @@ interface Snapshot {
 }
 interface Store extends Snapshot {
   save: (site: SiteRecord) => void;
-  reset: () => void;
+  reset: () => boolean;
   stage: (id: string, file: File) => void;
 }
 const serverSnapshot: Snapshot = {
@@ -118,8 +120,22 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
           notify();
         },
         reset: () => {
+          try {
+            clearBrowserRecords(localStorage);
+          } catch {
+            snapshot = {
+              ...snapshot,
+              warning:
+                "Some browser records could not be cleared. Check browser storage permissions and try again.",
+            };
+            notify();
+            return false;
+          }
+          engineeringStore().reset();
           snapshot = { ...snapshot, files: {} };
           persist([]);
+          window.dispatchEvent(new Event("qore-intake-saved"));
+          return true;
         },
       }}
     >

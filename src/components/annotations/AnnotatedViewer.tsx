@@ -27,11 +27,13 @@ function MapLabelEditor({
   tag,
   onSave,
   onClose,
+  onDelete,
 }: {
   annotation: SiteAnnotation;
   tag: string;
   onSave: (label: string) => void;
   onClose: () => void;
+  onDelete?: () => void;
 }) {
   const [label, setLabel] = useState(annotation.label);
   const [error, setError] = useState("");
@@ -82,6 +84,15 @@ function MapLabelEditor({
         >
           Cancel
         </button>
+        {onDelete && (
+          <button
+            className="button secondary small"
+            type="button"
+            onClick={onDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );
@@ -109,6 +120,9 @@ export function AnnotatedViewer({
   alt = "Site image being analyzed",
   camera,
   onRename,
+  onDelete,
+  moveMode = false,
+  onNavigate,
 }: {
   src: string;
   width: number;
@@ -127,6 +141,9 @@ export function AnnotatedViewer({
   alt?: string;
   camera?: { x: number; y: number; heading: number } | null;
   onRename?: (id: string, label: string) => void;
+  onDelete?: (id: string) => void;
+  moveMode?: boolean;
+  onNavigate?: (point: { x: number; y: number }) => void;
 }) {
   const svg = useRef<SVGSVGElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -178,7 +195,10 @@ export function AnnotatedViewer({
           <li key={i}>{String.fromCharCode(65 + i)}</li>
         ))}
       </ol>
-      <div ref={stage} className={`sheet-stage ${drawMode ? "drawing" : ""}`}>
+      <div
+        ref={stage}
+        className={`sheet-stage ${drawMode || moveMode ? "drawing" : ""}`}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element -- local object URL of the original file */}
         <img src={src} alt={alt} draggable={false} onError={onError} />
         {scanning && <div className="scan-line" aria-hidden="true" />}
@@ -188,6 +208,11 @@ export function AnnotatedViewer({
           role="group"
           aria-label="Equipment annotations"
           onPointerDown={(e) => {
+            if (moveMode) {
+              const p = point(e);
+              onNavigate?.({ x: clamp(p.x), y: clamp(p.y) });
+              return;
+            }
             if (!drawMode) {
               if (e.target === svg.current) onSelect(null);
               return;
@@ -273,8 +298,16 @@ export function AnnotatedViewer({
                     tabIndex={0}
                     role="button"
                     aria-pressed={selected}
-                    aria-label={`${tagFor(index)} ${a.label}. Select to edit the label. Drag or use arrow keys to move the callout.`}
+                    aria-label={`${tagFor(index)} ${a.label}. ${moveMode ? "Move Street View to this point." : "Select to edit the label. Drag or use arrow keys to move the callout."}`}
                     onPointerDown={(e) => {
+                      if (moveMode) {
+                        e.stopPropagation();
+                        onNavigate?.({
+                          x: (a.box[0] + a.box[2]) / 2,
+                          y: (a.box[1] + a.box[3]) / 2,
+                        });
+                        return;
+                      }
                       if (drawMode) return;
                       e.stopPropagation();
                       const p = point(e);
@@ -289,6 +322,16 @@ export function AnnotatedViewer({
                       });
                     }}
                     onKeyDown={(e) => {
+                      if (moveMode) {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          onNavigate?.({
+                            x: (a.box[0] + a.box[2]) / 2,
+                            y: (a.box[1] + a.box[3]) / 2,
+                          });
+                        }
+                        return;
+                      }
                       const step = e.shiftKey ? 0.05 : 0.01;
                       const moves: Record<string, [number, number]> = {
                         ArrowLeft: [-step, 0],
@@ -393,6 +436,7 @@ export function AnnotatedViewer({
               tag={tagFor(annotations.indexOf(selected))}
               onSave={(label) => onRename(selected.id, label)}
               onClose={() => onSelect(null)}
+              onDelete={onDelete ? () => onDelete(selected.id) : undefined}
             />
           )}
       </div>

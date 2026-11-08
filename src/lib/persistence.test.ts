@@ -1,7 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { centuryTywoodSite } from "./fixtures";
-import { loadSavedWorkspace, WORKSPACE_STORAGE_KEY } from "./persistence";
+import {
+  loadSavedWorkspace,
+  WORKSPACE_STORAGE_KEY,
+  loadExplorerPlaceId,
+  EXPLORER_PLACE_ID_KEY,
+} from "./persistence";
 function memoryStorage(initial: Record<string, string>) {
   const values = new Map(Object.entries(initial));
   return {
@@ -29,6 +34,40 @@ test("current workspace wins over a stale legacy copy", () => {
     "gridpath-workspace-v1": JSON.stringify([centuryTywoodSite]),
   });
   assert.deepEqual(loadSavedWorkspace(storage).sites, []);
+});
+test("previous product workspace migrates unchanged and takes precedence over an older backup", () => {
+  const site = structuredClone(centuryTywoodSite);
+  site.facilityName = "User-edited facility name";
+  const raw = JSON.stringify([site]);
+  const storage = memoryStorage({
+    "qore-projectsync-workspace-v1": raw,
+    "gridpath-workspace-v1": "[]",
+  });
+  assert.deepEqual(loadSavedWorkspace(storage).sites, [site]);
+  assert.equal(storage.getItem(WORKSPACE_STORAGE_KEY), raw);
+  assert.equal(storage.getItem("qore-projectsync-workspace-v1"), raw);
+});
+test("explorer place IDs migrate without losing legacy values or overriding a newer selection", () => {
+  const storage = memoryStorage({
+    "qore-projectsync-explorer-place-id": "legacy-place",
+  });
+  assert.equal(loadExplorerPlaceId(storage), "legacy-place");
+  assert.equal(storage.getItem(EXPLORER_PLACE_ID_KEY), "legacy-place");
+  storage.setItem(EXPLORER_PLACE_ID_KEY, "newer-place");
+  assert.equal(loadExplorerPlaceId(storage), "newer-place");
+  assert.equal(
+    storage.getItem("qore-projectsync-explorer-place-id"),
+    "legacy-place",
+  );
+  assert.equal(
+    loadExplorerPlaceId({
+      getItem: () => "readable",
+      setItem: () => {
+        throw Error("full");
+      },
+    }),
+    "readable",
+  );
 });
 test("migration storage failure still returns the saved records", () => {
   const storage = {

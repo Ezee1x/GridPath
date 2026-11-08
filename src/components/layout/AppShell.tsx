@@ -1,6 +1,7 @@
 "use client";
 import { TeamStatus } from "@/components/team/TeamWorkspace";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
@@ -8,7 +9,6 @@ import {
   Map,
   ListChecks,
   Files,
-  Database,
   Settings,
   ChevronRight,
   Menu,
@@ -18,14 +18,12 @@ import { useWorkspace } from "@/lib/store";
 import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
 import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 import { BRAND } from "@/lib/brand";
-import { BrandMark } from "./BrandMark";
 import { ProjectSearch } from "@/components/sites/ProjectSearch";
 const navigation = [
   ["/", "Overview", LayoutDashboard],
   ["/explorer", "Site explorer", Map],
   ["/verification", "Verification queue", ListChecks],
   ["/documents", "Documents", Files],
-  ["/sources", "Data sources", Database],
 ] as const;
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
@@ -45,15 +43,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         className={`sidebar ${menu ? "mobile-open" : ""}`}
       >
         <Link href="/" className="brand">
-          <BrandMark />
-          <span className="brand-name">
-            <span>QORE</span>
-            {BRAND.shortName}
-          </span>
+          <Image
+            className="brand-logo"
+            src="/qoresites-logo.png"
+            alt={BRAND.name}
+            width={1822}
+            height={359}
+            priority
+          />
         </Link>
         <div className="workspace-context">
-          <span>Site Data Intelligence for EQORE</span>
-          <small>Engineering intake prototype</small>
+          <span>{BRAND.subtitle}</span>
+          
         </div>
         <nav aria-label="Main navigation">
           {navigation.map(([href, label, Icon]) => (
@@ -91,9 +92,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Settings
           </Link>
           <div className="sidebar-footer">
-            <span className="demo-pill">Demo mode</span>
-            <p>Team-built prototype for EQORE</p>
-            <p>MIT Energy & Climate Hack 2026</p>
+            <span className="demo-pill">Demo</span>
+            <p>{BRAND.attribution}</p>
           </div>
         </div>
       </aside>
@@ -114,9 +114,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span aria-current="page">{current}</span>
           </nav>
           <ProjectSearch variant="global" value={query} onChange={setQuery} />
-          <span className="demo-pill">Demo mode</span>
           <span className="avatar" title="Demo profile">
-            PS
+            QS
           </span>
         </header>
         {warning && (
@@ -126,7 +125,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
         <TeamStatus />
         <main>
-          {ready ? children : <div className="empty">Loading ProjectSync…</div>}
+          {ready ? children : <div className="empty">Loading QoreSites…</div>}
         </main>
       </div>
     </div>

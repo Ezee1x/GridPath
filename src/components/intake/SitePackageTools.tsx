@@ -31,7 +31,7 @@ export function SitePackageTools({ site }: { site: SiteRecord }) {
             const url = URL.createObjectURL(result.blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `qore-site-${site.id}.zip`;
+            a.download = `QoreSites_Site_${site.id}.zip`;
             a.click();
             setTimeout(() => URL.revokeObjectURL(url), 1000);
             setMessage(

@@ -41,8 +41,6 @@ export function VerificationQueue({
         These actions come from the Full Site Record. Evidence received is not
         engineering verification.
       </p>
-      <InformationRequest record={record} />
-      <SiteFiles record={record} onAdd={setUploadField} />
       <div className="table-controls">
         <label>
           Priority
@@ -243,6 +241,9 @@ export function VerificationQueue({
           )}
         </details>
       ))}
+      {!items.length && <p>No field actions match these filters.</p>}
+      <InformationRequest record={record} />
+      <SiteFiles record={record} onAdd={setUploadField} />
       {uploadField && (
         <FileAttachmentDialog
           key={`${record.siteKey}:${uploadField}`}
@@ -253,7 +254,6 @@ export function VerificationQueue({
           onClose={() => setUploadField(null)}
         />
       )}
-      {!items.length && <p>No field actions match these filters.</p>}
     </section>
   );
 }

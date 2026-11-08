@@ -22,7 +22,7 @@ export function useGoogleMaps() {
         if (!cancelled)
           setState({
             libraries,
-            error: window.__projectSyncMaps?.authError ?? null,
+            error: window.__qoreSitesMaps?.authError ?? null,
           });
       })
       .catch((error: Error) => {

@@ -38,7 +38,7 @@ test("JSON exports current edits and traceable existing/proposed values", () => 
   const result = JSON.parse(exportRecord(site));
   assert.equal(result.missingRequirements[0].assignedTo, "Facility manager");
   assert.ok(result.exportedAt);
-  assert.equal(result.application, "QORE ProjectSync");
+  assert.equal(result.application, "QoreSites");
   assert.ok(result.sourceDocuments.length);
   assert.equal(
     result.dataFields.find((f: { id: string }) => f.id === "isolation")

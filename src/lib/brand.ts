@@ -1,11 +1,10 @@
 export const BRAND = {
-  name: "QORE ProjectSync",
-  shortName: "ProjectSync",
-  subtitle: "Site Data Intelligence for EQORE",
-  title: "QORE ProjectSync | Site Intelligence",
+  name: "QoreSites",
+  shortName: "QoreSites",
+  subtitle: "Site intelligence for battery storage.",
+  title: "QoreSites | Battery Storage Site Intelligence",
   description:
-    "Engineering site intake and evidence management for commercial battery storage deployment.",
-  attribution:
-    "Team-built prototype for EQORE · MIT Energy & Climate Hack 2026",
-  exportPrefix: "qore-projectsync",
+    "Automated site data collection and engineering intake for commercial battery storage installations.",
+  attribution: "Built for EQORE · MIT Energy & Climate Hack 2026",
+  exportPrefix: "QoreSites",
 } as const;

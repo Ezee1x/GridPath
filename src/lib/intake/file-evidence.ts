@@ -1,7 +1,7 @@
 import type { EvidenceReference, IntakeRecord } from "./types";
 
 export const FILE_ACCEPT =
-  ".pdf,.png,.jpg,.jpeg,.csv,.xml,.txt,.json,.xlsx,.xls,.docx,.doc,.dwg,.dxf";
+  ".pdf,.png,.jpg,.jpeg,.webp,.csv,.xml,.txt,.json,.xlsx,.xls,.docx,.doc,.dwg,.dxf";
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 /** Prepare references before committing anything to the shared site record. */

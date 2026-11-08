@@ -1,8 +1,12 @@
-# QORE ProjectSync
+# QoreSites
 
-Preliminary engineering site intelligence for EQORE Track 1: *Site Data Without a Site Visit*. A team-built prototype from MIT Energy & Climate Hack 2026, not an official EQORE product.
+**Site intelligence for battery storage.**
 
-ProjectSync cuts the time engineers and project managers spend gathering property, geographic, environmental and electrical information before a site visit. Reliable evidence, traceability and clear missing-information requests matter more than filled-in fields.
+Automated site data collection and engineering intake for commercial battery storage installations.
+
+Built for EQORE · MIT Energy & Climate Hack 2026. EQORE Track 1: *Site Data Without a Site Visit*. An independently built hackathon application, not an official EQORE product.
+
+QoreSites cuts the time engineers and project managers spend gathering property, geographic, environmental and electrical information before a site visit. Reliable evidence, traceability and clear missing-information requests matter more than filled-in fields.
 
 ## Run it
 
@@ -92,3 +96,8 @@ The original handoff layout: a left sidebar with Overview, Site explorer, Verifi
 The existing record now includes linked engineering requirement coverage, official/reference-only code editions, a municipal permit directory and customer-ready missing-information requests. Electricity Usage & Rates supports reviewed CSV / restricted Green Button XML imports and an OpenEI v7 candidate/detail/bill-confirmation workflow (`OPENEI_API_KEY`, server-side only). Local PDF/image extraction provides typed page-linked candidates with existing/proposed classification and Accept/Edit/Reject; opt-in scanned-PDF OCR is limited to three low-text pages per run. JSON/ZIP exports include original tariff structures, consumption classification, requirements and measured source activity; a printable HTML summary is also available.
 
 See [integration matrix](docs/eqore-integration-matrix.md), [repeatable demonstration and actual validation](docs/eqore-demo-validation.md), and [three-site live results](docs/eqore-live-results.json). No supplied EQORE plan PDF, live OpenEI tariff access without a key, representative photo accuracy result, code compliance or manual time savings is claimed.
+
+
+## Repository and product naming
+
+Product and repository: [**QoreSites**](https://github.com/Ezee1x/QoreSites). npm package: `qoresites`. See [rebrand and teammate migration notes](docs/QoreSites_REBRAND.md) for Git remotes, local folder steps, deployment checks and intentionally retained storage compatibility identifiers.

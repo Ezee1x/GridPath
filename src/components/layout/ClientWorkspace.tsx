@@ -7,7 +7,7 @@ const AppShell = dynamic(
   () => import("./AppShell").then((module) => module.AppShell),
   {
     ssr: false,
-    loading: () => <div className="empty">Loading ProjectSync…</div>,
+    loading: () => <div className="empty">Loading QoreSites…</div>,
   },
 );
 export function ClientWorkspace({ children }: { children: React.ReactNode }) {

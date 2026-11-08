@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { importLibrary } from "@googlemaps/js-api-loader";
 import { Camera, Compass, ExternalLink } from "lucide-react";
 import { loadGoogleMaps } from "@/lib/maps/google-maps";
+import { bearingToPoint } from "@/lib/annotations/camera-position";
 
 export interface StreetViewCapture {
   panoId: string;
@@ -39,6 +40,7 @@ export function StreetViewExplorer({
   onCapture,
   onPositionChange,
   authorizedComparison = false,
+  moveTarget,
 }: {
   address: string;
   location: { lat: number; lng: number } | null;
@@ -47,6 +49,7 @@ export function StreetViewExplorer({
   onCapture: (view: StreetViewCapture) => void;
   onPositionChange?: (position: StreetViewPosition | null) => void;
   authorizedComparison?: boolean;
+  moveTarget?: { lat: number; lng: number; id: number } | null;
 }) {
   const el = useRef<HTMLDivElement>(null);
   const panorama = useRef<google.maps.StreetViewPanorama | null>(null);
@@ -54,6 +57,7 @@ export function StreetViewExplorer({
     "loading",
   );
   const [message, setMessage] = useState("");
+  const [moveMessage, setMoveMessage] = useState("");
   const lat = location?.lat;
   const lng = location?.lng;
   const report = useRef(onPositionChange);
@@ -85,9 +89,7 @@ export function StreetViewExplorer({
           );
         // Face the property from where the panorama was taken.
         const from = data.location.latLng?.toJSON() ?? target;
-        const heading =
-          (Math.atan2(target.lng - from.lng, target.lat - from.lat) * 180) /
-          Math.PI;
+        const heading = bearingToPoint(from, target);
         panorama.current = new sv.StreetViewPanorama(el.current!, {
           pano: data.location.pano,
           pov: { heading: (heading + 360) % 360, pitch: 0 },
@@ -133,6 +135,47 @@ export function StreetViewExplorer({
     };
   }, [lat, lng]);
 
+  useEffect(() => {
+    if (!moveTarget || status !== "ready") return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const sv = (await importLibrary(
+          "streetView",
+        )) as google.maps.StreetViewLibrary;
+        if (cancelled) return;
+        setMoveMessage("Finding Street View near the selected point…");
+        const { data } = await new sv.StreetViewService().getPanorama({
+          location: { lat: moveTarget.lat, lng: moveTarget.lng },
+          radius: 120,
+          preference: sv.StreetViewPreference.NEAREST,
+          sources: [sv.StreetViewSource.OUTDOOR],
+        });
+        if (cancelled) return;
+        const from = data.location?.latLng?.toJSON();
+        if (!data.location?.pano || !from || !panorama.current)
+          throw Error("No imagery");
+        panorama.current.setPano(data.location.pano);
+        panorama.current.setPov({
+          heading: bearingToPoint(from, moveTarget),
+          pitch: 0,
+        });
+        panorama.current.setVisible(true);
+        setMoveMessage(
+          "Moved to the nearest available Street View within 120 m, facing the selected point.",
+        );
+      } catch {
+        if (!cancelled)
+          setMoveMessage(
+            "No Street View found within 120 m of that point. Your current view is unchanged; try a nearby road.",
+          );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [moveTarget, status]);
+
   if (!HAS_KEY || !location)
     return (
       <div className="viewer-empty">
@@ -170,7 +213,7 @@ export function StreetViewExplorer({
         </div>
         {!HAS_KEY && (
           <p className="small-text">
-            To explore inside ProjectSync, set{" "}
+            To explore inside QoreSites, set{" "}
             <code>NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> with the Maps
             JavaScript API enabled.
           </p>
@@ -197,6 +240,7 @@ export function StreetViewExplorer({
         </div>
       )}
       <div className="street-view-bar">
+        {moveMessage && <p role="status">{moveMessage}</p>}
         <p>
           {authorizedComparison
             ? "Drag to look around or follow the navigation arrows. Imagery © Google."

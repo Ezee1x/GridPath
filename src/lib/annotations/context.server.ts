@@ -7,7 +7,7 @@ import { voltageLabel } from "./geo";
  * aerial plan. Values come only from what each source returned; zoning,
  * utility and permit findings live in the engineering record instead.
  */
-const USER_AGENT = "QORE-ProjectSync/0.1 (site annotations prototype)";
+const USER_AGENT = "QoreSites/0.1 (site annotations prototype)";
 const CENSUS =
   "https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress";
 const MASSGIS_PARCELS =

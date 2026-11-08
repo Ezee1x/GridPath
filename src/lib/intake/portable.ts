@@ -16,9 +16,12 @@ export function portableIntake(record: IntakeRecord): IntakeRecord {
         !/Google Places/i.test(o.provider) &&
         !o.sourceKeys.some((k) => googleKeys.has(k)),
     );
-    const selectedId = observations.some((o) => o.id === f.selectedId)
-      ? f.selectedId
-      : (observations.at(-1)?.id ?? null);
+    const selectedId =
+      f.selectedId === null
+        ? null
+        : observations.some((o) => o.id === f.selectedId)
+          ? f.selectedId
+          : (observations.at(-1)?.id ?? null);
     // Review applies to a specific observation, never transfer it to a different public value.
     return {
       ...f,

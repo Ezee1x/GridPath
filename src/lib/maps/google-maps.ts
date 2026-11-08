@@ -14,10 +14,10 @@ export interface MapsLibraries {
 }
 const AUTH_MESSAGE =
   "Google Maps could not authorize this browser. Check that Maps JavaScript API and Places API (New) are enabled, billing is active, and this localhost origin is allowed by the key restrictions.";
-export const MAPS_AUTH_EVENT = "projectsync-google-maps-auth-error";
+export const MAPS_AUTH_EVENT = "qoresites-google-maps-auth-error";
 declare global {
   interface Window {
-    __projectSyncMaps?: {
+    __qoreSitesMaps?: {
       promise: Promise<MapsLibraries>;
       authError: string | null;
     };
@@ -31,9 +31,9 @@ export function loadGoogleMaps(): Promise<MapsLibraries> {
     return Promise.reject(
       new Error("Google Maps is available in the browser only."),
     );
-  if (window.__projectSyncMaps?.authError)
-    return Promise.reject(new Error(window.__projectSyncMaps.authError));
-  if (window.__projectSyncMaps) return window.__projectSyncMaps.promise;
+  if (window.__qoreSitesMaps?.authError)
+    return Promise.reject(new Error(window.__qoreSitesMaps.authError));
+  if (window.__qoreSitesMaps) return window.__qoreSitesMaps.promise;
   let key: string;
   try {
     key = requireMapsKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
@@ -42,8 +42,8 @@ export function loadGoogleMaps(): Promise<MapsLibraries> {
   }
   const previousAuthFailure = window.gm_authFailure;
   window.gm_authFailure = () => {
-    if (window.__projectSyncMaps)
-      window.__projectSyncMaps.authError = AUTH_MESSAGE;
+    if (window.__qoreSitesMaps)
+      window.__qoreSitesMaps.authError = AUTH_MESSAGE;
     window.dispatchEvent(new Event(MAPS_AUTH_EVENT));
     previousAuthFailure?.();
   };
@@ -75,11 +75,11 @@ export function loadGoogleMaps(): Promise<MapsLibraries> {
   const promise = Promise.race([request, timeout]).finally(() =>
     clearTimeout(timer),
   );
-  window.__projectSyncMaps = { promise, authError: null };
+  window.__qoreSitesMaps = { promise, authError: null };
   return promise;
 }
 export function mapsAuthError(): string {
-  return window.__projectSyncMaps?.authError ?? AUTH_MESSAGE;
+  return window.__qoreSitesMaps?.authError ?? AUTH_MESSAGE;
 }
 export const ADDRESS_FIELDS = [
   "id",

@@ -1,3 +1,4 @@
+// Legacy IndexedDB namespace retained for existing file/image compatibility after the QoreSites rebrand.
 // Original analysis images, kept byte-for-byte in IndexedDB so the
 // localStorage workspace stays small. Annotations never modify these bytes.
 const DB = "qore-projectsync-annotation-images";

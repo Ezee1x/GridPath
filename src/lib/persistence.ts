@@ -1,8 +1,11 @@
 import { SiteRecord } from "./types";
 
-export const WORKSPACE_STORAGE_KEY = "qore-projectsync-workspace-v1";
+export const WORKSPACE_STORAGE_KEY = "qoresites-workspace-v1";
 // Keep the original namespace readable so a product rename never resets intake records.
-const LEGACY_WORKSPACE_KEY = "gridpath-workspace-v1";
+const LEGACY_WORKSPACE_KEYS = [
+  "qore-projectsync-workspace-v1",
+  "gridpath-workspace-v1",
+];
 type WorkspaceStorage = Pick<Storage, "getItem" | "setItem">;
 
 export function loadSavedWorkspace(storage: WorkspaceStorage): {
@@ -10,7 +13,12 @@ export function loadSavedWorkspace(storage: WorkspaceStorage): {
   warning: string;
 } {
   const current = storage.getItem(WORKSPACE_STORAGE_KEY);
-  const raw = current ?? storage.getItem(LEGACY_WORKSPACE_KEY);
+  const raw =
+    current ??
+    LEGACY_WORKSPACE_KEYS.map((key) => storage.getItem(key)).find(
+      (value) => value !== null,
+    ) ??
+    null;
   if (raw === null) return { sites: null, warning: "" };
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed) || !parsed.every(isSiteRecord))
@@ -25,6 +33,21 @@ export function loadSavedWorkspace(storage: WorkspaceStorage): {
     }
   }
   return { sites: parsed, warning };
+}
+
+export const EXPLORER_PLACE_ID_KEY = "qoresites-explorer-place-id";
+export function loadExplorerPlaceId(storage: WorkspaceStorage): string | null {
+  const current = storage.getItem(EXPLORER_PLACE_ID_KEY);
+  if (current !== null) return current;
+  const previous = storage.getItem("qore-projectsync-explorer-place-id");
+  if (previous !== null) {
+    try {
+      storage.setItem(EXPLORER_PLACE_ID_KEY, previous);
+    } catch {
+      /* Keep the readable legacy ID when storage is full. */
+    }
+  }
+  return previous;
 }
 
 function isSiteRecord(value: unknown): value is SiteRecord {

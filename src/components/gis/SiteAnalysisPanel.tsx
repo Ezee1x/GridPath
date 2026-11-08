@@ -220,7 +220,7 @@ export function SiteAnalysisPanel({
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "qore-site-data.json";
+    link.download = "QoreSites_Site_Data.json";
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }

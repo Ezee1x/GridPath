@@ -11,13 +11,13 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#326b60",
     icons: [
       {
-        src: "/projectsync-icon-192.png",
+        src: "/qoresites-icon-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/projectsync-icon-512.png",
+        src: "/qoresites-icon-512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",

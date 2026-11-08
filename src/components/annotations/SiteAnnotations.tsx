@@ -1,4 +1,5 @@
 "use client";
+import { saveAnnotatedImage } from "@/lib/documents/map-images";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   Compass,
@@ -52,7 +53,10 @@ import { AnnotatedViewer, tagFor } from "./AnnotatedViewer";
 import { StreetViewCapture } from "./StreetViewExplorer";
 import { AerialPlan } from "./AerialPlan";
 import { DiagramStreetViewComparison } from "./DiagramStreetViewComparison";
-import { cameraOnAerial } from "@/lib/annotations/camera-position";
+import {
+  cameraOnAerial,
+  locationOnAerial,
+} from "@/lib/annotations/camera-position";
 
 interface Capabilities {
   detector: string;
@@ -175,7 +179,28 @@ export function SiteAnnotations({
       ?.id ?? null,
   );
   const active = analyses.find((a) => a.id === activeId) ?? null;
-  const [streetOpen, setStreetOpen] = useState(false);
+  const isSavedSite = workspace.sites.some((s) => s.id === site.id);
+  useEffect(() => {
+    if (!isSavedSite || !active?.image.aerial) return;
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      void saveAnnotatedImage(site, active).catch(() => {
+        if (!cancelled)
+          console.warn(
+            "Annotated image could not be saved to Documents; the editable analysis is preserved.",
+          );
+      });
+    }, 350);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+    // Persist after label/layout changes without rerunning image detection.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSavedSite, site.id, active?.id, active?.updatedAt]);
+  // The embedded layer opens in comparison mode as soon as an aerial analysis
+  // is available. Users can still close Street View for the current visit.
+  const [streetOpen, setStreetOpen] = useState(embedded);
   const annotatedSection = useRef<HTMLElement>(null);
   const comparison = streetOpen && !!active?.image.aerial;
   useEffect(() => {
@@ -207,6 +232,14 @@ export function SiteAnnotations({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showAnnotations, setShowAnnotations] = useState(true);
   const [drawMode, setDrawMode] = useState(false);
+  const [moveMode, setMoveMode] = useState(false);
+  const [moveTarget, setMoveTarget] = useState<{
+    lat: number;
+    lng: number;
+    id: number;
+    imageId: string;
+  } | null>(null);
+  const moveSequence = useRef(0);
   const [dragging, setDragging] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const request = useRef<AbortController | null>(null);
@@ -381,6 +414,17 @@ export function SiteAnnotations({
           : n,
       ),
     }));
+  }
+
+  function deleteAnnotation(id: string) {
+    if (!active) return;
+    updateAnalysis(active.id, (analysis) => ({
+      ...analysis,
+      annotations: analysis.annotations.filter(
+        (annotation) => annotation.id !== id,
+      ),
+    }));
+    setSelectedId(null);
   }
 
   async function analyze(body: FormData, source: Source) {
@@ -928,12 +972,34 @@ export function SiteAnnotations({
               <button
                 className="button secondary"
                 aria-pressed={drawMode}
-                onClick={() => setDrawMode(!drawMode)}
+                onClick={() => {
+                  setDrawMode(!drawMode);
+                  setMoveMode(false);
+                }}
               >
                 {drawMode ? "Cancel drawing" : "Add annotation"}
               </button>
             )}
+            {comparison && (
+              <button
+                className="button secondary"
+                aria-pressed={moveMode}
+                onClick={() => {
+                  setMoveMode(!moveMode);
+                  setDrawMode(false);
+                  setSelectedId(null);
+                }}
+              >
+                {moveMode ? "Cancel move" : "Move to point"}
+              </button>
+            )}
           </div>
+        )}
+        {comparison && moveMode && (
+          <p role="status">
+            Click a label or a spot on the diagram to move Street View nearby.
+            Imagery coverage determines the camera location.
+          </p>
         )}
         {embedded && !busy && aerialView && !comparison && (
           <button
@@ -984,6 +1050,7 @@ export function SiteAnnotations({
               analysisPermitted={Boolean(caps?.streetViewAnalysis)}
               busy={busy}
               onCapture={analyzeStreetView}
+              moveTarget={moveTarget?.imageId === active.id ? moveTarget : null}
               diagram={(position) => {
                 const camera =
                   position && active.image.aerial
@@ -1006,8 +1073,25 @@ export function SiteAnnotations({
                       drawMode={drawMode}
                       scanning={false}
                       camera={camera}
+                      moveMode={moveMode}
+                      onNavigate={(point) => {
+                        const view = active.image.aerial;
+                        if (!view) return;
+                        const location = locationOnAerial(
+                          view,
+                          point,
+                          active.image,
+                        );
+                        if (location)
+                          setMoveTarget({
+                            ...location,
+                            id: ++moveSequence.current,
+                            imageId: active.id,
+                          });
+                      }}
                       onSelect={setSelectedId}
                       onRename={(id, label) => updateAnnotation(id, { label })}
+                      onDelete={deleteAnnotation}
                       onDraw={addManual}
                       onResize={onResize}
                       onMoveCallout={(id, callout) =>
@@ -1080,6 +1164,7 @@ export function SiteAnnotations({
             scanning={false}
             onSelect={setSelectedId}
             onRename={(id, label) => updateAnnotation(id, { label })}
+            onDelete={deleteAnnotation}
             onMoveCallout={(id, callout) =>
               updateAnnotation(id, { callout }, false)
             }
@@ -1241,15 +1326,7 @@ export function SiteAnnotations({
                       }
                       onChange={(patch) => updateAnnotation(a.id, patch)}
                       onLink={(fieldId) => linkToField(a, fieldId)}
-                      onRemove={() => {
-                        updateAnalysis(active.id, (x) => ({
-                          ...x,
-                          annotations: x.annotations.filter(
-                            (n) => n.id !== a.id,
-                          ),
-                        }));
-                        setSelectedId(null);
-                      }}
+                      onRemove={() => deleteAnnotation(a.id)}
                     />
                   ))}
                 </tbody>

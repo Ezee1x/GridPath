@@ -73,3 +73,39 @@ test("annotation layer reuses independent public points for different municipali
     previous,
   );
 });
+
+test("diagram navigation converts image positions back to locations for multiple Massachusetts sites", async () => {
+  const { locationOnAerial, bearingToPoint } =
+    await import("./annotations/camera-position");
+  for (const [lat, lng] of [
+    [42.2478, -71.8142],
+    [42.3493, -71.0751],
+    [42.198, -71.426],
+  ]) {
+    const view = { lat, lng, zoom: 19 };
+    const size = { width: 1280, height: 960 };
+    for (const point of [
+      { x: 0, y: 0 },
+      { x: 0.5, y: 0.5 },
+      { x: 0.84, y: 0.23 },
+      { x: 1, y: 1 },
+    ]) {
+      const location = locationOnAerial(view, point, size)!;
+      const projected = cameraOnAerial(view, { ...location, heading: 0 }, size);
+      // Edge round-off is allowed to fall just outside the image; test an
+      // interior point using the same projection as the live camera indicator.
+      if (point.x > 0 && point.x < 1) {
+        assert.ok(projected);
+        assert.ok(Math.abs(projected.x / size.width - point.x) < 1e-8);
+        assert.ok(Math.abs(projected.y / size.height - point.y) < 1e-8);
+      }
+    }
+    assert.equal(locationOnAerial(view, { x: 2, y: 0.5 }, size), null);
+  }
+  assert.equal(bearingToPoint({ lat: 42, lng: -71 }, { lat: 43, lng: -71 }), 0);
+  assert.ok(
+    Math.abs(
+      bearingToPoint({ lat: 42, lng: -71 }, { lat: 42, lng: -70 }) - 90,
+    ) < 1,
+  );
+});
