@@ -6,10 +6,7 @@ import {
   ReactNode,
 } from "react";
 import { SiteRecord } from "./types";
-import {
-  referenceProjects,
-  mergeReferenceProjects,
-} from "./reference-projects";
+
 import { loadSavedWorkspace, WORKSPACE_STORAGE_KEY } from "./persistence";
 interface Snapshot {
   sites: SiteRecord[];
@@ -23,7 +20,7 @@ interface Store extends Snapshot {
   stage: (id: string, file: File) => void;
 }
 const serverSnapshot: Snapshot = {
-  sites: referenceProjects,
+  sites: [],
   ready: false,
   warning: "",
   files: {},
@@ -36,19 +33,27 @@ function getSnapshot() {
     let warning = "";
     try {
       const saved = loadSavedWorkspace(localStorage);
-      sites = mergeReferenceProjects(saved.sites ?? []);
+      sites = (saved.sites ?? []).filter(
+        (site) =>
+          !site.sample &&
+          ![
+            "century-tywood",
+            "thermofusion",
+            "aalberts-surface-technologies",
+          ].includes(site.id),
+      );
       warning = saved.warning;
       if (saved.sites && sites !== saved.sites) {
         try {
           localStorage.setItem(WORKSPACE_STORAGE_KEY, JSON.stringify(sites));
         } catch {
           warning =
-            "Reference projects are available for this session. Browser storage could not save the additions; export edits to keep a copy.";
+            "Browser storage could not save the record cleanup; changes remain in this session.";
         }
       }
     } catch {
       warning =
-        "Saved workspace could not be loaded. The reference sample is shown; export edits before resetting the saved copy.";
+        "Saved workspace could not be loaded. No records are shown; export your saved copy before resetting it.";
     }
     snapshot = { ...snapshot, sites, warning, ready: true };
   }
@@ -100,7 +105,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         },
         reset: () => {
           snapshot = { ...snapshot, files: {} };
-          persist(structuredClone(referenceProjects));
+          persist([]);
         },
       }}
     >

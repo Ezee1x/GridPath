@@ -1,5 +1,12 @@
 "use client";
-import { ReactNode, useMemo, useState, useEffect, useRef } from "react";
+import {
+  ReactNode,
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { Download, Layers, RotateCw, X } from "lucide-react";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisFeature, LayerKind, Measurement } from "@/lib/gis/types";
@@ -8,6 +15,9 @@ import {
   GeoJsonMapLayer,
 } from "@/components/maps/GoogleSiteMap";
 import { useSiteGis } from "./useSiteGis";
+import { useIntake } from "@/components/intake/useIntake";
+import type { GisLayerResult } from "@/lib/gis/types";
+import type { EnvironmentBundle } from "@/lib/environment/types";
 import { SiteIntelligenceDashboard } from "@/components/intake/SiteIntelligenceDashboard";
 import { useEnvironment } from "@/components/environment/useEnvironment";
 import {
@@ -20,6 +30,9 @@ import type {
   ContourFeature,
 } from "@/lib/environment/types";
 import type { SiteAnalysis } from "@/lib/gis/analysis-types";
+import Link from "next/link";
+import { useWorkspace } from "@/lib/store";
+import { savedMapSite } from "@/lib/saved-map-site";
 const kinds: LayerKind[] = ["parcels", "buildings", "roads"];
 const labels: Record<LayerKind, string> = {
   parcels: "Property boundaries",
@@ -153,12 +166,32 @@ function FeatureDetail({
 export function GisSiteContext({
   address,
   children,
+  initialParcelId,
+  initialFieldId,
+  hideDashboard = false,
+  dashboard,
+  onContourAction,
 }: {
   address: SelectedAddress | null;
   children: ReactNode;
+  initialParcelId?: string | null;
+  initialFieldId?: string | null;
+  hideDashboard?: boolean;
+  dashboard?: ReactNode;
+  onContourAction?: (action: (() => void) | null) => void;
 }) {
-  const gis = useSiteGis(address);
-  const [requested, setRequested] = useState(false);
+  const gis = useSiteGis(address, initialParcelId);
+  const { sites, save, warning: saveWarning } = useWorkspace();
+  const [saveMessage, setSaveMessage] = useState("");
+  const saved = sites.find(
+    (s) =>
+      s.mapPlaceId === address?.placeId &&
+      (s.parcelFeatureId ?? null) === gis.parcelId,
+  );
+  const publicPoint = gis.layers.parcels.result?.queryLocation;
+  const [requested, setRequested] = useState(
+    !!initialParcelId || !!initialFieldId,
+  );
   const [run, setRun] = useState(0);
   const [analysisResult, setAnalysisResult] = useState<{
     key: string;
@@ -239,7 +272,7 @@ export function GisSiteContext({
   const [visible, setVisible] = useState<Record<LayerKind, boolean>>({
     parcels: true,
     buildings: true,
-    roads: false,
+    roads: true,
   });
   const [inspected, setInspected] = useState<GisFeature | null>(null);
   const selectedParcel =
@@ -252,8 +285,8 @@ export function GisSiteContext({
   const [terrainBuildings, setTerrainBuildings] = useState(true);
   const [forceDem, setForceDem] = useState(false);
   const [environmentVisible, setEnvironmentVisible] = useState({
-    flood: false,
-    wetlands: false,
+    flood: true,
+    wetlands: true,
   });
   const [environmentFeature, setEnvironmentFeature] = useState<
     EnvironmentalFeature | ContourFeature | null
@@ -269,11 +302,15 @@ export function GisSiteContext({
     wetlandRadius,
     forceDem,
   );
-  function openContours() {
+  const openContours = useCallback(() => {
     setMapMode("elevation");
     setRequested(true);
     mapSection.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  }, []);
+  useEffect(() => {
+    onContourAction?.(openContours);
+    return () => onContourAction?.(null);
+  }, [onContourAction, openContours]);
   const mapLayers = useMemo<GeoJsonMapLayer[]>(
     () =>
       kinds
@@ -701,6 +738,14 @@ export function GisSiteContext({
               }}
             >
               <option value="">Choose the intended parcel</option>
+              {gis.parcelId && !selectedParcel && (
+                <option value={gis.parcelId}>
+                  Selected parcel {gis.parcelId} ·{" "}
+                  {gis.layers.parcels.status === "ready"
+                    ? "not returned"
+                    : "loading"}
+                </option>
+              )}
               {gis.layers.parcels.result?.features.map((f) => (
                 <option key={f.properties.id} value={f.properties.id}>
                   {String(
@@ -713,10 +758,14 @@ export function GisSiteContext({
               ))}
             </select>
             <p>
-              {gis.manual
-                ? "Manually selected candidate — needs verification"
-                : (gis.layers.parcels.result?.matchMessage ??
-                  "Waiting for parcel records.")}
+              {gis.parcelId &&
+              !selectedParcel &&
+              gis.layers.parcels.status === "ready"
+                ? "Your parcel selection is retained, but this lookup did not return it. Retry parcels or select another candidate."
+                : gis.manual
+                  ? "Manually selected candidate — needs verification"
+                  : (gis.layers.parcels.result?.matchMessage ??
+                    "Waiting for parcel records.")}
             </p>
             {selectedParcel && (
               <button
@@ -742,6 +791,38 @@ export function GisSiteContext({
             >
               Analyze Site
             </button>
+            <button
+              className="button secondary"
+              type="button"
+              disabled={
+                !address ||
+                !publicPoint ||
+                gis.layers.parcels.status !== "ready"
+              }
+              onClick={() => {
+                if (!address || !publicPoint) return;
+                save(
+                  savedMapSite(
+                    address.placeId,
+                    publicPoint,
+                    gis.parcelId,
+                    saved,
+                  ),
+                );
+                setRequested(true);
+                setSaveMessage("Site record saved in this browser.");
+              }}
+            >
+              {saved ? "Update saved record" : "Save site record"}
+            </button>
+            {saved && (
+              <Link className="text-link" href={`/sites/${saved.id}`}>
+                Open saved record
+              </Link>
+            )}
+            {saveMessage && saved && (
+              <p role="status">{saveWarning || saveMessage}</p>
+            )}
             <p className="muted">
               Uses the public GIS records already loaded on this map. GIS
               matching uses an independent U.S. Census address point; the Google
@@ -774,6 +855,11 @@ export function GisSiteContext({
                     }}
                   >
                     <option value="">Select the correct parcel</option>
+                    {gis.parcelId && !selectedParcel && (
+                      <option value={gis.parcelId}>
+                        Selected parcel {gis.parcelId} · not returned
+                      </option>
+                    )}
                     {gis.layers.parcels.result.features.map((f) => (
                       <option key={f.properties.id} value={f.properties.id}>
                         {String(
@@ -968,19 +1054,37 @@ export function GisSiteContext({
           {analysisError}
         </p>
       )}
-      {analysis && address && (
-        <SiteIntelligenceDashboard
-          key={JSON.stringify([address.placeId, analysis.parcel.featureId])}
-          analysis={analysis}
-          address={address}
-          environment={environment.bundle}
-          onViewContours={openContours}
-          layers={{
-            parcels: gis.layers.parcels.result,
-            roads: gis.layers.roads.result,
-          }}
-        />
-      )}
+      {analysis &&
+        address &&
+        (hideDashboard ? (
+          <GisRecordCollector
+            analysis={analysis}
+            address={address}
+            environment={environment.bundle}
+            layers={{
+              parcels: gis.layers.parcels.result,
+              roads: gis.layers.roads.result,
+            }}
+          />
+        ) : (
+          <SiteIntelligenceDashboard
+            initialFieldId={initialFieldId}
+            key={JSON.stringify([
+              address.placeId,
+              analysis.parcel.featureId,
+              initialFieldId,
+            ])}
+            analysis={analysis}
+            address={address}
+            environment={environment.bundle}
+            onViewContours={openContours}
+            layers={{
+              parcels: gis.layers.parcels.result,
+              roads: gis.layers.roads.result,
+            }}
+          />
+        ))}
+      {dashboard}
       <section className="gis-sources">
         <h3>Public sources & dataset dates</h3>
         {available.length ? (
@@ -1022,4 +1126,19 @@ export function GisSiteContext({
       </section>
     </div>
   );
+}
+
+function GisRecordCollector({
+  analysis,
+  address,
+  layers,
+  environment,
+}: {
+  analysis: SiteAnalysis;
+  address: SelectedAddress;
+  layers: { parcels: GisLayerResult | null; roads: GisLayerResult | null };
+  environment: EnvironmentBundle;
+}) {
+  useIntake(analysis, address, layers, environment);
+  return null;
 }

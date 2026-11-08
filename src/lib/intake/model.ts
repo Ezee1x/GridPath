@@ -1,5 +1,5 @@
 import { normalizedStreet } from "../gis/geometry";
-import { FIELD_SCHEMA } from "./schema";
+import { FIELD_SCHEMA, ADDED_FIELD_IDS } from "./schema";
 import type {
   EvidenceReference,
   FieldObservation,
@@ -20,6 +20,8 @@ export function createIntakeRecord(
   const now = new Date().toISOString();
   return {
     schemaVersion: "2.0",
+    fieldSchemaVersion: 3,
+    stage: "intake",
     siteKey: siteRecordKey(placeId, parcelId),
     identity: {
       placeId,
@@ -39,14 +41,7 @@ export function createIntakeRecord(
     })),
     sources: {},
     analysis: null,
-    extraRequests: {
-      bills: { status: "Missing", owner: "Customer / utility", notes: "" },
-      underground: {
-        status: "Missing",
-        owner: "Customer / engineer",
-        notes: "",
-      },
-    },
+    extraRequests: {},
   };
 }
 export const selectedObservation = (f: IntakeField) =>
@@ -95,12 +90,15 @@ function equivalentValue(a: JsonValue, b: JsonValue): boolean {
   return false;
 }
 export function hasConflict(f: IntakeField) {
+  const observations = f.observations.filter(
+    (o) => !f.rejectedObservations?.[o.id],
+  );
   const comparable = (o: FieldObservation): JsonValue =>
     f.id === "address" && typeof o.value === "string"
       ? normalizedStreet(o.value)
       : o.value;
-  const valuesDiffer = f.observations.some((a, i) =>
-    f.observations.slice(i + 1).some((b) => {
+  const valuesDiffer = observations.some((a, i) =>
+    observations.slice(i + 1).some((b) => {
       if (f.id === "landUse") {
         const description = (v: JsonValue) =>
           typeof v === "string"
@@ -126,9 +124,7 @@ export function hasConflict(f: IntakeField) {
   return (
     valuesDiffer ||
     (f.id === "address" &&
-      f.observations.some((o) =>
-        o.warnings?.some((w) => w.includes("differs")),
-      ))
+      observations.some((o) => o.warnings?.some((w) => w.includes("differs"))))
   );
 }
 export function isMeasuredValue(value: JsonValue): boolean {
@@ -217,6 +213,7 @@ export function mergeCollectedFields(
         };
       else next.observations.push(item.observation);
       if (
+        !next.rejectedObservations?.[item.observation.id] &&
         item.observation.autoSelect !== false &&
         !field.pinned &&
         field.review.status !== "Engineer verified"
@@ -227,6 +224,12 @@ export function mergeCollectedFields(
     next.observations = next.observations.filter((o) =>
       isMeasuredValue(o.value),
     );
+    if (
+      incoming.some((item) => item.fieldId === field.id) &&
+      selectedObservation(next) &&
+      ["Missing", "Requested"].includes(next.request.status)
+    )
+      next.request = { ...next.request, status: "Received" };
     return next;
   });
   return {
@@ -242,7 +245,9 @@ export const isPopulated = (f: IntakeField) =>
 export function readiness(record: IntakeRecord, category?: string) {
   const defs = FIELD_SCHEMA.filter(
     (d) =>
-      (!category || d.category === category) && (!category ? d.required : true),
+      (!category || d.category === category) &&
+      (d.condition !== "proposed" || record.stage === "design") &&
+      (!category ? d.required || record.stage === "design" : true),
   );
   const fields = defs.map((d) => record.fields.find((f) => f.id === d.id)!);
   const populated = fields.filter(isPopulated);
@@ -287,18 +292,32 @@ export function updateRequest(
       ...record,
       updatedAt: new Date().toISOString(),
       fields: record.fields.map((f) =>
-        f.id === id ? { ...f, request: { status, owner, notes } } : f,
+        f.id === id
+          ? {
+              ...f,
+              ...(status !== "Verified" &&
+              f.review.status === "Engineer verified"
+                ? {
+                    reviewHistory: [
+                      ...(f.reviewHistory ?? []),
+                      { observationId: f.selectedId, review: f.review },
+                    ],
+                    review: {
+                      status: "Under review" as const,
+                      reviewer: null,
+                      at: null,
+                      note: "Collection request reopened.",
+                    },
+                  }
+                : {}),
+              request: { status, owner, notes },
+            }
+          : f,
       ),
     };
-  if (status === "Verified")
-    throw new Error(
-      "Supplemental evidence requires an authenticated review workflow; keep it Under review.",
-    );
-  return {
-    ...record,
-    updatedAt: new Date().toISOString(),
-    extraRequests: { ...record.extraRequests, [id]: { status, owner, notes } },
-  };
+  throw new Error(
+    "Unknown field ID. Every information request must belong to the Full Site Record.",
+  );
 }
 export function reviewField(
   record: IntakeRecord,
@@ -331,6 +350,10 @@ export function reviewField(
         ? {
             ...f,
             pinned: true,
+            reviewHistory: [
+              ...(f.reviewHistory ?? []),
+              { observationId: f.selectedId, review: f.review },
+            ],
             review: {
               status: "Engineer verified",
               reviewer: reviewer.trim(),
@@ -351,10 +374,10 @@ export function loadIntake(
   const raw = storage.getItem(INTAKE_STORAGE + key);
   if (!raw) return null;
   const p = JSON.parse(raw) as IntakeRecord;
+  const previousFieldSchemaVersion = p.fieldSchemaVersion;
   if (
     p.schemaVersion === "2.0" &&
     Array.isArray(p.fields) &&
-    p.fields.length === FIELD_SCHEMA.length + 1 &&
     p.fields.filter((f) => f.id === "slope").length === 1
   ) {
     p.retiredFields = [
@@ -363,6 +386,91 @@ export function loadIntake(
     ];
     p.fields = p.fields.filter((f) => f.id !== "slope");
   }
+  const previousIds = FIELD_SCHEMA.filter(
+    (d) => !ADDED_FIELD_IDS.includes(d.id),
+  ).map((d) => d.id);
+  if (
+    p.schemaVersion === "2.0" &&
+    Array.isArray(p.fields) &&
+    p.fields.length === previousIds.length &&
+    new Set(p.fields.map((f) => f.id)).size === previousIds.length &&
+    previousIds.every((id) => p.fields.some((f) => f.id === id))
+  ) {
+    const defaults = createIntakeRecord(
+      p.identity.placeId,
+      p.identity.address,
+      p.identity.parcelFeatureId,
+    );
+    p.fields = FIELD_SCHEMA.map(
+      (d) =>
+        p.fields.find((f) => f.id === d.id) ??
+        defaults.fields.find((f) => f.id === d.id)!,
+    );
+  }
+  if (
+    Array.isArray(p.fields) &&
+    p.extraRequests &&
+    Object.keys(p.extraRequests).length
+  ) {
+    p.legacyMigration = {
+      ...p.legacyMigration,
+      extraRequests: p.extraRequests,
+    };
+    for (const [oldId, newId] of [
+      ["bills", "utilityBills"],
+      ["underground", "undergroundUtilities"],
+    ]) {
+      const request = p.extraRequests[oldId],
+        field = p.fields.find((f) => f.id === newId);
+      if (request && field && field.request.status === "Missing")
+        field.request = {
+          ...request,
+          status:
+            request.status === "Verified" &&
+            field.review.status !== "Engineer verified"
+              ? "Under review"
+              : request.status,
+        };
+    }
+    p.extraRequests = {};
+  }
+  p.fieldSchemaVersion = 3;
+  p.stage ??= "intake";
+  if (previousFieldSchemaVersion !== 3 && Array.isArray(p.fields))
+    p.fields = p.fields.map((f) =>
+      selectedObservation(f) && f.request.status === "Missing"
+        ? {
+            ...f,
+            request: {
+              ...f.request,
+              status:
+                f.review.status === "Engineer verified"
+                  ? "Verified"
+                  : "Received",
+            },
+          }
+        : f,
+    );
+  if (previousFieldSchemaVersion !== 3 && Array.isArray(p.fields))
+    p.fields = p.fields.map((f) =>
+      f.id !== "transformerCapacity"
+        ? f
+        : {
+            ...f,
+            observations: f.observations.map((o) =>
+              typeof o.value !== "object"
+                ? {
+                    ...o,
+                    complete: false,
+                    warnings: [
+                      ...(o.warnings ?? []),
+                      "Legacy transformer capacity retained; primary/secondary voltage and other electrical ratings remain unconfirmed.",
+                    ],
+                  }
+                : o,
+            ),
+          },
+    );
   if (
     p.schemaVersion !== "2.0" ||
     p.siteKey !== key ||
@@ -383,6 +491,7 @@ export function exportIntake(record: IntakeRecord) {
   return {
     ...record,
     retiredFields: undefined,
+    extraRequests: undefined,
     exportedAt: new Date().toISOString(),
     readiness: readiness(record),
     fieldInventory: FIELD_SCHEMA.map((d) => {
@@ -390,16 +499,125 @@ export function exportIntake(record: IntakeRecord) {
       return {
         ...d,
         ...field,
+        priority: field.priority ?? d.criticality,
+        effectiveRequired: d.required || record.stage === "design",
+        sortOrder: d.priority,
+        applicability:
+          d.condition === "proposed" && record.stage !== "design"
+            ? "Not yet applicable"
+            : "Applicable",
         currentObservation: selectedObservation(field),
-        missingExplanation: isPopulated(field)
-          ? null
-          : `Not retrieved. ${d.suggestedEvidence}`,
+        missingExplanation:
+          (d.condition === "proposed" && record.stage !== "design") ||
+          isPopulated(field)
+            ? null
+            : (record.electricalDiscovery?.fieldResults[d.id]?.reason ??
+              `Not retrieved. ${d.suggestedEvidence}`),
       };
     }),
     missingFields: FIELD_SCHEMA.filter(
-      (d) => !isPopulated(record.fields.find((f) => f.id === d.id)!),
+      (d) =>
+        (d.condition !== "proposed" || record.stage === "design") &&
+        !isPopulated(record.fields.find((f) => f.id === d.id)!),
     ).map((d) => d.id),
     notice:
       "Preliminary engineering intake. Public data and source-backed values are not automatically engineer verified. Proposed design fields are excluded from existing-condition readiness.",
+  };
+}
+
+export function rejectObservation(
+  record: IntakeRecord,
+  fieldId: string,
+  observationId: string,
+  reviewer: string,
+  note: string,
+): IntakeRecord {
+  const field = record.fields.find((f) => f.id === fieldId);
+  if (
+    !field?.observations.some((o) => o.id === observationId) ||
+    !reviewer.trim() ||
+    !note.trim()
+  )
+    throw Error("An observation, reviewer and rejection reason are required.");
+  return {
+    ...record,
+    updatedAt: new Date().toISOString(),
+    fields: record.fields.map((f) =>
+      f.id !== fieldId
+        ? f
+        : {
+            ...f,
+            rejectedObservations: {
+              ...f.rejectedObservations,
+              [observationId]: {
+                reviewer: reviewer.trim(),
+                note: note.trim(),
+                at: new Date().toISOString(),
+              },
+            },
+            reviewHistory: [
+              ...(f.reviewHistory ?? []),
+              { observationId: f.selectedId, review: f.review },
+            ],
+            ...(f.selectedId === observationId
+              ? {
+                  selectedId: null,
+                  pinned: true,
+                  review: {
+                    status: "Under review" as const,
+                    reviewer: null,
+                    at: null,
+                    note: "Selected observation rejected.",
+                  },
+                  request: { ...f.request, status: "Under review" as const },
+                }
+              : {}),
+          },
+    ),
+  };
+}
+
+export function attachFieldEvidence(
+  record: IntakeRecord,
+  fieldId: string,
+  sources: Record<string, EvidenceReference>,
+): IntakeRecord {
+  if (!record.fields.some((f) => f.id === fieldId))
+    throw Error("Unknown field ID.");
+  const keys = Object.keys(sources);
+  if (!keys.length) throw Error("Supporting evidence is required.");
+  return {
+    ...record,
+    sources: { ...record.sources, ...sources },
+    updatedAt: new Date().toISOString(),
+    fields: record.fields.map((f) =>
+      f.id !== fieldId
+        ? f
+        : {
+            ...f,
+            evidenceKeys: [...new Set([...(f.evidenceKeys ?? []), ...keys])],
+            request: {
+              ...f.request,
+              status:
+                f.review.status === "Engineer verified"
+                  ? "Under review"
+                  : "Received",
+            },
+            ...(f.review.status === "Engineer verified"
+              ? {
+                  reviewHistory: [
+                    ...(f.reviewHistory ?? []),
+                    { observationId: f.selectedId, review: f.review },
+                  ],
+                  review: {
+                    status: "Under review" as const,
+                    reviewer: null,
+                    at: null,
+                    note: "New evidence received.",
+                  },
+                }
+              : {}),
+          },
+    ),
   };
 }

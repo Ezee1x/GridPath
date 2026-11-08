@@ -1,3 +1,5 @@
+export const PRIORITIES = ["Critical", "High", "Medium", "Low"] as const;
+export type Priority = (typeof PRIORITIES)[number];
 export type Condition = "existing" | "proposed";
 export interface FieldDefinition {
   id: string;
@@ -9,12 +11,16 @@ export interface FieldDefinition {
   suggestedEvidence: string;
   owner: string;
   priority: number;
+  criticality: Priority;
+  structuredExample?: string;
 }
 export const CATEGORIES = [
   {
     id: "property",
     label: "Property Identification",
     rows: [
+      ["facilityName", "Facility name"],
+      ["propertyType", "Property type / occupancy description"],
       ["address", "Address"],
       ["coordinates", "Coordinates"],
       ["municipalityAhj", "Municipality and authority having jurisdiction"],
@@ -50,6 +56,7 @@ export const CATEGORIES = [
       ["roadBuildingDistance", "Road-to-building distance"],
       ["delivery", "Delivery vehicle access constraints"],
       ["staging", "Equipment staging/unloading area"],
+      ["fire", "Fire protection/emergency access"],
     ],
   },
   {
@@ -74,13 +81,27 @@ export const CATEGORIES = [
       ["meterModel", "Revenue meter model"],
       ["meterId", "Revenue meter identifier"],
       ["voltage", "Service voltage"],
+      ["serviceAmperage", "Service amperage"],
+      ["availableCapacity", "Available electrical capacity"],
+      ["utilityPole", "Utility pole identifiers"],
+      ["breakerSpace", "Available breaker space"],
       ["phase", "Phase configuration"],
       ["panelRating", "Main distribution panel rating"],
-      ["breaker", "Breaker and bus ratings"],
+      ["breaker", "Main breaker and main bus ratings"],
       ["room", "Electrical room location"],
       ["transformerId", "Existing transformer identification"],
-      ["transformerCapacity", "Transformer capacity"],
-      ["singleLine", "Existing single-line diagram"],
+      [
+        "transformerCapacity",
+        "Existing utility transformer electrical ratings",
+      ],
+      ["singleLine", "Existing electrical single-line diagram availability"],
+      ["undergroundUtilities", "Underground utilities and obstructions"],
+      [
+        "equipmentDistance",
+        "Existing electrical equipment separation distances",
+      ],
+      ["existingConduit", "Existing field-verified conduit route"],
+      ["existingClearances", "Existing equipment working clearances"],
       ["poi", "Potential point of interconnection"],
     ],
   },
@@ -88,6 +109,7 @@ export const CATEGORIES = [
     id: "usage",
     label: "Electricity Usage and Rates",
     rows: [
+      ["utilityBills", "Utility bills"],
       ["tariff", "Utility rate schedule"],
       ["energyUse", "Historical energy consumption"],
       ["demand", "Maximum demand"],
@@ -108,7 +130,6 @@ export const CATEGORIES = [
       ["clearances", "Working clearances"],
       ["conduit", "Conduit pathway"],
       ["foundation", "Foundation/anchorage"],
-      ["fire", "Fire protection/emergency access"],
     ],
   },
 ];
@@ -174,6 +195,56 @@ const advice: Record<string, [string, string, string, number]> = {
     20,
   ],
 };
+const criticality: Record<string, Priority> = {
+  voltage: "Critical",
+  serviceAmperage: "Critical",
+  singleLine: "Critical",
+  availableCapacity: "Critical",
+  transformerCapacity: "Critical",
+  breaker: "Critical",
+  panelRating: "High",
+  breakerSpace: "High",
+  utilityPole: "Medium",
+  undergroundUtilities: "High",
+  equipmentDistance: "Medium",
+  facilityName: "Low",
+  propertyType: "Medium",
+};
+const structuredExamples: Record<string, string> = {
+  meterModel: '{"manufacturer":"","model":"","evidencePageOrRegion":""}',
+  meterId:
+    '{"identifier":"","documentedLocation":"","evidencePageOrRegion":""}',
+  phase: '{"phase":null,"serviceWireCount":null,"evidencePageOrRegion":""}',
+  panelRating:
+    '{"manufacturer":"","model":"","ratingAmps":null,"evidencePageOrRegion":""}',
+  transformerId:
+    '{"equipmentId":"","manufacturer":"","modelOrCatalogNumber":"","documentedLocation":"","evidencePageOrRegion":""}',
+
+  breaker: '{"equipmentId":"","mainBreakerAmps":null,"mainBusAmps":null}',
+  transformerCapacity:
+    '{"transformers":[{"equipmentId":"","manufacturer":"","modelOrCatalogNumber":"","capacityKva":null,"primaryVoltageV":null,"secondaryVoltageV":null,"phase":null,"impedancePercent":null,"documentedLocation":"","evidencePageOrRegion":""}]}',
+  singleLine:
+    '{"availability":"Not received","revision":null,"documentReference":null}',
+  availableCapacity: '{"capacityKw":null,"basis":"","assessedAt":null}',
+  utilityPole:
+    '{"poles":[{"identifier":"","utility":"","sourceReference":""}]}',
+  breakerSpace:
+    '{"panelId":"","availableSpaces":null,"compatibleBreakerType":null}',
+};
+/** IDs present before the unified-record extension; used for lossless saved-record migration. */
+export const ADDED_FIELD_IDS = [
+  "facilityName",
+  "propertyType",
+  "serviceAmperage",
+  "availableCapacity",
+  "utilityPole",
+  "breakerSpace",
+  "undergroundUtilities",
+  "equipmentDistance",
+  "existingConduit",
+  "existingClearances",
+  "utilityBills",
+];
 export const FIELD_SCHEMA: FieldDefinition[] = CATEGORIES.flatMap((c) =>
   c.rows.map(([id, label]) => {
     const condition: Condition =
@@ -207,6 +278,14 @@ export const FIELD_SCHEMA: FieldDefinition[] = CATEGORIES.flatMap((c) =>
       suggestedEvidence,
       owner,
       priority,
+      criticality:
+        criticality[id] ??
+        (c.id === "electrical" || c.id === "usage"
+          ? "High"
+          : c.id === "design"
+            ? "Low"
+            : "Medium"),
+      structuredExample: structuredExamples[id],
     };
   }),
 );

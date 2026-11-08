@@ -101,8 +101,8 @@ async function main() {
       analysis,
     );
     const exported = exportIntake(record);
-    assert.equal(exported.fieldInventory.length, 58);
-    assert.equal(readiness(record).required, 47);
+    assert.equal(exported.fieldInventory.length, 69);
+    assert.equal(readiness(record).required, 58);
     for (const id of [
       "zoning",
       "flood",

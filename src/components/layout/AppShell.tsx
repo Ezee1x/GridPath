@@ -14,6 +14,8 @@ import {
   X,
 } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
+import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
+import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 import { BRAND } from "@/lib/brand";
 import { BrandMark } from "./BrandMark";
 import { ProjectSearch } from "@/components/sites/ProjectSearch";
@@ -26,6 +28,7 @@ const navigation = [
 ] as const;
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  useIntakeUpdates();
   const { sites, ready, warning } = useWorkspace();
   const [query, setQuery] = useState("");
   const [menu, setMenu] = useState(false);
@@ -70,11 +73,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               {label === "Verification queue" && (
                 <span className="nav-count">
                   {sites.reduce(
-                    (n, s) =>
-                      n +
-                      s.missingRequirements.filter(
-                        (r) => r.status !== "Verified",
-                      ).length,
+                    (n, s) => n + currentSavedSiteReadiness(s).outstanding,
                     0,
                   )}
                 </span>

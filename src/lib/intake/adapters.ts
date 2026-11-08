@@ -187,30 +187,54 @@ export function MassGISAdapter(
     );
   return { fields, sources };
 }
+export const LEGACY_FIELD_MAP: Record<string, string> = {
+  facility: "facilityName",
+  propertyType: "propertyType",
+  municipality: "municipalityAhj",
+  jurisdiction: "municipalityAhj",
+  address: "address",
+  parcel: "parcelId",
+  footprint: "totalRoofArea",
+  zoning: "zoning",
+  road: "delivery",
+  flood: "flood",
+  permits: "permits",
+  utility: "utility",
+  voltage: "voltage",
+  phase: "phase",
+  amperage: "serviceAmperage",
+  panel: "panelRating",
+  breaker: "breaker",
+  transformer: "transformerCapacity",
+  meter: "meterModel",
+  singleLine: "singleLine",
+  capacity: "availableCapacity",
+  poles: "utilityPole",
+  room: "room",
+  poi: "poi",
+  distance: "equipmentDistance",
+  space: "breakerSpace",
+  conduit: "existingConduit",
+  access: "delivery",
+  clearances: "existingClearances",
+  underground: "undergroundUtilities",
+  bills: "utilityBills",
+  load: "interval",
+  tariff: "tariff",
+  peak: "demand",
+  power: "power",
+  energy: "capacity",
+  battery: "battery",
+  inverters: "inverter",
+  pad: "foundation",
+  connection: "poi",
+  isolation: "transformerId",
+};
 export function mergeLegacyRecord(
   record: IntakeRecord,
   legacy: SiteRecord,
 ): IntakeRecord {
-  const map: Record<string, string> = {
-    address: "address",
-    parcel: "parcelId",
-    zoning: "zoning",
-    utility: "utility",
-    voltage: "voltage",
-    phase: "phase",
-    breaker: "breaker",
-    meter: "meterModel",
-    singleLine: "singleLine",
-    room: "room",
-    poi: "poi",
-    load: "interval",
-    peak: "demand",
-    tariff: "tariff",
-    power: "power",
-    energy: "capacity",
-    battery: "battery",
-    inverters: "inverter",
-  };
+  const map = LEGACY_FIELD_MAP;
   const sources: Record<string, EvidenceReference> = {};
   for (const s of legacy.sourceDocuments) {
     const key = `legacy:${legacy.id}:${s.id}`;
@@ -230,7 +254,12 @@ export function mergeLegacyRecord(
     };
   }
   const incoming: NormalizedCollection["fields"] = legacy.dataFields
-    .filter((f) => map[f.id] && f.value !== null)
+    .filter(
+      (f) =>
+        map[f.id] &&
+        f.value !== null &&
+        !["isolation", "connection"].includes(f.id),
+    )
     .map((f) => {
       const id = map[f.id],
         keys = f.sourceIds.map((k) => `legacy:${legacy.id}:${k}`);
@@ -245,7 +274,19 @@ export function mergeLegacyRecord(
             f.notes,
             f.unit,
           ),
-          value: f.value!,
+          value: ["municipality", "jurisdiction"].includes(f.id)
+            ? {
+                municipality:
+                  legacy.dataFields.find((x) => x.id === "municipality")
+                    ?.value ?? null,
+                authorityHavingJurisdiction:
+                  legacy.dataFields.find((x) => x.id === "jurisdiction")
+                    ?.value ?? null,
+              }
+            : f.value!,
+          complete: !["municipality", "jurisdiction", "footprint"].includes(
+            f.id,
+          ),
           unit: f.unit,
           originalUnits: f.unit,
           provider: `Saved record ${legacy.id}`,
@@ -261,6 +302,12 @@ export function mergeLegacyRecord(
   merged = {
     ...merged,
     identity: { ...merged.identity, linkedLegacySiteId: legacy.id },
+    legacyMigration: {
+      ...merged.legacyMigration,
+      siteId: legacy.id,
+      requirements: legacy.missingRequirements,
+      dataFields: legacy.dataFields,
+    },
   };
   merged.fields = merged.fields.map((f) => {
     const old = legacy.dataFields.find(
@@ -285,6 +332,39 @@ export function mergeLegacyRecord(
           },
         }
       : f;
+  });
+  merged.fields = merged.fields.map((field) => {
+    const requests = legacy.missingRequirements.filter(
+      (r) => map[r.fieldId] === field.id,
+    );
+    const request = requests[0];
+    if (!request || field.request.status !== "Missing") return field;
+    return {
+      ...field,
+      evidenceKeys: [
+        ...new Set([
+          ...(field.evidenceKeys ?? []),
+          ...requests.flatMap((r) =>
+            r.documentIds.map((id) => `legacy:${legacy.id}:${id}`),
+          ),
+        ]),
+      ],
+      request: {
+        status:
+          request.status === "Verified" &&
+          field.review.status !== "Engineer verified"
+            ? "Under review"
+            : request.status,
+        owner:
+          request.assignedTo === "Unassigned"
+            ? field.request.owner
+            : request.assignedTo,
+        notes: requests
+          .map((r) => r.notes)
+          .filter(Boolean)
+          .join("\n"),
+      },
+    };
   });
   return merged;
 }

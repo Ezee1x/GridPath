@@ -29,12 +29,12 @@ const headings: Record<string, [string, string]> = {
   ],
   settings: [
     "Workspace settings",
-    "Manage the local demo workspace and understand its storage boundaries.",
+    "Manage the local workspace and understand its storage boundaries.",
   ],
 };
 export function WorkspacePage({ section }: { section: string }) {
   const { sites, reset } = useWorkspace();
-  const [selected, setSelected] = useState("century-tywood");
+  const [selected, setSelected] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [resetDone, setResetDone] = useState(false);
   const site = sites.find((s) => s.id === selected) ?? sites[0];
@@ -139,7 +139,7 @@ export function WorkspacePage({ section }: { section: string }) {
       {section === "settings" && (
         <div className="settings-stack">
           <section className="card panel-padding">
-            <h2>Demo mode</h2>
+            <h2>Browser storage</h2>
             <p className="muted">
               Site records, collection statuses, owners, notes, and document
               metadata are saved in this browser’s local storage. Uploaded file
@@ -153,17 +153,17 @@ export function WorkspacePage({ section }: { section: string }) {
           <section className="card panel-padding">
             <h2>Review limitations</h2>
             <p className="muted">
-              Human reviews in this demo are self-attested, not authenticated
-              engineering sign-offs. Data completeness is a collection metric,
-              not a feasibility assessment, code-compliance determination, or
-              installation approval.
+              Human reviews in this workspace are self-attested, not
+              authenticated engineering sign-offs. Data completeness is a
+              collection metric, not a feasibility assessment, code-compliance
+              determination, or installation approval.
             </p>
           </section>
           <section className="card panel-padding">
-            <h2>Reset demo workspace</h2>
+            <h2>Clear saved site records</h2>
             <p className="muted">
-              Remove locally created records and edits, and restore the three
-              reference projects. Export any records you want to keep first.
+              Remove saved site records from this browser. Export any records
+              you want to keep first.
             </p>
             {confirm ? (
               <div className="button-row">
@@ -190,10 +190,10 @@ export function WorkspacePage({ section }: { section: string }) {
                 onClick={() => setConfirm(true)}
               >
                 <RotateCcw size={16} />
-                Reset demo data
+                Clear site records
               </button>
             )}
-            {resetDone && <p role="status">Demo workspace restored.</p>}
+            {resetDone && <p role="status">Site records cleared.</p>}
           </section>
         </div>
       )}

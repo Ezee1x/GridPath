@@ -1,13 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createIntakeRecord,
-  loadIntake,
   mergeCollectedFields,
-  INTAKE_STORAGE,
   siteRecordKey,
 } from "@/lib/intake/model";
-import { portableIntake, migratePlacesStorage } from "@/lib/intake/portable";
+import { useEngineeringRecord } from "./useEngineeringRecord";
 import { environmentalCollection } from "@/lib/environment/adapters";
 import type { EnvironmentBundle } from "@/lib/environment/types";
 import { MassGISAdapter } from "@/lib/intake/adapters";
@@ -22,48 +20,27 @@ export function useIntake(
   layers: { parcels: GisLayerResult | null; roads: GisLayerResult | null },
   environment?: EnvironmentBundle,
 ) {
-  const [state, setState] = useState(() => {
-    let warning = "",
-      blocked = false;
-    let saved: IntakeRecord | null = null;
-    try {
-      migratePlacesStorage(localStorage);
-      saved = loadIntake(
-        localStorage,
-        siteRecordKey(address.placeId, analysis.parcel.featureId),
-      );
-    } catch {
-      warning =
-        "Saved intake could not be loaded. The stored copy is preserved; export session changes to retain them.";
-      blocked = true;
-    }
-    const c = MassGISAdapter(
-      analysis,
-      address,
-      layers,
-      saved?.propertyIdentification,
-    );
-    return {
-      record: mergeCollectedFields(
-        saved ??
-          createIntakeRecord(
-            address.placeId,
-            address.formattedAddress,
-            analysis.parcel.featureId,
-          ),
-        c.fields,
-        c.sources,
-        analysis,
+  const shared = useEngineeringRecord(
+    siteRecordKey(address.placeId, analysis.parcel.featureId),
+    () =>
+      createIntakeRecord(
+        address.placeId,
+        address.formattedAddress,
+        analysis.parcel.featureId,
       ),
-      warning,
-      blocked,
-    };
-  });
+  );
+  const state = shared;
+  const commitRecord = shared.update;
+  const setState = useCallback(
+    (fn: (old: { record: IntakeRecord }) => { record: IntakeRecord }) =>
+      commitRecord((record) => fn({ record }).record),
+    [commitRecord],
+  );
   const currentContext = useRef({ analysis, address, layers });
   useEffect(() => {
     currentContext.current = { analysis, address, layers };
   }, [analysis, address, layers]);
-  const last = useRef(analysis);
+  const last = useRef<SiteAnalysis | null>(null);
   useEffect(() => {
     if (last.current === analysis) return;
     last.current = analysis;
@@ -84,7 +61,13 @@ export function useIntake(
     return () => {
       active = false;
     };
-  }, [analysis, address, layers, state.record.propertyIdentification]);
+  }, [
+    analysis,
+    address,
+    layers,
+    state.record.propertyIdentification,
+    setState,
+  ]);
   useEffect(() => {
     const c = environmentalCollection(
       environment,
@@ -117,6 +100,7 @@ export function useIntake(
     analysis.parcel.featureId,
     state.record.propertyIdentification,
     layers.parcels?.features,
+    setState,
   ]);
   const selectedParcel = layers.parcels?.features.find(
     (f) => f.properties.id === analysis.parcel.featureId,
@@ -187,29 +171,10 @@ export function useIntake(
       });
     return () => controller.abort();
     // Identifiers define this query, not changing map layer objects. The keyed dashboard remounts for another site/parcel.
-  }, [lookupLocId, townId, propertyRetry]);
-  useEffect(() => {
-    if (state.blocked) return;
-    try {
-      localStorage.setItem(
-        INTAKE_STORAGE + state.record.siteKey,
-        JSON.stringify({
-          ...portableIntake(state.record),
-          environment: undefined,
-        }),
-      );
-    } catch {
-      queueMicrotask(() =>
-        setState((old) => ({
-          ...old,
-          warning:
-            "Browser storage is unavailable or full. Export your record to retain session changes.",
-        })),
-      );
-    }
-  }, [state.record, state.blocked]);
+  }, [lookupLocId, townId, propertyRetry, setState]);
   return {
     record: state.record,
+    files: shared.files,
     warning: state.warning,
     propertyStatus: noMatch
       ? "Parcel is flagged NO_MATCH; assessor data not assigned."

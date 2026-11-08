@@ -7,18 +7,48 @@ import type {
   FieldObservation,
 } from "@/lib/intake/types";
 import { EnvironmentalDetails } from "@/components/environment/EnvironmentalDetails";
-import { FIELD_SCHEMA } from "@/lib/intake/schema";
+import { equipmentValueComplete } from "@/lib/intake/equipment";
+import { FIELD_SCHEMA, PRIORITIES } from "@/lib/intake/schema";
 import {
   hasConflict,
   isMeasuredValue,
   mergeCollectedFields,
   observationId,
   reviewField,
+  rejectObservation,
+  attachFieldEvidence,
+  updateRequest,
   selectedObservation,
 } from "@/lib/intake/model";
 export function valueText(value: JsonValue): string {
   if (value === null) return "Not retrieved";
   if (typeof value !== "object") return String(value);
+  if (!Array.isArray(value)) {
+    if ("mainBreakerAmps" in value || "mainBusAmps" in value)
+      return `Main breaker: ${value.mainBreakerAmps ?? "Not retrieved"} A · Main bus: ${value.mainBusAmps ?? "Not retrieved"} A`;
+    if (Array.isArray(value.transformers))
+      return value.transformers
+        .map((t) =>
+          t && typeof t === "object" && !Array.isArray(t)
+            ? `${t.equipmentId || "Transformer"}: ${t.capacityKva ?? "Not retrieved"} kVA · ${t.primaryVoltageV ?? "?"}/${t.secondaryVoltageV ?? "?"} V · ${t.phase ?? "?"} phase`
+            : String(t),
+        )
+        .join("; ");
+    if ("capacityKw" in value)
+      return `${value.capacityKw ?? "Not retrieved"} kW available · ${value.basis || "Basis requires verification"}`;
+    if (Array.isArray(value.poles))
+      return value.poles
+        .map((p) =>
+          p && typeof p === "object" && !Array.isArray(p)
+            ? `${p.identifier || "Identifier not retrieved"}${p.utility ? ` · ${p.utility}` : ""}`
+            : String(p),
+        )
+        .join("; ");
+    if ("availableSpaces" in value)
+      return `${value.panelId || "Panel"}: ${value.availableSpaces ?? "Not retrieved"} available breaker spaces · ${value.compatibleBreakerType || "Compatibility not verified"}`;
+    if ("availability" in value)
+      return `${value.availability}${value.revision ? ` · revision ${value.revision}` : ""}${value.documentReference ? ` · ${value.documentReference}` : ""}`;
+  }
   if (!Array.isArray(value) && value.kind === "terrain-elevation") {
     const n = (v: JsonValue) =>
       typeof v === "number"
@@ -107,9 +137,9 @@ export function FieldEvidence({
     el?.showModal();
     return () => el?.close();
   }, []);
-  async function addValue() {
+  async function addValue(evidenceOnly = false) {
     setError("");
-    if (!value.trim() || !method.trim()) {
+    if (!evidenceOnly && (!value.trim() || !method.trim())) {
       setError("Enter an explicit value and how it was obtained.");
       return;
     }
@@ -128,6 +158,10 @@ export function FieldEvidence({
       setError("Use a PDF, PNG, JPEG, CSV, text or JSON supporting file.");
       return;
     }
+    if (evidenceOnly && !file && !sourceUrl.trim()) {
+      setError("Choose a supporting document or source URL first.");
+      return;
+    }
     setBusy(true);
     try {
       let parsed: JsonValue = value.trim();
@@ -136,9 +170,11 @@ export function FieldEvidence({
       } catch {
         /* Explicit text value. */
       }
-      if (!isMeasuredValue(parsed))
+      if (!evidenceOnly && !isMeasuredValue(parsed))
         throw Error("Missing values cannot be saved as measured data.");
-      const refs: string[] = [];
+      const refs: string[] = evidenceOnly
+        ? []
+        : [...(field.evidenceKeys ?? [])];
       const sources: IntakeRecord["sources"] = {};
       if (url || file) {
         const hash = file
@@ -162,11 +198,21 @@ export function FieldEvidence({
           recordDate: sourceDate || null,
           datasetUpdated: null,
           retrievedAt: new Date().toISOString(),
+          matchingMethod:
+            method.trim() ||
+            "Supporting evidence attached to this field; no value extracted or verified.",
           documentId: hash ?? undefined,
           fileName: file?.name,
           fileHash: hash ?? undefined,
         };
         if (file) files.set(key, file);
+      }
+      if (evidenceOnly) {
+        update((r) => attachFieldEvidence(r, fieldId, sources));
+        setError(
+          "Evidence attached to this field; value and engineering verification remain unchanged.",
+        );
+        return;
       }
       const provider = file ? "Customer document" : "User supplied";
       const observation: FieldObservation = {
@@ -179,6 +225,7 @@ export function FieldEvidence({
           unit || null,
         ),
         value: parsed,
+        complete: equipmentValueComplete(fieldId, parsed),
         unit: unit || null,
         originalUnits: unit || null,
         sourceKeys: refs,
@@ -203,6 +250,13 @@ export function FieldEvidence({
                   ...f,
                   selectedId: observation.id,
                   pinned: true,
+                  reviewHistory: [
+                    ...(f.reviewHistory ?? []),
+                    {
+                      observationId: previous.selectedId,
+                      review: previous.review,
+                    },
+                  ],
                   review: {
                     status: "Unreviewed",
                     reviewer: null,
@@ -235,6 +289,10 @@ export function FieldEvidence({
               ...f,
               selectedId: id,
               pinned: true,
+              reviewHistory: [
+                ...(f.reviewHistory ?? []),
+                { observationId: f.selectedId, review: f.review },
+              ],
               review: {
                 status: "Unreviewed",
                 reviewer: null,
@@ -280,6 +338,131 @@ export function FieldEvidence({
           : "Existing condition"}{" "}
         · {field.review.status}
       </p>
+      <section className="analysis-source">
+        <h3>Information request</h3>
+        <div className="request-editor">
+          <label>
+            Responsible party
+            <input
+              aria-label="Field responsible party"
+              value={field.request.owner}
+              onChange={(e) =>
+                update((r) =>
+                  updateRequest(
+                    r,
+                    fieldId,
+                    field.request.status,
+                    e.target.value,
+                    field.request.notes,
+                  ),
+                )
+              }
+            />
+          </label>
+          <label>
+            Collection status
+            <select
+              aria-label="Field collection status"
+              value={field.request.status}
+              onChange={(e) => {
+                try {
+                  update((r) =>
+                    updateRequest(
+                      r,
+                      fieldId,
+                      e.target
+                        .value as IntakeRecord["fields"][number]["request"]["status"],
+                      field.request.owner,
+                      field.request.notes,
+                    ),
+                  );
+                } catch (error) {
+                  setError((error as Error).message);
+                }
+              }}
+            >
+              {[
+                "Missing",
+                "Requested",
+                "Received",
+                "Under review",
+                "Verified",
+              ].map((s) => (
+                <option
+                  key={s}
+                  disabled={
+                    s === "Verified" &&
+                    field.review.status !== "Engineer verified"
+                  }
+                >
+                  {s}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Priority
+            <select
+              aria-label="Field priority"
+              value={field.priority ?? definition.criticality}
+              onChange={(e) => {
+                const priority = e.target
+                  .value as typeof definition.criticality;
+                update((r) => ({
+                  ...r,
+                  updatedAt: new Date().toISOString(),
+                  fields: r.fields.map((f) =>
+                    f.id === fieldId ? { ...f, priority } : f,
+                  ),
+                }));
+              }}
+            >
+              {PRIORITIES.map((p) => (
+                <option key={p}>{p}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Request notes
+            <textarea
+              aria-label="Field request notes"
+              value={field.request.notes}
+              onChange={(e) =>
+                update((r) =>
+                  updateRequest(
+                    r,
+                    fieldId,
+                    field.request.status,
+                    field.request.owner,
+                    e.target.value,
+                  ),
+                )
+              }
+            />
+          </label>
+        </div>
+      </section>
+      {!!field.evidenceKeys?.length && (
+        <section className="analysis-source">
+          <h3>Attached field evidence</h3>
+          {field.evidenceKeys.map((key) => {
+            const source = record.sources[key];
+            return source ? (
+              <p key={key}>
+                {source.dataset} ·{" "}
+                {files.has(key)
+                  ? "File available this session"
+                  : "Reference retained"}
+                {source.serviceUrl && (
+                  <a href={source.serviceUrl} target="_blank" rel="noreferrer">
+                    Open source ↗
+                  </a>
+                )}
+              </p>
+            ) : null;
+          })}
+        </section>
+      )}
       {hasConflict(field) && (
         <p className="notice">
           Multiple observations disagree. The selected value and all
@@ -501,17 +684,88 @@ export function FieldEvidence({
             value={field.selectedId ?? ""}
             onChange={(e) => choose(e.target.value)}
           >
+            <option value="">No observation selected</option>
             {field.observations.map((o) => (
-              <option key={o.id} value={o.id}>
+              <option
+                key={o.id}
+                value={o.id}
+                disabled={!!field.rejectedObservations?.[o.id]}
+              >
                 {o.provider}: {valueText(o.value).slice(0, 90)}
               </option>
             ))}
           </select>
         </label>
       )}
+      {!!field.observations.length && (
+        <details>
+          <summary>All observations and source references</summary>
+          {field.observations.map((observation) => (
+            <section className="analysis-source" key={observation.id}>
+              <strong>
+                {valueText(observation.value)} {observation.unit}
+              </strong>
+              <p>
+                {observation.provider} · {observation.observedAt} ·{" "}
+                {field.rejectedObservations?.[observation.id]
+                  ? "Rejected — retained for traceability"
+                  : observation.id === field.selectedId
+                    ? "Current selection"
+                    : "Alternative observation"}
+              </p>
+              <p>{observation.method}</p>
+              {observation.sourceKeys.map((key) => {
+                const source = record.sources[key];
+                return source ? (
+                  <p key={key}>
+                    {source.dataset} · {source.fileName}
+                    {source.serviceUrl && (
+                      <a
+                        href={source.serviceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open source ↗
+                      </a>
+                    )}
+                    {files.has(key) && (
+                      <button
+                        className="text-link"
+                        onClick={() => {
+                          const file = files.get(key)!;
+                          const url = URL.createObjectURL(file);
+                          const a = document.createElement("a");
+                          a.href = url;
+                          a.download = file.name;
+                          a.click();
+                          setTimeout(() => URL.revokeObjectURL(url), 1000);
+                        }}
+                      >
+                        Download attached file
+                      </button>
+                    )}
+                  </p>
+                ) : null;
+              })}
+            </section>
+          ))}
+        </details>
+      )}
       <details>
         <summary>Add a value / supporting evidence</summary>
         <div className="intake-form">
+          {definition.structuredExample && (
+            <details>
+              <summary>Structured equipment value example</summary>
+              <pre>{definition.structuredExample}</pre>
+              <button
+                className="text-link"
+                onClick={() => setValue(definition.structuredExample!)}
+              >
+                Use equipment template
+              </button>
+            </details>
+          )}
           <label>
             Value
             <textarea
@@ -564,16 +818,23 @@ export function FieldEvidence({
               onChange={(e) => setMethod(e.target.value)}
             />
           </label>
-          <button className="button" disabled={busy} onClick={addValue}>
+          <button className="button" disabled={busy} onClick={() => addValue()}>
             Save observation
+          </button>
+          <button
+            className="button secondary"
+            disabled={busy}
+            onClick={() => addValue(true)}
+          >
+            Attach evidence without a value
           </button>
         </div>
       </details>
       <details>
         <summary>Engineering review</summary>
         <p>
-          Self-attested demo review. Receipt of a document does not verify the
-          field.
+          Self-attested engineering review. Receipt of a document does not
+          verify the field.
         </p>
         {field.review.reviewer && (
           <p>
@@ -614,6 +875,44 @@ export function FieldEvidence({
           >
             Verify selected field
           </button>
+          {obs && (
+            <button
+              className="button secondary"
+              onClick={() => {
+                try {
+                  update((r) =>
+                    rejectObservation(r, fieldId, obs.id, reviewer, note),
+                  );
+                  setError(
+                    "Observation rejected; its value and source evidence remain in history.",
+                  );
+                } catch (error) {
+                  setError((error as Error).message);
+                }
+              }}
+            >
+              Reject selected observation
+            </button>
+          )}
+          {field.reviewHistory?.length ||
+          Object.keys(field.rejectedObservations ?? {}).length ? (
+            <details>
+              <summary>Review and rejection history</summary>
+              {field.reviewHistory?.map((h, i) => (
+                <p key={i}>
+                  {h.review.status} · {h.review.reviewer || "Unreviewed"} ·{" "}
+                  {h.review.at} · {h.review.note}
+                </p>
+              ))}
+              {Object.entries(field.rejectedObservations ?? {}).map(
+                ([id, r]) => (
+                  <p key={id}>
+                    Rejected {id} · {r.reviewer} · {r.at} · {r.note}
+                  </p>
+                ),
+              )}
+            </details>
+          ) : null}
         </div>
       </details>
       {error && (

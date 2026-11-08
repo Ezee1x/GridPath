@@ -46,27 +46,31 @@ const observation = (id: string, value: number): FieldObservation => ({
   confidence: "Documented",
   observedAt: "2026-01-01",
 });
-test("standardized schema has exactly 58 fields in seven expected categories and excludes proposed conditions from readiness", () => {
-  assert.equal(FIELD_SCHEMA.length, 58);
-  assert.equal(new Set(FIELD_SCHEMA.map((d) => d.id)).size, 58);
+test("standardized schema has exactly 69 fields in seven expected categories and excludes proposed conditions from readiness", () => {
+  assert.equal(FIELD_SCHEMA.length, 69);
+  assert.equal(new Set(FIELD_SCHEMA.map((d) => d.id)).size, 69);
   assert.deepEqual(
     CATEGORIES.map(
       (c) => FIELD_SCHEMA.filter((d) => d.category === c.id).length,
     ),
-    [7, 9, 7, 8, 12, 6, 9],
+    [9, 9, 8, 8, 20, 7, 8],
   );
   const r = createIntakeRecord("test", "Synthetic address", "1");
-  assert.equal(readiness(r).required, 47);
-  assert.equal(readiness(r).missing, 47);
-  assert.equal(exportIntake(r).fieldInventory.length, 58);
-  assert.equal(exportIntake(r).missingFields.length, 58);
+  assert.equal(readiness(r).required, 59);
+  assert.equal(readiness(r).missing, 59);
+  assert.equal(exportIntake(r).fieldInventory.length, 69);
+  assert.equal(exportIntake(r).missingFields.length, 59);
   const updated = mergeCollectedFields(
     r,
     [{ fieldId: "power", observation: observation("power", 100) }],
     { [source.key]: source },
   );
   assert.equal(readiness(updated).populated, 0);
-  assert.equal(readiness(updated, "design").populated, 1);
+  assert.equal(readiness(updated, "design").populated, 0);
+  assert.equal(
+    readiness({ ...updated, stage: "design" }, "design").populated,
+    1,
+  );
 });
 test("received is distinct from verified and empty fields cannot be verified", () => {
   let r = createIntakeRecord("test", "Synthetic", "1");
@@ -160,7 +164,7 @@ test("partial compound field remains incomplete and export uses actual state rat
     { [source.key]: source },
   );
   assert.equal(readiness(r).populated, 0);
-  assert.equal(readiness(r).missing, 47);
+  assert.equal(readiness(r).missing, 59);
   const out = exportIntake(r);
   assert.equal(
     out.fieldInventory.find((f) => f.id === "zoning")!.currentObservation,

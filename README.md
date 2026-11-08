@@ -149,3 +149,15 @@ The explorer now includes independent FEMA flood and official statewide MassDEP 
 The active record now has **58 fields / 47 required existing-condition fields / 11 proposed fields** after removing standalone Slope. Earlier phase documents describe historical counts. Legacy Slope data is retained internally and omitted from the active inventory/export. Wind, snow, permits, local codes and exact permitting authorities remain subject to retrieval/verification.
 
 See [Phase 5B methods, endpoints, QA and limitations](docs/PHASE5B_QA.md) and [live test results](docs/PHASE5B_LIVE_RESULTS.json). Reproduce bounded public-source QA with `npx tsx scripts/verify-environment.ts`; set `QORE_QA_ORIGIN` to the running server origin if necessary.
+
+## Saved address records
+
+The workspace starts empty. Previously bundled Century-Tywood, ThermoFusion and Aalberts sample entries are removed from saved lists on load; custom user records are retained. No sample records are re-seeded, and clearing the workspace leaves it empty.
+
+Search an address in Site explorer or the overview, review/select its parcel, then choose **Save site record**. Repeated saves update the same address/parcel record. **Open saved record** restores its Place ID, checks the saved parcel against current public candidates, and reopens the existing engineering intake. Public Census address/location data and an exempt Google Place ID are stored; Google address details are fetched again. Site-table completeness uses the current 47-required-field engineering intake. Records and review edits persist in this browser, not a cloud account; supporting file bytes remain session-only.
+
+## Unified engineering record and verification
+
+The current schema has **69 fields / 58 required intake fields / 11 proposed fields** across seven categories. Earlier phase counts are historical. The Verification Queue and document view use the same reactive engineering records as the Full Site Record. Requests, owners, four-level priorities, source evidence, rejected observations and review history synchronize immediately. Proposed design values are Not yet applicable until the project enters Design.
+
+Legacy 58/59-field records and the older requirement list migrate by field ID without dropping evidence. New saved-site index entries no longer create competing field/requirement arrays. See [unified record audit and QA](docs/UNIFIED_RECORD_QA.md) and [complete requirement-to-field mapping](docs/UNIFIED_RECORD_AUDIT.json).

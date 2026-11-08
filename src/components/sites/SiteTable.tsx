@@ -4,10 +4,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Building2, Search } from "lucide-react";
 import { SiteRecord } from "@/lib/types";
-import { dateLabel, readiness } from "@/lib/calculations";
+import { dateLabel } from "@/lib/calculations";
 import { Badge, Progress, Status, Empty } from "@/components/ui";
+import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
+import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 export function SiteTable({ sites }: { sites: SiteRecord[] }) {
   const router = useRouter();
+  useIntakeUpdates();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("All statuses");
   const [sort, setSort] = useState("updated");
@@ -17,7 +20,8 @@ export function SiteTable({ sites }: { sites: SiteRecord[] }) {
         `${s.facilityName} ${s.address}`
           .toLowerCase()
           .includes(query.toLowerCase()) &&
-        (status === "All statuses" || s.lifecycleStatus === status),
+        (status === "All statuses" ||
+          currentSavedSiteReadiness(s).lifecycleStatus === status),
     )
     .sort((a, b) =>
       sort === "name"
@@ -33,7 +37,7 @@ export function SiteTable({ sites }: { sites: SiteRecord[] }) {
           </h2>
           <p>Facility records and their collection status.</p>
         </div>
-        <Badge>Demo data</Badge>
+        <Badge>Saved in this browser</Badge>
       </div>
       <div className="table-controls">
         <label className="search-input">
@@ -82,7 +86,7 @@ export function SiteTable({ sites }: { sites: SiteRecord[] }) {
           </thead>
           <tbody>
             {rows.map((site) => {
-              const r = readiness(site);
+              const r = currentSavedSiteReadiness(site);
               return (
                 <tr
                   key={site.id}
@@ -121,7 +125,7 @@ export function SiteTable({ sites }: { sites: SiteRecord[] }) {
                     {r.outstanding} items<small>{r.critical} critical</small>
                   </td>
                   <td>
-                    <Status value={site.lifecycleStatus} />
+                    <Status value={r.lifecycleStatus} />
                   </td>
                   <td className="muted">{dateLabel(site.updatedAt)}</td>
                   <td>
@@ -140,8 +144,12 @@ export function SiteTable({ sites }: { sites: SiteRecord[] }) {
         </table>
       </div>
       {rows.length === 0 && (
-        <Empty title="No sites found">
-          Try a different search or status filter.
+        <Empty
+          title={sites.length ? "No sites found" : "No saved site records"}
+        >
+          {sites.length
+            ? "Try a different search or status filter."
+            : "Search an address, then choose Save site record to keep it here."}
         </Empty>
       )}
       <div className="table-footer">

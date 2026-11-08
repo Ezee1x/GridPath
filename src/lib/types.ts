@@ -46,6 +46,8 @@ export interface MissingRequirement {
   documentIds: string[];
 }
 export interface SiteRecord {
+  mapPlaceId?: string;
+  parcelFeatureId?: string | null;
   id: string;
   facilityName: string;
   address: string;

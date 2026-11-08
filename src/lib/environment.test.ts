@@ -191,7 +191,7 @@ test("partial elevation is incomplete; wrong-site bundle is ignored", () => {
     0,
   );
   const r = createIntakeRecord("test", "Synthetic", "1");
-  assert.equal(readiness(r).required, 47);
+  assert.equal(readiness(r).required, 59);
 });
 test("legacy Slope moves to retired data and disappears from active export and checklist", () => {
   const r = createIntakeRecord("legacy", "Synthetic", "1");
@@ -204,7 +204,7 @@ test("legacy Slope moves to retired data and disappears from active export and c
     r.siteKey,
   );
   assert.ok(loaded);
-  assert.equal(loaded.fields.length, 58);
+  assert.equal(loaded.fields.length, 69);
   assert.equal(loaded.retiredFields?.length, 1);
   const exported = exportIntake(loaded);
   assert.ok(!exported.fieldInventory.some((f) => f.id === "slope"));

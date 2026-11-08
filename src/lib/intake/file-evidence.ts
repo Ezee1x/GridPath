@@ -1,0 +1,59 @@
+import type { EvidenceReference, IntakeRecord } from "./types";
+
+export const FILE_ACCEPT =
+  ".pdf,.png,.jpg,.jpeg,.csv,.txt,.json,.xlsx,.xls,.docx,.doc,.dwg,.dxf";
+export const MAX_FILE_BYTES = 25 * 1024 * 1024;
+
+/** Prepare references before committing anything to the shared site record. */
+export async function prepareFieldFiles(
+  record: IntakeRecord,
+  fieldId: string,
+  files: File[],
+  note = "",
+) {
+  if (!record.fields.some((field) => field.id === fieldId))
+    throw Error("Choose a field in this site record.");
+  if (!files.length) throw Error("Choose at least one file.");
+  if (files.length > 10) throw Error("Add up to 10 files at a time.");
+  for (const file of files) {
+    const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+    if (!FILE_ACCEPT.split(",").includes(extension))
+      throw Error(
+        `Unsupported file type: ${file.name}. Choose a supported document, image, spreadsheet or drawing.`,
+      );
+    if (!file.size) throw Error(`${file.name} is empty.`);
+    if (file.size > MAX_FILE_BYTES)
+      throw Error(`${file.name} exceeds the 25 MB file limit.`);
+  }
+  const sources: Record<string, EvidenceReference> = {};
+  const bytes = new Map<string, File>();
+  for (const file of files) {
+    const hash = Array.from(
+      new Uint8Array(
+        await crypto.subtle.digest("SHA-256", await file.arrayBuffer()),
+      ),
+    )
+      .map((v) => v.toString(16).padStart(2, "0"))
+      .join("");
+    const key = `input:${record.siteKey}:${fieldId}:${hash}`;
+    sources[key] = record.sources[key] ?? {
+      key,
+      dataset: file.name,
+      provider: "Customer document",
+      serviceUrl: "",
+      featureId: null,
+      featureName: null,
+      recordDate: null,
+      datasetUpdated: null,
+      retrievedAt: new Date().toISOString(),
+      matchingMethod:
+        note.trim() ||
+        "Supporting file attached to this field; no value extracted or verified.",
+      documentId: hash,
+      fileName: file.name,
+      fileHash: hash,
+    };
+    bytes.set(key, file);
+  }
+  return { sources, bytes };
+}

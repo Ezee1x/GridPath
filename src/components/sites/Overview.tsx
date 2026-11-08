@@ -1,11 +1,12 @@
 "use client";
 import { FormEvent, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
-import { createSite } from "@/lib/fixtures";
-import { readiness } from "@/lib/calculations";
+import { createSiteMetadata } from "@/lib/site-metadata";
+import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
+import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
+import type { SiteRecord } from "@/lib/types";
 import { BRAND } from "@/lib/brand";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SiteTable } from "./SiteTable";
@@ -14,6 +15,8 @@ import { GoogleAddressWorkspace } from "@/components/maps/GoogleAddressWorkspace
 
 export function Overview() {
   const { sites, save } = useWorkspace();
+  useIntakeUpdates();
+  const readiness = (site: SiteRecord) => currentSavedSiteReadiness(site);
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
@@ -25,7 +28,7 @@ export function Overview() {
       return;
     }
     setLoading(true);
-    const site = createSite(address.trim());
+    const site = createSiteMetadata(address.trim());
     save(site);
     router.push(`/sites/${site.id}`);
   }
@@ -103,19 +106,6 @@ export function Overview() {
             public GIS context; utility retrieval is not connected.
           </p>
         </details>
-        <Link className="reference-banner" href="/sites/century-tywood">
-          <span className="reference-label">Reference site</span>
-          <span>
-            <b>Century-Tywood J3 Corp</b>
-            <span className="reference-address">
-              79 Lowland St, Holliston, MA
-            </span>
-          </span>
-          <span className="text-link">
-            Open sample
-            <ArrowUpRight size={16} />
-          </span>
-        </Link>
       </section>
       <dl className="metrics" aria-label="Site record summary">
         {metrics.map((metric) => (

@@ -78,7 +78,6 @@ export function GoogleAddressSearch({
   }, [libraries, onSelect]);
   return (
     <div className="google-address-search">
-      <label className="input-label">Massachusetts street address</label>
       <div ref={host} className="google-autocomplete-host" />
       {loading && (
         <p className="map-status" role="status">

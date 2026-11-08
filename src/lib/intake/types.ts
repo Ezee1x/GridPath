@@ -38,6 +38,16 @@ export interface FieldObservation {
   warnings?: string[];
 }
 export interface IntakeField {
+  evidenceKeys?: string[];
+  priority?: import("./schema").Priority;
+  reviewHistory?: {
+    observationId: string | null;
+    review: IntakeField["review"];
+  }[];
+  rejectedObservations?: Record<
+    string,
+    { reviewer: string; note: string; at: string }
+  >;
   id: string;
   observations: FieldObservation[];
   selectedId: string | null;
@@ -56,7 +66,16 @@ export interface IntakeField {
   request: { status: RequestStatus; owner: string; notes: string };
 }
 export interface IntakeRecord {
+  electricalDiscovery?: import("../electrical/types").ElectricalDiscovery;
   schemaVersion: "2.0";
+  fieldSchemaVersion?: 3;
+  stage?: "intake" | "design";
+  legacyMigration?: {
+    siteId?: string;
+    extraRequests?: IntakeRecord["extraRequests"];
+    requirements?: unknown[];
+    dataFields?: unknown[];
+  };
   siteKey: string;
   identity: {
     placeId: string;

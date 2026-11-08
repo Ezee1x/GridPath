@@ -2,19 +2,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisLayerResult, GisLayerState, LayerKind } from "@/lib/gis/types";
+import { resolvedParcelId } from "@/lib/parcel-selection";
 const idle = (): GisLayerState => ({
   status: "idle",
   result: null,
   error: null,
 });
-export function useSiteGis(address: SelectedAddress | null) {
+export function useSiteGis(
+  address: SelectedAddress | null,
+  initialParcelId?: string | null,
+) {
   const [layers, setLayers] = useState<Record<LayerKind, GisLayerState>>({
     parcels: idle(),
     buildings: idle(),
     roads: idle(),
   });
-  const [parcelId, setParcelId] = useState<string | null>(null);
-  const [manual, setManual] = useState(false);
+  const [parcelId, setParcelId] = useState<string | null>(
+    initialParcelId ?? null,
+  );
+  const [manual, setManual] = useState(!!initialParcelId);
+  // GisSiteContext is keyed by address. This ref belongs only to this site and
+  // also protects a manual choice from an older in-flight response.
+  const explicitParcel = useRef<string | null>(initialParcelId ?? null);
   const controllers = useRef<Partial<Record<LayerKind, AbortController>>>({});
   const load = useCallback(
     async (kind: LayerKind, selectedParcelId: string | null = null) => {
@@ -53,8 +62,12 @@ export function useSiteGis(address: SelectedAddress | null) {
           },
         }));
         if (kind === "parcels") {
-          setParcelId(result.selectedParcelId ?? null);
-          setManual(false);
+          const restored = resolvedParcelId(
+            explicitParcel.current,
+            result.selectedParcelId,
+          );
+          setParcelId(restored);
+          setManual(!!explicitParcel.current);
         }
       } catch (error) {
         if (!controller.signal.aborted)
@@ -72,10 +85,11 @@ export function useSiteGis(address: SelectedAddress | null) {
     [address],
   );
   useEffect(() => {
-    void load("parcels");
+    explicitParcel.current ??= initialParcelId ?? null;
+    void load("parcels", explicitParcel.current);
     const active = controllers.current;
     return () => Object.values(active).forEach((c) => c?.abort());
-  }, [load]);
+  }, [load, initialParcelId]);
   const parcelStatus = layers.parcels.status;
   useEffect(() => {
     if (parcelStatus !== "ready" && parcelStatus !== "error") return;
@@ -88,6 +102,7 @@ export function useSiteGis(address: SelectedAddress | null) {
     };
   }, [parcelId, parcelStatus, load]);
   function selectParcel(id: string) {
+    explicitParcel.current = id;
     if (id !== parcelId) {
       controllers.current.buildings?.abort();
       controllers.current.roads?.abort();
@@ -97,12 +112,13 @@ export function useSiteGis(address: SelectedAddress | null) {
     setManual(true);
   }
   function retry(kind: LayerKind) {
+    if (kind === "parcels") explicitParcel.current ??= parcelId;
     if (kind === "parcels") {
       controllers.current.buildings?.abort();
       controllers.current.roads?.abort();
-      setParcelId(null);
+      // Preserve the current parcel through a refresh of its source layer.
     }
-    void load(kind, kind === "parcels" ? null : parcelId);
+    void load(kind, explicitParcel.current ?? parcelId);
   }
   return { layers, parcelId, manual, selectParcel, retry };
 }

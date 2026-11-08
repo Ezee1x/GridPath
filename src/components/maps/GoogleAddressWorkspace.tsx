@@ -1,26 +1,44 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { ArrowUpRight, MapPin } from "lucide-react";
 import {
-  SelectedAddress,
-  AddressValidationError,
-  CENTURY_TYWOOD_ADDRESS,
-} from "@/lib/maps/address";
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { SelectedAddress } from "@/lib/maps/address";
 import {
   ADDRESS_FIELDS,
   loadGoogleMaps,
-  resolveCenturyTywood,
   selectedAddressFromPlace,
 } from "@/lib/maps/google-maps";
 import { GoogleAddressSearch } from "./GoogleAddressSearch";
 import { GisSiteContext } from "@/components/gis/GisSiteContext";
+import { useWorkspace } from "@/lib/store";
+import { savedParcelForPlace } from "@/lib/parcel-selection";
 const PLACE_ID_KEY = "qore-projectsync-explorer-place-id";
 export function GoogleAddressWorkspace({
   compact = false,
+  initialPlaceId,
+  initialParcelId,
+  initialFieldId,
+  hideDashboard = false,
+  dashboard,
+  fixedSite = false,
+  onContourAction,
 }: {
   compact?: boolean;
+  initialPlaceId?: string;
+  initialParcelId?: string | null;
+  initialFieldId?: string | null;
+  hideDashboard?: boolean;
+  dashboard?: ReactNode;
+  fixedSite?: boolean;
+  onContourAction?: (action: (() => void) | null) => void;
 }) {
+  const { sites } = useWorkspace();
   const [selected, setSelected] = useState<SelectedAddress | null>(null);
   const [resolving, setResolving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,12 +56,12 @@ export function GoogleAddressWorkspace({
     }
   }, []);
   useEffect(() => {
-    if (compact) return;
+    if (compact && !initialPlaceId) return;
     let cancelled = false;
     const version = selectionVersion.current;
     let placeId: string | null = null;
     try {
-      placeId = sessionStorage.getItem(PLACE_ID_KEY);
+      placeId = initialPlaceId ?? sessionStorage.getItem(PLACE_ID_KEY);
     } catch {
       return;
     }
@@ -65,52 +83,21 @@ export function GoogleAddressWorkspace({
     return () => {
       cancelled = true;
     };
-  }, [compact]);
-  async function openFeatured() {
-    const version = ++selectionVersion.current;
-    setResolving(true);
-    setError(null);
-    try {
-      const address = await resolveCenturyTywood();
-      if (version === selectionVersion.current) handleSelection(address);
-    } catch (error) {
-      if (version === selectionVersion.current)
-        setError(
-          error instanceof AddressValidationError
-            ? error.message
-            : "The reference address could not be resolved. Check Google Places API access or select the address from the search above.",
-        );
-    } finally {
-      if (version === selectionVersion.current) setResolving(false);
-    }
-  }
+  }, [compact, initialPlaceId]);
   const showMap = !compact || selected !== null;
   return (
     <div
       className={`google-address-workspace ${compact ? "compact-map-workspace" : ""}`}
     >
       <div className="google-search-section">
-        <GoogleAddressSearch onSelect={handleSelection} />
-        <div className="featured-map-site">
-          <button type="button" onClick={openFeatured} disabled={resolving}>
-            <MapPin size={16} />
-            <span>
-              <strong>
-                {resolving
-                  ? "Resolving reference address…"
-                  : "Century-Tywood J3 Corp"}
-              </strong>
-              <small>{CENTURY_TYWOOD_ADDRESS}</small>
-            </span>
-            <ArrowUpRight size={17} />
-          </button>
-          {compact && (
-            <Link href="/explorer" className="text-link">
-              Open site explorer
-              <ArrowUpRight size={15} />
-            </Link>
-          )}
-        </div>
+        {!fixedSite && <GoogleAddressSearch onSelect={handleSelection} />}
+        {compact && (
+          <Link href="/explorer" className="text-link">
+            Open site explorer
+            <ArrowUpRight size={15} />
+          </Link>
+        )}
+        {resolving && <p role="status">Restoring saved site…</p>}
         {error && (
           <div className="notice" role="alert">
             {error}
@@ -125,6 +112,17 @@ export function GoogleAddressWorkspace({
               : "no-address"
           }
           address={selected}
+          hideDashboard={hideDashboard}
+          dashboard={dashboard}
+          onContourAction={onContourAction}
+          initialFieldId={
+            selected?.placeId === initialPlaceId ? initialFieldId : undefined
+          }
+          initialParcelId={
+            selected?.placeId === initialPlaceId
+              ? initialParcelId
+              : savedParcelForPlace(sites, selected?.placeId)
+          }
         >
           <section>
             <h2>Site location</h2>
