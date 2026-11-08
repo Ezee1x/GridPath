@@ -40,4 +40,9 @@
   --space-8: 32px;
   --sidebar-width: 248px;
   --control-height: 38px;
+  /* Drawing sheet around annotated site images. */
+  --sheet-ink: #1c211e;
+  --sheet-paper: #ffffff;
+  --sheet-stage: #eceeea;
+  --gutter: 22px;
 }

@@ -230,9 +230,9 @@ export function FileAttachmentDialog({
       {error && <p role="alert">{error}</p>}
       {message && <p role="status">{message}</p>}
       <p className="muted">
-        File references and notes are saved with this site. File contents remain
-        available in this browser session; re-add the same files after refresh.
-        No values are extracted or automatically verified.
+        Files and notes are saved with this site in this browser only. They are
+        not shared with teammates. No values are extracted or automatically
+        verified.
       </p>
       <section aria-label="Attached files">
         <h3>Attached files ({keys.length})</h3>
@@ -268,7 +268,7 @@ export function FileAttachmentDialog({
                 </button>
               ) : (
                 <small>
-                  Reference saved. Re-add this file to access its contents.
+                  Reference saved. Re-add this file to open it here.
                 </small>
               )}
             </div>

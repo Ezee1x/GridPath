@@ -1,7 +1,7 @@
 [
   {
     "address": "79 Lowland Street, Holliston, MA",
-    "retrievedAt": "2026-11-08T02:31:28.382Z",
+    "retrievedAt": "2026-11-08T04:21:03.798Z",
     "publicAddress": "79 LOWLAND ST, HOLLISTON, MA, 01746",
     "municipality": "HOLLISTON",
     "candidates": [
@@ -47,7 +47,7 @@
         "featureName": "HOLLISTON",
         "recordDate": null,
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.382Z",
+        "retrievedAt": "2026-11-08T04:21:03.798Z",
         "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
         "townId": 136
       }
@@ -55,7 +55,7 @@
   },
   {
     "address": "50 Foster Street, Worcester, MA",
-    "retrievedAt": "2026-11-08T02:31:28.394Z",
+    "retrievedAt": "2026-11-08T04:21:03.821Z",
     "publicAddress": "50 FOSTER ST, WORCESTER, MA, 01608",
     "municipality": "WORCESTER",
     "candidates": [
@@ -101,7 +101,7 @@
         "featureName": "WORCESTER",
         "recordDate": null,
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.394Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
         "townId": 348
       }
@@ -109,7 +109,7 @@
   },
   {
     "address": "200 Clarendon Street, Boston, MA",
-    "retrievedAt": "2026-11-08T02:31:28.395Z",
+    "retrievedAt": "2026-11-08T04:21:03.821Z",
     "publicAddress": "200 CLARENDON ST, BOSTON, MA, 02116",
     "municipality": "BOSTON",
     "candidates": [
@@ -170,7 +170,7 @@
         "featureName": "BOSTON",
         "recordDate": null,
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
         "townId": 35
       },
@@ -183,7 +183,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-08-18T17:52:09",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1837175": {
@@ -195,7 +195,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-08-05T13:11:12",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1869107": {
@@ -207,7 +207,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-07-24T16:25:00",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1875666": {
@@ -219,7 +219,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-07-23T15:53:00",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1873169": {
@@ -231,7 +231,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-07-17T12:33:23",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1846134": {
@@ -243,7 +243,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-05-06T13:10:35",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1833268": {
@@ -255,7 +255,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-03-26T13:40:47",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1833259": {
@@ -267,7 +267,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-03-26T13:37:55",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1822309": {
@@ -279,7 +279,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-02-19T20:55:10",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1821650": {
@@ -291,7 +291,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-02-18T15:18:54",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1813561": {
@@ -303,7 +303,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-02-04T17:25:25",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1818247": {
@@ -315,7 +315,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-02-03T19:46:27",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1812238": {
@@ -327,7 +327,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2026-01-15T18:12:55",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1804577": {
@@ -339,7 +339,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-12-09T15:19:21",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1803027": {
@@ -351,7 +351,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-12-02T14:42:58",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1773785": {
@@ -363,7 +363,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-11-12T14:10:04",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1796031": {
@@ -375,7 +375,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-11-10T14:41:51",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1788525": {
@@ -387,7 +387,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-10-23T16:26:05",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1786223": {
@@ -399,7 +399,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-10-08T18:07:08",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1783078": {
@@ -411,7 +411,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-10-07T20:38:28",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1783062": {
@@ -423,7 +423,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-10-07T20:29:22",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1784932": {
@@ -435,7 +435,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-10-06T13:33:17",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1783305": {
@@ -447,7 +447,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-30T15:04:07",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1776569": {
@@ -459,7 +459,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-22T14:11:30",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1776571": {
@@ -471,7 +471,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-22T14:07:24",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1776572": {
@@ -483,7 +483,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-22T14:05:43",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1774842": {
@@ -495,7 +495,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-15T17:06:19",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1770353": {
@@ -507,7 +507,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-09-02T12:09:44",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1765474": {
@@ -519,7 +519,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-08-22T17:34:40",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1760982": {
@@ -531,7 +531,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-08-22T15:05:51",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1753274": {
@@ -543,7 +543,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-08-15T12:31:36",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1749227": {
@@ -555,7 +555,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-07-29T17:40:11",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1749778": {
@@ -567,7 +567,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-07-22T17:04:58",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1735332": {
@@ -579,7 +579,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-07-01T12:56:35",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1714226": {
@@ -591,7 +591,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-05-07T18:05:30",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1707824": {
@@ -603,7 +603,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-05-05T17:50:22",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1708537": {
@@ -615,7 +615,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-04-30T19:44:33",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1709433": {
@@ -627,7 +627,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-04-25T14:15:40",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1709438": {
@@ -639,7 +639,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-04-25T14:15:34",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1703760": {
@@ -651,7 +651,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-04-10T12:13:47",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1698550": {
@@ -663,7 +663,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-03-17T15:32:51",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1696341": {
@@ -675,7 +675,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-03-11T13:01:29",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1686419": {
@@ -687,7 +687,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-01-31T17:00:56",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1684443": {
@@ -699,7 +699,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2025-01-17T13:23:00",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1669151": {
@@ -711,7 +711,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-11-20T15:16:47",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1669208": {
@@ -723,7 +723,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-11-18T18:15:14",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1668599": {
@@ -735,7 +735,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-11-18T14:03:03",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1664300": {
@@ -747,7 +747,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-11-08T20:38:52",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1626739": {
@@ -759,7 +759,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-11-05T13:06:39",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1659704": {
@@ -771,7 +771,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-10-15T11:33:06",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1659376": {
@@ -783,7 +783,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-10-09T21:37:42",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1653613": {
@@ -795,7 +795,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-10-04T12:30:36",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1652012": {
@@ -807,7 +807,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-10-01T17:02:42",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1640121": {
@@ -819,7 +819,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-08-30T12:26:31",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1641436": {
@@ -831,7 +831,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-08-30T12:23:15",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1637139": {
@@ -843,7 +843,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-08-26T12:48:04",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1635853": {
@@ -855,7 +855,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-08-20T12:31:35",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1627852": {
@@ -867,7 +867,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-08-07T20:07:59",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1619323": {
@@ -879,7 +879,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-07-17T12:00:32",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1616603": {
@@ -891,7 +891,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-06-20T17:29:53",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1615388": {
@@ -903,7 +903,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-06-17T18:09:40",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1614278": {
@@ -915,7 +915,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-06-13T18:09:02",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1592988": {
@@ -927,7 +927,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-04-24T12:55:09",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1587608": {
@@ -939,7 +939,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-04-04T17:56:02",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1578385": {
@@ -951,7 +951,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-03-08T19:42:11",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1577824": {
@@ -963,7 +963,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-03-08T19:16:18",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1563931": {
@@ -975,7 +975,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-01-19T16:49:34",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1502785": {
@@ -987,7 +987,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2024-01-11T21:11:25",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1550445": {
@@ -999,7 +999,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-12-06T18:22:00",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1545421": {
@@ -1011,7 +1011,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-11-16T18:45:00",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1527849": {
@@ -1023,7 +1023,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-09-25T19:07:56",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1512154": {
@@ -1035,7 +1035,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-08-09T13:29:38",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1490508": {
@@ -1047,7 +1047,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-06-29T11:52:23",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1488677": {
@@ -1059,7 +1059,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-06-23T13:53:57",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1480417": {
@@ -1071,7 +1071,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-06-01T12:24:25",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1477390": {
@@ -1083,7 +1083,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-05-24T20:01:03",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1475787": {
@@ -1095,7 +1095,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-05-18T18:49:14",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1475782": {
@@ -1107,7 +1107,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-05-18T10:32:09",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1459162": {
@@ -1119,7 +1119,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-04-07T15:20:14",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1449042": {
@@ -1131,7 +1131,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-03-17T11:13:04",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1445850": {
@@ -1143,7 +1143,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-03-06T19:42:36",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1439770": {
@@ -1155,7 +1155,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-02-09T19:19:49",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1439766": {
@@ -1167,7 +1167,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-02-09T19:14:19",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1436343": {
@@ -1179,7 +1179,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-01-31T19:07:36",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1431867": {
@@ -1191,7 +1191,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-01-11T17:51:53",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1428505": {
@@ -1203,7 +1203,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-01-05T14:19:37",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1428514": {
@@ -1215,7 +1215,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2023-01-05T14:17:17",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1423803": {
@@ -1227,7 +1227,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-12-19T19:19:37",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1412407": {
@@ -1239,7 +1239,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-11-12T12:03:32",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1405658": {
@@ -1251,7 +1251,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-10-19T17:23:46",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1400217": {
@@ -1263,7 +1263,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-10-12T12:14:50",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1400224": {
@@ -1275,7 +1275,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-10-12T12:13:36",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1398113": {
@@ -1287,7 +1287,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-10-05T16:19:39",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1397585": {
@@ -1299,7 +1299,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-10-03T19:15:44",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1386088": {
@@ -1311,7 +1311,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-09-06T12:24:59",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1382036": {
@@ -1323,7 +1323,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-08-22T19:19:18",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1370639": {
@@ -1335,7 +1335,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-08-18T20:16:21",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1370318": {
@@ -1347,7 +1347,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-08-03T20:45:15",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1370295": {
@@ -1359,7 +1359,7 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-08-03T20:45:11",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       },
       "boston-electrical-permit:E1346166": {
@@ -1371,14 +1371,14 @@
         "featureName": "200 Clarendon ST",
         "recordDate": "2022-07-08T12:11:07",
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
         "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
       }
     }
   },
   {
     "address": "300 Baker Avenue, Concord, MA",
-    "retrievedAt": "2026-11-08T02:31:28.395Z",
+    "retrievedAt": "2026-11-08T04:21:03.822Z",
     "publicAddress": "300 BAKER AVE, CONCORD, MA, 01742",
     "municipality": "CONCORD",
     "candidates": [
@@ -1424,7 +1424,7 @@
         "featureName": "CONCORD",
         "recordDate": null,
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.822Z",
         "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
         "townId": 67
       }
@@ -1432,7 +1432,7 @@
   },
   {
     "address": "25 Haven Street, Reading, MA",
-    "retrievedAt": "2026-11-08T02:31:28.395Z",
+    "retrievedAt": "2026-11-08T04:21:03.822Z",
     "publicAddress": "25 HAVEN ST, READING, MA, 01867",
     "municipality": "READING",
     "candidates": [
@@ -1478,7 +1478,7 @@
         "featureName": "READING",
         "recordDate": null,
         "datasetUpdated": null,
-        "retrievedAt": "2026-11-08T02:31:28.395Z",
+        "retrievedAt": "2026-11-08T04:21:03.822Z",
         "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
         "townId": 246
       }

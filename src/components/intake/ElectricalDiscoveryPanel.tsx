@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { selectedObservation } from "@/lib/intake/model";
-import { applyElectricalDiscovery } from "@/lib/electrical/record";
+import {
+  applyElectricalDiscovery,
+  discoveryAddress,
+} from "@/lib/electrical/record";
 import type { IntakeRecord } from "@/lib/intake/types";
 import type { ElectricalDiscovery } from "@/lib/electrical/types";
 export function ElectricalDiscoveryPanel({
@@ -17,7 +19,8 @@ export function ElectricalDiscoveryPanel({
 }) {
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [copied, setCopied] = useState(false);
+    [copied, setCopied] = useState(false),
+    [finished, setFinished] = useState(false);
   const controller = useRef<AbortController | null>(null);
   useEffect(() => () => controller.current?.abort(), [record.siteKey]);
   const discovery = record.electricalDiscovery;
@@ -28,18 +31,11 @@ export function ElectricalDiscoveryPanel({
     setBusy(true);
     setError("");
     setCopied(false);
+    setFinished(false);
     try {
-      const field = record.fields.find((f) => f.id === "address");
-      const address = field && selectedObservation(field);
       // Re-geocode on the server using Census; never send Google coordinates.
-      const inputAddress =
-        typeof address?.value === "string"
-          ? address.value
-          : record.identity.address;
-      if (
-        !inputAddress ||
-        inputAddress === "Address available in active Maps session"
-      )
+      const inputAddress = discoveryAddress(record);
+      if (!inputAddress)
         throw Error(
           "Select an address and retrieve its public property record first.",
         );
@@ -60,10 +56,16 @@ export function ElectricalDiscoveryPanel({
         throw Error(
           result.error ?? "Electrical public sources are unavailable.",
         );
-      if (!active.signal.aborted)
+      if (!active.signal.aborted) {
         update((r) =>
-          applyElectricalDiscovery(r, result as ElectricalDiscovery, files),
+          applyElectricalDiscovery(
+            r,
+            { ...(result as ElectricalDiscovery), queryAddress: inputAddress },
+            files,
+          ),
         );
+        setFinished(true);
+      }
     } catch (e) {
       if (!active.signal.aborted)
         setError(
@@ -106,15 +108,25 @@ export function ElectricalDiscoveryPanel({
         </p>
       )}
       {error && <p role="alert">{error}</p>}
+      {finished && (
+        <p role="status">
+          Search finished. Review candidate findings and open customer requests.
+        </p>
+      )}
+      {discovery?.stale && (
+        <p className="notice" role="status">
+          {discovery.stale} Earlier findings and requests are kept below for
+          reference.
+        </p>
+      )}
       {discovery && (
         <>
-          <p role="status">
-            Public electrical-data search finished. Review candidate findings
-            and outstanding customer requests.
-          </p>
           <small>
-            Retrieved {new Date(discovery.retrievedAt).toLocaleString()} ·{" "}
-            {discovery.municipality ?? "Municipality not resolved"}
+            Searched {new Date(discovery.retrievedAt).toLocaleString()} ·{" "}
+            {discovery.municipality ?? "Municipality not resolved"}.{" "}
+            {discovery.stale
+              ? "Field statuses are paused until a new search."
+              : "Field statuses update as evidence, values and reviews change."}
           </small>
           {discovery.utilityCandidates.map((candidate) => (
             <p key={candidate.sourceKey}>
@@ -183,55 +195,120 @@ export function ElectricalDiscoveryPanel({
               ))}
             </details>
           )}
-          <details>
-            <summary>
-              Facility information requests ({discovery.customerRequests.length}
-              )
-            </summary>
-            <p>
-              Use existing records and safely accessible exterior labels. Do not
-              open energized cabinets, remove covers or approach restricted
-              utility equipment. Internal inspection belongs to qualified
-              electricians or authorized personnel.
-            </p>
-            <button
-              type="button"
-              className="text-link"
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(
-                    discovery.customerRequests
-                      .map((r) => `${r.label} (${r.owner}): ${r.request}`)
-                      .join("\n\n"),
-                  );
-                  setCopied(true);
-                } catch {
-                  setError(
-                    "Copy unavailable. Select the request text below to copy it manually.",
-                  );
-                }
-              }}
-            >
-              {copied ? "Requests copied" : "Copy customer requests"}
-            </button>
-            <ul>
-              {discovery.customerRequests.map((r) => (
-                <li key={r.fieldId}>
-                  <button
-                    type="button"
-                    className="text-link"
-                    onClick={() => onField(r.fieldId)}
-                  >
-                    {r.label}
-                  </button>{" "}
-                  · {r.owner}
-                  <p>{r.request}</p>
-                </li>
-              ))}
-            </ul>
-          </details>
+          {!discovery.stale && (
+            <details>
+              <summary>
+                Open facility information requests (
+                {discovery.customerRequests.length})
+              </summary>
+              <p>
+                Use existing records and safely accessible exterior labels. Do
+                not open energized cabinets, remove covers or approach
+                restricted utility equipment. Internal inspection belongs to
+                qualified electricians or authorized personnel.
+              </p>
+              <button
+                type="button"
+                className="text-link"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(
+                      discovery.customerRequests
+                        .map((r) => `${r.label} (${r.owner}): ${r.request}`)
+                        .join("\n\n"),
+                    );
+                    setCopied(true);
+                  } catch {
+                    setError(
+                      "Copy unavailable. Select the request text below to copy it manually.",
+                    );
+                  }
+                }}
+              >
+                {copied ? "Requests copied" : "Copy customer requests"}
+              </button>
+              <ul>
+                {discovery.customerRequests.map((r) => (
+                  <li key={r.fieldId}>
+                    <button
+                      type="button"
+                      className="text-link"
+                      onClick={() => onField(r.fieldId)}
+                    >
+                      {r.label}
+                    </button>{" "}
+                    · {r.owner}
+                    <p>{r.request}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+          <DiscoveryHistory discovery={discovery} onField={onField} />
         </>
       )}
     </section>
+  );
+}
+
+const dateText = (iso?: string) =>
+  iso ? new Date(iso).toLocaleDateString() : "date unavailable";
+
+/** Resolved requests and earlier searches. Nothing here is deleted. */
+function DiscoveryHistory({
+  discovery,
+  onField,
+}: {
+  discovery: ElectricalDiscovery;
+  onField: (id: string) => void;
+}) {
+  const resolved = (discovery.requestHistory ?? []).filter(
+    (h) => h.status !== "Open",
+  );
+  const searches = discovery.previousSearches ?? [];
+  if (!resolved.length && !searches.length) return null;
+  return (
+    <details>
+      <summary>
+        Request and search history ({resolved.length + searches.length})
+      </summary>
+      {resolved.length > 0 && (
+        <ul className="discovery-history">
+          {[...resolved].reverse().map((h, i) => (
+            <li key={`${h.fieldId}:${h.createdAt}:${i}`}>
+              <button
+                type="button"
+                className="text-link"
+                onClick={() => onField(h.fieldId)}
+              >
+                {h.label}
+              </button>{" "}
+              · {h.status} {dateText(h.resolvedAt)}
+              <p>
+                Requested {dateText(h.createdAt)}. {h.resolution}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+      {searches.length > 0 && (
+        <ul className="discovery-history">
+          {[...searches].reverse().map((p) => (
+            <li key={p.retrievedAt}>
+              Earlier search {new Date(p.retrievedAt).toLocaleString()}
+              <p>
+                {p.municipality ?? "Municipality not resolved"}
+                {p.queryAddress ? ` · searched “${p.queryAddress}”` : ""} ·{" "}
+                {p.utilityCandidates.length
+                  ? `provider candidates: ${p.utilityCandidates.join(", ")}`
+                  : "no provider candidates"}{" "}
+                · {p.permitCount} permit records. Replaced{" "}
+                {dateText(p.replacedAt)}.
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </details>
   );
 }

@@ -649,8 +649,8 @@ export function EngineeringRecordDashboard({
           observations keep their source dates.
         </p>
         <p className="muted">
-          Edits persist for this address and parcel in this browser. Uploaded
-          file bytes are available only for the current session. Google Places
+          Edits and attached files are saved for this address and parcel in this
+          browser only; they are not shared with teammates. Google Places
           address and coordinates are session-only; portable exports retain
           independently sourced public records.
         </p>
