@@ -113,6 +113,7 @@ export interface ElevationResult extends SourceResult {
   bounds: [number, number, number, number] | null;
 }
 export interface EnvironmentBundle {
+  activities?: import("../engineering/activity").CollectionActivity[];
   parcelId: string | null;
   flood?: FloodResult;
   wetlands?: WetlandsResult;
@@ -120,6 +121,7 @@ export interface EnvironmentBundle {
 }
 export type EnvironmentResult = FloodResult | WetlandsResult | ElevationResult;
 export interface EnvironmentState<T> {
+  activity?: import("../engineering/activity").CollectionActivity;
   status: "idle" | "loading" | "ready" | "error";
   data: T | null;
   error: string | null;

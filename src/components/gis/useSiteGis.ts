@@ -43,6 +43,8 @@ export function useSiteGis(
         coordinateSource: address.source,
       });
       if (selectedParcelId) params.set("parcelId", selectedParcelId);
+      const startedAt = new Date().toISOString(),
+        began = performance.now();
       try {
         const response = await fetch(`/api/gis/site?${params}`, {
           signal: controller.signal,
@@ -53,9 +55,17 @@ export function useSiteGis(
             result.error ?? "GIS lookup failed. Retry this layer.",
           );
         if (controller.signal.aborted) return;
+        const activity = {
+          source: `MassGIS ${kind} (including independent address lookup)`,
+          startedAt,
+          durationMs: performance.now() - began,
+          status: "ready",
+        };
+        result.source = { ...result.source, activity };
         setLayers((old) => ({
           ...old,
           [kind]: {
+            activity,
             status: "ready",
             result: result as GisLayerResult,
             error: null,
@@ -74,6 +84,12 @@ export function useSiteGis(
           setLayers((old) => ({
             ...old,
             [kind]: {
+              activity: {
+                source: `MassGIS ${kind}`,
+                startedAt,
+                durationMs: performance.now() - began,
+                status: "error",
+              },
               status: "error",
               result: null,
               error:

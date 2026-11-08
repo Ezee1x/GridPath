@@ -56,10 +56,10 @@ test("standardized schema has exactly 69 fields in seven expected categories and
     [9, 9, 8, 8, 20, 7, 8],
   );
   const r = createIntakeRecord("test", "Synthetic address", "1");
-  assert.equal(readiness(r).required, 59);
-  assert.equal(readiness(r).missing, 59);
-  assert.equal(exportIntake(r).fieldInventory.length, 69);
-  assert.equal(exportIntake(r).missingFields.length, 59);
+  assert.equal(readiness(r).required, 52);
+  assert.equal(readiness(r).missing, 52);
+  assert.equal(exportIntake(r).fieldInventory.length, 52);
+  assert.equal(exportIntake(r).missingFields.length, 52);
   const updated = mergeCollectedFields(
     r,
     [{ fieldId: "power", observation: observation("power", 100) }],
@@ -69,7 +69,7 @@ test("standardized schema has exactly 69 fields in seven expected categories and
   assert.equal(readiness(updated, "design").populated, 0);
   assert.equal(
     readiness({ ...updated, stage: "design" }, "design").populated,
-    1,
+    0,
   );
 });
 test("received is distinct from verified and empty fields cannot be verified", () => {
@@ -164,7 +164,7 @@ test("partial compound field remains incomplete and export uses actual state rat
     { [source.key]: source },
   );
   assert.equal(readiness(r).populated, 0);
-  assert.equal(readiness(r).missing, 59);
+  assert.equal(readiness(r).missing, 52);
   const out = exportIntake(r);
   assert.equal(
     out.fieldInventory.find((f) => f.id === "zoning")!.currentObservation,

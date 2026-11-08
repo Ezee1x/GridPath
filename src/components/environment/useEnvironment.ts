@@ -30,6 +30,8 @@ function useLayer<T extends EnvironmentResult>(
       if (!controller.signal.aborted)
         setState({ key, status: "loading", data: null, error: null });
     });
+    const startedAt = new Date().toISOString(),
+      began = performance.now();
     fetch(`/api/environment?layer=${kind}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,6 +49,12 @@ function useLayer<T extends EnvironmentResult>(
         if (!controller.signal.aborted)
           setState({
             key,
+            activity: {
+              source: `Environmental ${kind}`,
+              startedAt,
+              durationMs: performance.now() - began,
+              status: data.status,
+            },
             status: data.status === "error" ? "error" : "ready",
             data,
             error: data.status === "error" ? data.error : null,
@@ -56,6 +64,12 @@ function useLayer<T extends EnvironmentResult>(
         if (!controller.signal.aborted)
           setState({
             key,
+            activity: {
+              source: `Environmental ${kind}`,
+              startedAt,
+              durationMs: performance.now() - began,
+              status: "error",
+            },
             status: "error",
             data: null,
             error: e instanceof Error ? e.message : "Source unavailable",
@@ -67,6 +81,7 @@ function useLayer<T extends EnvironmentResult>(
     ...(enabled && body && state.key === key
       ? state
       : {
+          activity: undefined,
           status: enabled && body ? ("loading" as const) : ("idle" as const),
           data: null,
           error: null,
@@ -106,11 +121,24 @@ export function useEnvironment(
   const bundle = useMemo<EnvironmentBundle>(
     () => ({
       parcelId: parcel?.properties.id ?? null,
+      activities: [
+        flood.activity,
+        wetlands.activity,
+        elevation.activity,
+      ].filter((a): a is NonNullable<typeof a> => !!a),
       ...(flood.data ? { flood: flood.data } : {}),
       ...(wetlands.data ? { wetlands: wetlands.data } : {}),
       ...(elevation.data ? { elevation: elevation.data } : {}),
     }),
-    [parcel?.properties.id, flood.data, wetlands.data, elevation.data],
+    [
+      parcel?.properties.id,
+      flood.data,
+      wetlands.data,
+      elevation.data,
+      flood.activity,
+      wetlands.activity,
+      elevation.activity,
+    ],
   );
   return { flood, wetlands, elevation, bundle };
 }

@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { DocumentExtraction } from "./DocumentExtraction";
 import { Paperclip, X } from "lucide-react";
 import {
   CATEGORIES,
   FIELD_SCHEMA,
+  ACTIVE_FIELDS,
   type FieldDefinition,
 } from "@/lib/intake/schema";
 import { attachFieldEvidence } from "@/lib/intake/model";
@@ -23,7 +25,7 @@ export function fieldFileKeys(record: IntakeRecord, fieldId: string) {
 export function SiteFiles({
   record,
   onAdd,
-  fields = FIELD_SCHEMA,
+  fields = ACTIVE_FIELDS,
 }: {
   record: IntakeRecord;
   onAdd: (fieldId: string) => void;
@@ -98,6 +100,9 @@ export function FileAttachmentDialog({
   const input = useRef<HTMLInputElement>(null);
   const [chosen, setChosen] = useState<File[]>([]);
   const [note, setNote] = useState("");
+  const [scope, setScope] = useState<
+    "unclassified" | "site-evidence" | "reference-only"
+  >("unclassified");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -113,7 +118,13 @@ export function FileAttachmentDialog({
     setError("");
     setMessage("");
     try {
-      const prepared = await prepareFieldFiles(record, fieldId, chosen, note);
+      const prepared = await prepareFieldFiles(
+        record,
+        fieldId,
+        chosen,
+        note,
+        scope,
+      );
       for (const [key, file] of prepared.bytes) files.set(key, file);
       update((current) => {
         const existing = current.fields.find((f) => f.id === fieldId)!;
@@ -127,7 +138,7 @@ export function FileAttachmentDialog({
           : current;
       });
       setMessage(
-        `${prepared.bytes.size} ${prepared.bytes.size === 1 ? "file attached" : "files attached"} to ${definition.label}. Ready for review.`,
+        `${prepared.bytes.size} ${prepared.bytes.size === 1 ? "file attached" : "files attached"} to ${definition.label}. ${scope === "reference-only" ? "Reference only; existing-condition requests unchanged." : "Ready for review."}`,
       );
       setChosen([]);
       setNote("");
@@ -181,6 +192,29 @@ export function FileAttachmentDialog({
         }}
       >
         <label>
+          Document classification
+          <select
+            value={scope}
+            disabled={busy}
+            onChange={(e) => setScope(e.target.value as typeof scope)}
+          >
+            <option value="unclassified">
+              Unclassified — site match needs review
+            </option>
+            <option value="site-evidence">
+              Evidence for this site&apos;s existing conditions
+            </option>
+            <option value="reference-only">
+              Generic sample / proposed design / reference only
+            </option>
+          </select>
+        </label>
+        <small>
+          Confirm the address and equipment before choosing site evidence.
+          Reference-only files cannot populate existing conditions or satisfy
+          missing evidence requests.
+        </small>
+        <label>
           Choose files
           <input
             ref={input}
@@ -230,9 +264,9 @@ export function FileAttachmentDialog({
       {error && <p role="alert">{error}</p>}
       {message && <p role="status">{message}</p>}
       <p className="muted">
-        Files and notes are saved with this site in this browser only. They are
-        not shared with teammates. No values are extracted or automatically
-        verified.
+        Files are stored in this browser and, when signed in, synced to the
+        shared workspace. Extraction requires an explicit action; engineering
+        verification requires review.
       </p>
       <section aria-label="Attached files">
         <h3>Attached files ({keys.length})</h3>
@@ -251,6 +285,21 @@ export function FileAttachmentDialog({
                 · {source.provider}
               </small>
               <small>{source.matchingMethod}</small>
+              <small>
+                {source.referenceOnly
+                  ? "Reference only — not existing site evidence"
+                  : source.documentScope === "site-evidence"
+                    ? "Site evidence — contents require review"
+                    : "Site match unclassified — review required"}
+              </small>
+              {file && (
+                <DocumentExtraction
+                  file={file}
+                  sourceKey={key}
+                  referenceOnly={source.referenceOnly}
+                  update={update}
+                />
+              )}
               {file ? (
                 <button
                   type="button"

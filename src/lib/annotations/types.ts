@@ -95,6 +95,7 @@ export interface MapFeature {
 /** Location, parcel outline and mapped power features used by the aerial plan. */
 export interface SiteContext {
   address: string;
+  selectedParcelId?: string | null;
   retrievedAt: string;
   location: {
     lat: number;
@@ -106,7 +107,11 @@ export interface SiteContext {
     source: ResearchSource;
   } | null;
   /** Assessor parcel outline as [lng, lat] rings. */
-  parcel: { id: string; rings: [number, number][][] } | null;
+  parcel: {
+    featureId?: string;
+    id: string;
+    rings: [number, number][][];
+  } | null;
   features: MapFeature[];
   sourcesQueried: { name: string; url: string; ok: boolean; note: string }[];
 }

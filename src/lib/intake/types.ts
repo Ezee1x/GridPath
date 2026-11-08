@@ -1,6 +1,7 @@
 import type { SiteAnalysis, FeatureReference } from "../gis/analysis-types";
 export type Provenance =
   | "Public GIS record"
+  | "Published tariff record"
   | "Calculated from GIS geometry"
   | "Customer document"
   | "User supplied"
@@ -11,11 +12,13 @@ export type JsonValue =
 export type RequestStatus =
   "Missing" | "Requested" | "Received" | "Under review" | "Verified";
 export interface EvidenceReference extends FeatureReference {
+  originalRecord?: JsonValue;
   provider: string;
   documentId?: string;
   fileName?: string;
   fileHash?: string;
   referenceOnly?: boolean;
+  documentScope?: "unclassified" | "site-evidence" | "reference-only";
   fiscalYear?: number | null;
   locId?: string | null;
   townId?: number | null;
@@ -23,6 +26,14 @@ export interface EvidenceReference extends FeatureReference {
   matchingMethod?: string;
 }
 export interface FieldObservation {
+  condition?: "existing" | "proposed" | "unknown";
+  extraction?: {
+    page: number;
+    quote: string;
+    originalValue: JsonValue;
+    decision: "Pending" | "Accepted" | "Edited" | "Rejected";
+    at: string;
+  };
   id: string;
   value: JsonValue;
   unit: string | null;
@@ -58,6 +69,13 @@ export interface IntakeField {
     reason: string;
   }[];
   review: {
+    attribution?: {
+      userId: string;
+      name: string;
+      email: string;
+      at: string;
+      workspace: "shared";
+    };
     status: "Unreviewed" | "Under review" | "Engineer verified";
     reviewer: string | null;
     at: string | null;
@@ -72,6 +90,25 @@ export interface IntakeField {
   };
 }
 export interface IntakeRecord {
+  utilityRates?: import("../rates/types").UtilityRateResult;
+  energyImports?: import("../energy/types").EnergyImport[];
+  collectionBenchmark?: {
+    startedAt: string;
+    completedAt: string | null;
+    requests: {
+      source: string;
+      startedAt: string;
+      durationMs: number;
+      status: string;
+    }[];
+    manualComparison?: {
+      fieldIds: string[];
+      manualSeconds: number;
+      manualReviewSeconds: number;
+      automatedReviewSeconds: number;
+      note: string;
+    };
+  };
   electricalDiscovery?: import("../electrical/types").ElectricalDiscovery;
   schemaVersion: "2.0";
   fieldSchemaVersion?: 3;

@@ -21,7 +21,12 @@ export function useEngineeringRecord(
   useEffect(() => {
     entry.flush();
   }, [entry]);
-  return { ...state, update: entry.update, files: entry.files };
+  return {
+    ...state,
+    update: entry.update,
+    files: entry.files,
+    restoring: entry.restoring,
+  };
 }
 export function useSavedEngineeringRecord(site: SiteRecord) {
   const state = useEngineeringRecord(engineeringKeyForSite(site), () =>

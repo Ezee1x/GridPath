@@ -1,5 +1,5 @@
 import {
-  FIELD_SCHEMA,
+  ACTIVE_FIELDS,
   PRIORITIES,
   type Priority,
   type FieldDefinition,
@@ -12,7 +12,8 @@ export const effectivePriority = (
   field: IntakeField,
 ): Priority => field.priority ?? definition.criticality;
 export const applicable = (record: IntakeRecord, definition: FieldDefinition) =>
-  definition.condition !== "proposed" || record.stage === "design";
+  ACTIVE_FIELDS.some((d) => d.id === definition.id) &&
+  (definition.condition !== "proposed" || record.stage === "design");
 export function actionReasons(
   record: IntakeRecord,
   definition: FieldDefinition,
@@ -41,7 +42,7 @@ export function actionReasons(
   return reasons;
 }
 export function verificationItems(record: IntakeRecord) {
-  return FIELD_SCHEMA.flatMap((definition) => {
+  return ACTIVE_FIELDS.flatMap((definition) => {
     const field = record.fields.find((f) => f.id === definition.id)!;
     const reasons = actionReasons(record, definition, field);
     return reasons.length

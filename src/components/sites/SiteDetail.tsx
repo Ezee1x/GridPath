@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
 import type { SiteRecord } from "@/lib/types";
@@ -9,6 +9,7 @@ import { Empty } from "@/components/ui";
 import { GoogleAddressWorkspace } from "@/components/maps/GoogleAddressWorkspace";
 import { useSavedEngineeringRecord } from "@/components/intake/useEngineeringRecord";
 import { EngineeringRecordDashboard } from "@/components/intake/SiteIntelligenceDashboard";
+import { SitePackageTools } from "@/components/intake/SitePackageTools";
 import { SiteAnnotations } from "@/components/annotations/SiteAnnotations";
 function SavedRecordContent({
   site,
@@ -41,18 +42,17 @@ function SavedRecordContent({
       onContourAction={register}
     />
   ) : (
-    dashboard
+    <>
+      <SiteAnnotations site={site} embedded />
+      {dashboard}
+    </>
   );
 }
 export function SiteDetail({ id }: { id: string }) {
   const { sites } = useWorkspace(),
-    params = useSearchParams(),
-    router = useRouter(),
-    pathname = usePathname();
+    params = useSearchParams();
   const site = sites.find((s) => s.id === id),
     fieldId = params.get("field");
-  const view =
-    params.get("view") === "annotations" && !fieldId ? "annotations" : "record";
   if (!site)
     return (
       <Empty title="Site record not found">
@@ -73,51 +73,12 @@ export function SiteDetail({ id }: { id: string }) {
           <small>Saved in this browser</small>
         </div>
       </div>
-      <div className="tabs" role="tablist" aria-label="Site sections">
-        {(
-          [
-            ["record", "Site record"],
-            ["annotations", "Site annotations"],
-          ] as const
-        ).map(([key, label]) => (
-          <button
-            key={key}
-            type="button"
-            role="tab"
-            id={`view-${key}`}
-            aria-selected={view === key}
-            aria-controls="site-view"
-            className={view === key ? "selected" : ""}
-            onClick={() =>
-              router.replace(
-                key === "record" ? pathname : `${pathname}?view=${key}`,
-                { scroll: false },
-              )
-            }
-          >
-            {label}
-            {key === "annotations" && !!site.annotatedImages?.length && (
-              <span className="tab-count">
-                {site.annotatedImages.reduce(
-                  (n, a) => n + a.annotations.filter((x) => !x.hidden).length,
-                  0,
-                )}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-      <div id="site-view" role="tabpanel" aria-labelledby={`view-${view}`}>
-        {view === "annotations" ? (
-          <SiteAnnotations site={site} />
-        ) : (
-          <SavedRecordContent
-            key={`${site.id}:${fieldId ?? ""}`}
-            site={site}
-            fieldId={fieldId}
-          />
-        )}
-      </div>
+      <SitePackageTools site={site} />
+      <SavedRecordContent
+        key={`${site.id}:${fieldId ?? ""}`}
+        site={site}
+        fieldId={fieldId}
+      />
     </>
   );
 }

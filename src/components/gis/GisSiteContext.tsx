@@ -7,7 +7,7 @@ import {
   useRef,
   useCallback,
 } from "react";
-import { Download, Layers, RotateCw, X } from "lucide-react";
+import { Download, Layers, X } from "lucide-react";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisFeature, LayerKind, Measurement } from "@/lib/gis/types";
 import {
@@ -20,10 +20,7 @@ import type { GisLayerResult } from "@/lib/gis/types";
 import type { EnvironmentBundle } from "@/lib/environment/types";
 import { SiteIntelligenceDashboard } from "@/components/intake/SiteIntelligenceDashboard";
 import { useEnvironment } from "@/components/environment/useEnvironment";
-import {
-  EnvironmentSourceStatus,
-  TerrainControls,
-} from "@/components/environment/EnvironmentControls";
+import { TerrainControls } from "@/components/environment/EnvironmentControls";
 import { EnvironmentFeatureDialog } from "@/components/environment/EnvironmentEvidence";
 import type {
   EnvironmentalFeature,
@@ -31,18 +28,17 @@ import type {
 } from "@/lib/environment/types";
 import type { SiteAnalysis } from "@/lib/gis/analysis-types";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useWorkspace } from "@/lib/store";
 import { savedMapSite } from "@/lib/saved-map-site";
+import { SiteAnnotations } from "@/components/annotations/SiteAnnotations";
+import type { SiteRecord } from "@/lib/types";
+import { annotationLayerContext } from "@/lib/annotations/layer-context";
 const kinds: LayerKind[] = ["parcels", "buildings", "roads"];
 const labels: Record<LayerKind, string> = {
   parcels: "Property boundaries",
   buildings: "Mapped roofprints",
   roads: "Road centerlines",
-};
-const progress: Record<LayerKind, string> = {
-  parcels: "Finding parcel",
-  buildings: "Loading buildings",
-  roads: "Loading roads",
 };
 const number = (n: number) =>
   n.toLocaleString(undefined, { maximumFractionDigits: 1 });
@@ -180,16 +176,45 @@ export function GisSiteContext({
   dashboard?: ReactNode;
   onContourAction?: (action: (() => void) | null) => void;
 }) {
+  const params = useSearchParams();
   const gis = useSiteGis(address, initialParcelId);
   const { sites, save, warning: saveWarning } = useWorkspace();
   const [saveMessage, setSaveMessage] = useState("");
+  const [comparisonOpen, setComparisonOpen] = useState(false);
   const saved = sites.find(
     (s) =>
       !!address &&
       s.mapPlaceId === address.placeId &&
       (s.parcelFeatureId ?? null) === gis.parcelId,
   );
-  const publicPoint = gis.layers.parcels.result?.queryLocation;
+  const publicPoint =
+    gis.layers.parcels.result?.queryLocation ??
+    gis.layers.buildings.result?.queryLocation ??
+    gis.layers.roads.result?.queryLocation;
+  const annotationBase = useMemo(
+    () =>
+      address && publicPoint
+        ? savedMapSite(address.placeId, publicPoint, gis.parcelId, saved)
+        : null,
+    // Keep the draft identity stable across source refreshes and annotation saves.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      address?.placeId,
+      publicPoint?.address,
+      publicPoint?.latitude,
+      publicPoint?.longitude,
+      gis.parcelId,
+      saved?.id,
+    ],
+  );
+  const [annotationDraft, setAnnotationDraft] = useState<SiteRecord | null>(
+    null,
+  );
+  const annotationSite =
+    saved ??
+    (annotationDraft?.id === annotationBase?.id
+      ? annotationDraft
+      : annotationBase);
   const [requested, setRequested] = useState(
     !!initialParcelId || !!initialFieldId,
   );
@@ -280,7 +305,12 @@ export function GisSiteContext({
     gis.layers.parcels.result?.features.find(
       (f) => f.properties.id === gis.parcelId,
     ) ?? null;
-  const [mapMode, setMapMode] = useState<"public" | "elevation">("public");
+  const [mapMode, setMapMode] = useState<
+    "public" | "elevation" | "annotations"
+  >(() => (params.get("view") === "annotations" ? "annotations" : "public"));
+  const [annotationsOpened, setAnnotationsOpened] = useState(
+    mapMode === "annotations",
+  );
   const [intervalFeet, setIntervalFeet] = useState<1 | 2 | 5 | 10>(5);
   const [wetlandRadius, setWetlandRadius] = useState(250);
   const [terrainBuildings, setTerrainBuildings] = useState(true);
@@ -364,7 +394,7 @@ export function GisSiteContext({
       f.properties.association === "Crosses parcel boundary — review required",
   );
   const displayLayers = useMemo<GeoJsonMapLayer[]>(() => {
-    if (mapMode === "public") {
+    if (mapMode !== "elevation") {
       const result = [...mapLayers];
       for (const kind of ["flood", "wetlands"] as const) {
         const data = environment.bundle[kind];
@@ -532,7 +562,9 @@ export function GisSiteContext({
   }
   return (
     <div className="site-intelligence-experience">
-      <div className="satellite-workspace-grid">
+      <div
+        className={`satellite-workspace-grid ${comparisonOpen && mapMode === "annotations" ? "annotation-comparison-open" : ""}`}
+      >
         <div className="gis-map-column" ref={mapSection}>
           <div
             className="map-view-tabs"
@@ -556,6 +588,18 @@ export function GisSiteContext({
               onClick={openContours}
             >
               Elevation & Contours
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mapMode === "annotations"}
+              aria-controls="site-map-panel"
+              onClick={() => {
+                setAnnotationsOpened(true);
+                setMapMode("annotations");
+              }}
+            >
+              Annotated Layer
             </button>
           </div>
           {mapMode === "public" ? (
@@ -610,7 +654,7 @@ export function GisSiteContext({
                 </label>
               </div>
             </div>
-          ) : (
+          ) : mapMode === "elevation" ? (
             <TerrainControls
               state={environment.elevation}
               interval={intervalFeet}
@@ -620,92 +664,71 @@ export function GisSiteContext({
               forceDem={forceDem}
               setForceDem={setForceDem}
             />
-          )}
+          ) : null}
           <div
             id="site-map-panel"
             role="tabpanel"
             aria-label={
-              mapMode === "public"
-                ? "Public GIS Layers map"
-                : "Elevation & Contours map"
+              mapMode === "annotations"
+                ? "Annotated Layer map"
+                : mapMode === "public"
+                  ? "Public GIS Layers map"
+                  : "Elevation & Contours map"
             }
           >
-            <GoogleSiteMap
-              address={address}
-              layers={displayLayers}
-              mode={mapMode === "elevation" ? "roadmap" : "satellite"}
-              viewBounds={
-                terrainBounds
-                  ? {
-                      west: terrainBounds[0],
-                      south: terrainBounds[1],
-                      east: terrainBounds[2],
-                      north: terrainBounds[3],
+            <div hidden={mapMode === "annotations"}>
+              <GoogleSiteMap
+                address={address}
+                layers={displayLayers}
+                mode={mapMode === "elevation" ? "roadmap" : "satellite"}
+                viewBounds={
+                  terrainBounds
+                    ? {
+                        west: terrainBounds[0],
+                        south: terrainBounds[1],
+                        east: terrainBounds[2],
+                        north: terrainBounds[3],
+                      }
+                    : undefined
+                }
+              />
+            </div>
+            {annotationsOpened && (
+              <div hidden={mapMode !== "annotations"}>
+                {annotationSite && publicPoint ? (
+                  <SiteAnnotations
+                    key={annotationSite.id}
+                    embedded
+                    onComparisonChange={setComparisonOpen}
+                    site={{
+                      ...annotationSite,
+                      siteContext: annotationLayerContext(
+                        annotationSite.address,
+                        publicPoint,
+                        gis.parcelId,
+                        selectedParcel,
+                        annotationSite.siteContext,
+                      ),
+                    }}
+                    onSave={(next) =>
+                      saved ? save(next) : setAnnotationDraft(next)
                     }
-                  : undefined
-              }
-            />
+                  />
+                ) : (
+                  <div className="viewer-empty" role="status">
+                    <span className="annotation-spinner" aria-hidden="true" />
+                    {address
+                      ? "Waiting for public address location. If lookup fails, retry parcels to load this layer."
+                      : "Search a site address to load its annotated layer."}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           {mapMode === "elevation" && (
             <button className="text-link" onClick={() => setMapMode("public")}>
               Return to Public GIS Layers
             </button>
-          )}
-          <EnvironmentSourceStatus
-            flood={environment.flood}
-            wetlands={environment.wetlands}
-            elevation={environment.elevation}
-            hasParcel={!!selectedParcel}
-          />
-
-          <p className="gis-map-note">
-            MassGIS assessment boundaries are not legal survey boundaries. Click
-            a feature or use the lists to inspect its public record.
-          </p>
-          {address && (
-            <div className="gis-operation-grid" aria-live="polite">
-              {kinds.map((k) => (
-                <div key={k}>
-                  <strong>{labels[k]}</strong>
-                  <span>
-                    {gis.layers[k].status === "loading"
-                      ? progress[k]
-                      : gis.layers[k].status === "ready"
-                        ? `${gis.layers[k].result!.features.length} public features retrieved`
-                        : gis.layers[k].status === "error"
-                          ? "Retrieval failed"
-                          : "Waiting for parcel lookup"}
-                  </span>
-                  {gis.layers[k].error && (
-                    <p role="alert">{gis.layers[k].error}</p>
-                  )}
-                  {gis.layers[k].status !== "loading" && (
-                    <button
-                      className="text-link"
-                      type="button"
-                      onClick={() => gis.retry(k)}
-                    >
-                      <RotateCw size={12} />
-                      Retry {k}
-                    </button>
-                  )}
-                </div>
-              ))}
-              <div>
-                <strong>Geographic measurements</strong>
-                <span>
-                  {[
-                    gis.layers.parcels.status,
-                    gis.layers.buildings.status,
-                  ].includes("loading")
-                    ? "Calculating geographic measurements"
-                    : available.includes("parcels") ||
-                        available.includes("buildings")
-                      ? "Available source areas and approximate geometry areas normalized"
-                      : "Waiting for geometry"}
-                </span>
-              </div>
-            </div>
           )}
           {environmentFeature && (
             <EnvironmentFeatureDialog
@@ -807,7 +830,7 @@ export function GisSiteContext({
                     address.placeId,
                     publicPoint,
                     gis.parcelId,
-                    saved,
+                    saved ?? annotationSite ?? undefined,
                   ),
                 );
                 setRequested(true);
@@ -1063,6 +1086,9 @@ export function GisSiteContext({
             address={address}
             environment={environment.bundle}
             layers={{
+              activities: Object.values(gis.layers).flatMap((l) =>
+                l.activity ? [l.activity] : [],
+              ),
               parcels: gis.layers.parcels.result,
               roads: gis.layers.roads.result,
             }}
@@ -1080,6 +1106,9 @@ export function GisSiteContext({
             environment={environment.bundle}
             onViewContours={openContours}
             layers={{
+              activities: Object.values(gis.layers).flatMap((l) =>
+                l.activity ? [l.activity] : [],
+              ),
               parcels: gis.layers.parcels.result,
               roads: gis.layers.roads.result,
             }}
@@ -1137,7 +1166,11 @@ function GisRecordCollector({
 }: {
   analysis: SiteAnalysis;
   address: SelectedAddress;
-  layers: { parcels: GisLayerResult | null; roads: GisLayerResult | null };
+  layers: {
+    parcels: GisLayerResult | null;
+    roads: GisLayerResult | null;
+    activities?: import("@/lib/engineering/activity").CollectionActivity[];
+  };
   environment: EnvironmentBundle;
 }) {
   useIntake(analysis, address, layers, environment);

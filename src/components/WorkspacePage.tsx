@@ -1,4 +1,5 @@
 "use client";
+import { TeamWorkspace } from "./team/TeamWorkspace";
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, RotateCcw, ShieldCheck } from "lucide-react";
@@ -138,13 +139,14 @@ export function WorkspacePage({ section }: { section: string }) {
       )}
       {section === "settings" && (
         <div className="settings-stack">
+          <TeamWorkspace />
           <section className="card panel-padding">
             <h2>Browser storage</h2>
             <p className="muted">
               Site records, collection statuses, owners, notes, and attached
-              files are saved in this browser only. Files survive a refresh but
-              are not shared with teammates or other devices. Export a record
-              to hand it off.
+              files are saved in this browser. Enable the shared workspace above
+              for team access, or export a site package containing the record
+              and available files.
             </p>
             <Badge tone="teal">
               Saved records work without a Google Maps key
@@ -153,10 +155,11 @@ export function WorkspacePage({ section }: { section: string }) {
           <section className="card panel-padding">
             <h2>Review limitations</h2>
             <p className="muted">
-              Human reviews in this workspace are self-attested, not
-              authenticated engineering sign-offs. Data completeness is a
-              collection metric, not a feasibility assessment, code-compliance
-              determination, or installation approval.
+              Browser-only reviews are self-attested. Shared engineer/admin
+              reviews use authenticated identities; your team establishes
+              professional authority. Data completeness is a collection metric,
+              not a feasibility assessment, code-compliance determination, or
+              installation approval.
             </p>
           </section>
           <section className="card panel-padding">

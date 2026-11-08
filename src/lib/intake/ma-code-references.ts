@@ -1,3 +1,4 @@
+import { ENGINEERING_REFERENCES } from "../engineering/library";
 import type { NormalizedCollection } from "./adapters";
 import { observationId } from "./model";
 
@@ -15,9 +16,12 @@ export const MA_CODE_REFERENCES = [
 export function MassachusettsCodeReferenceAdapter(): NormalizedCollection {
   const at = new Date().toISOString();
   const key = "ma:project-code-reference-baseline";
-  const value = [...MA_CODE_REFERENCES];
+  const value = ENGINEERING_REFERENCES.map(
+    (r) =>
+      `${r.title} — ${r.edition ?? "Edition requires confirmation"} · ${r.verification}`,
+  );
   const method =
-    "Fixed Massachusetts reference list supplied by the project owner. NFPA 1 and NFPA 855 titles corrected; NEC and NFPA 70 refer to the same code. Supplied editions are retained as reference entries, not asserted to be adopted editions. As checked on 2026-11-07, Mass.gov identifies 527 CMR 12.00 as the Massachusetts Electrical Code based on the 2026 NEC, effective April 24, 2026. The 2020 NFPA 1 reference edition, NFPA 855 edition, IFC applicability, project permit date and municipal amendments require confirmation. 780 CMR Tenth Edition is based on the 2021 IBC. This list does not establish site-specific code compliance.";
+    "Engineering reference library checked 2026-11-08. Massachusetts building/fire adoption references were checked through official indexed publications; electrical download returned HTTP 403 and requires official confirmation. Applicable NFPA 855 edition, local amendments and project permit date remain unconfirmed. Previous project-supplied editions remain in observation history and are not an adopted-code determination.";
   return {
     fields: [
       {

@@ -191,7 +191,7 @@ test("partial elevation is incomplete; wrong-site bundle is ignored", () => {
     0,
   );
   const r = createIntakeRecord("test", "Synthetic", "1");
-  assert.equal(readiness(r).required, 59);
+  assert.equal(readiness(r).required, 52);
 });
 test("legacy Slope moves to retired data and disappears from active export and checklist", () => {
   const r = createIntakeRecord("legacy", "Synthetic", "1");

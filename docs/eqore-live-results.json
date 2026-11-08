@@ -1,0 +1,165 @@
+{
+  "testedAt": "2026-11-08T09:24:48.220Z",
+  "note": "Actual HTTP/public-source requests. QA-only identities; no site records created or seeded. OpenEI candidate fixtures tested separately and explicitly synthetic.",
+  "results": [
+    {
+      "address": "79 Lowland St, Holliston, MA",
+      "status": 200,
+      "selectedFeatureFound": true,
+      "parcelFeatureId": "2251987",
+      "parcelId": "012.0-0004-0064.2",
+      "siteAddress": "79 LOWLAND ST",
+      "municipality": "HOLLISTON",
+      "gisErrors": {
+        "parcels": null,
+        "buildings": null,
+        "roads": null
+      },
+      "buildingFeatures": 3,
+      "roadFeatures": 11,
+      "electricalStatus": 200,
+      "utilityCandidates": [
+        {
+          "name": "Eversource Energy (NSTAR Electric)",
+          "townId": 136,
+          "recordId": "139",
+          "sourceKey": "electric-territory:139"
+        }
+      ],
+      "permitCount": 0,
+      "sourceAdapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.41341663048%2C42.210070275826&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation.",
+          "startedAt": "2026-11-08T09:24:43.917Z",
+          "durationMs": 435
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mapsonline.net/hollistonma/public_permit_reports.html.php",
+          "message": "No supported public permit API for this municipality. Use the official municipal portal for manual record research; no absence of permits is implied.",
+          "startedAt": "2026-11-08T09:24:44.352Z",
+          "durationMs": 0
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "rateStatus": "configuration-required",
+      "rateMessage": "Configure the server-side OPENEI_API_KEY to search published tariffs. Customer bill intake and other site sources remain available.",
+      "durationMs": 2882
+    },
+    {
+      "address": "25 Southgate St, Worcester, MA",
+      "status": 200,
+      "selectedFeatureFound": true,
+      "parcelFeatureId": "588601",
+      "parcelId": "07-024-01-03",
+      "siteAddress": "25 SOUTHGATE ST",
+      "municipality": "WORCESTER",
+      "gisErrors": {
+        "parcels": null,
+        "buildings": null,
+        "roads": null
+      },
+      "buildingFeatures": 6,
+      "roadFeatures": 57,
+      "electricalStatus": 200,
+      "utilityCandidates": [
+        {
+          "name": "National Grid (Massachusetts Electric)",
+          "townId": 348,
+          "recordId": "152",
+          "sourceKey": "electric-territory:152"
+        }
+      ],
+      "permitCount": 8,
+      "sourceAdapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.814427152912%2C42.247541735785&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation.",
+          "startedAt": "2026-11-08T09:24:48.002Z",
+          "durationMs": 103
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "found",
+          "sourceUrl": "https://services1.arcgis.com/j8dqo2DJE7mVUBU1/arcgis/rest/services/Building_Permits/FeatureServer/0/query?f=json&where=UPPER%28Address%29+LIKE+%2725+SOUTHGATE+ST%25%27&outFields=*&returnGeometry=false&resultRecordCount=100",
+          "message": "8 exact-address building permit matches. Historical context only; current electrical ratings remain unconfirmed.",
+          "startedAt": "2026-11-08T09:24:48.105Z",
+          "durationMs": 105
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "rateStatus": "configuration-required",
+      "rateMessage": "Configure the server-side OPENEI_API_KEY to search published tariffs. Customer bill intake and other site sources remain available.",
+      "durationMs": 6729
+    },
+    {
+      "address": "200 Clarendon St, Boston, MA",
+      "status": 200,
+      "selectedFeatureFound": true,
+      "parcelFeatureId": "2380675",
+      "parcelId": "0401134000",
+      "siteAddress": "200 Clarendon ST",
+      "municipality": "BOSTON",
+      "gisErrors": {
+        "parcels": null,
+        "buildings": null,
+        "roads": null
+      },
+      "buildingFeatures": 10,
+      "roadFeatures": 161,
+      "electricalStatus": 200,
+      "utilityCandidates": [
+        {
+          "name": "Eversource Energy (NSTAR Electric)",
+          "townId": 35,
+          "recordId": "258",
+          "sourceKey": "electric-territory:258"
+        }
+      ],
+      "permitCount": 100,
+      "sourceAdapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.074892080086%2C42.349893160603&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation.",
+          "startedAt": "2026-11-08T09:24:44.359Z",
+          "durationMs": 106
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "found",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&q=%7B%22address%22%3A%22200+CLARENDON+ST%22%7D&filters=%7B%22worktype%22%3A%22ELECTRICAL%22%7D&limit=100&sort=issued_date+desc",
+          "message": "100 exact-address electrical permit matches. Results capped at 100 recent source records; research older records manually. Filing dates and drawing URLs are not exposed; no current electrical ratings inferred.",
+          "startedAt": "2026-11-08T09:24:44.465Z",
+          "durationMs": 667
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "rateStatus": "configuration-required",
+      "rateMessage": "Configure the server-side OPENEI_API_KEY to search published tariffs. Customer bill intake and other site sources remain available.",
+      "durationMs": 3649
+    }
+  ]
+}

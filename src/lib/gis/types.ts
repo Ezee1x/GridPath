@@ -9,6 +9,7 @@ export interface Measurement {
   approximate: boolean;
 }
 export interface GisSource {
+  activity?: import("../engineering/activity").CollectionActivity;
   name: string;
   url: string;
   geometryType: string;
@@ -43,6 +44,7 @@ export interface GisLayerResult {
   matchMessage?: string;
 }
 export interface GisLayerState {
+  activity?: import("../engineering/activity").CollectionActivity;
   status: "idle" | "loading" | "ready" | "error";
   result: GisLayerResult | null;
   error: string | null;

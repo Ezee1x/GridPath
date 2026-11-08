@@ -1,3 +1,4 @@
+import { additionalMunicipalPermits } from "./municipal";
 import { publicAddressLocation } from "../gis/public-address";
 import { normalizedStreet } from "../gis/geometry";
 import { observationId } from "../intake/model";
@@ -18,7 +19,8 @@ export const BOSTON_PORTAL =
 export const INTERCONNECTION_URL =
   "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts";
 export const MUNICIPAL_PORTALS: Record<string, string> = {
-  HOLLISTON: "https://www.townofholliston.us/187/Building",
+  HOLLISTON:
+    "https://www.mapsonline.net/hollistonma/public_permit_reports.html.php",
   WORCESTER: "https://www.worcesterma.gov/building-zoning",
   BOSTON: BOSTON_PORTAL,
   CAMBRIDGE: "https://www.cambridgema.gov/",
@@ -149,6 +151,8 @@ export async function MunicipalPermitAdapter(
   output: ElectricalDiscovery,
 ): Promise<AdapterResult> {
   const town = output.municipality;
+  if (town === "CAMBRIDGE" || town === "WORCESTER")
+    return additionalMunicipalPermits(site, output);
   if (town !== "BOSTON")
     return {
       adapter: "MunicipalPermitAdapter",
@@ -283,6 +287,8 @@ export async function discoverElectrical(
     customerRequests: [],
     documentEvidence: [],
   };
+  let began = Date.now(),
+    startedAt = new Date().toISOString();
   try {
     output.adapters.push(await UtilityTerritoryAdapter(site, output));
   } catch (error) {
@@ -294,6 +300,10 @@ export async function discoverElectrical(
         error instanceof Error ? error.message : "Utility source unavailable.",
     });
   }
+  output.adapters.at(-1)!.startedAt = startedAt;
+  output.adapters.at(-1)!.durationMs = Date.now() - began;
+  began = Date.now();
+  startedAt = new Date().toISOString();
   try {
     output.adapters.push(await MunicipalPermitAdapter(site, output));
   } catch (error) {
@@ -305,6 +315,8 @@ export async function discoverElectrical(
         error instanceof Error ? error.message : "Permit source unavailable.",
     });
   }
+  output.adapters.at(-1)!.startedAt = startedAt;
+  output.adapters.at(-1)!.durationMs = Date.now() - began;
   output.adapters.push(PublicElectricalRecordsAdapter());
   return output;
 }

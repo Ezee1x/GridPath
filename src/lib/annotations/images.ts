@@ -24,7 +24,10 @@ async function run<T>(
 }
 export const saveAnalysisImage = (id: string, blob: Blob) =>
   run("readwrite", (s) => s.put(blob, id));
-export const loadAnalysisImage = (id: string) =>
-  run<Blob | undefined>("readonly", (s) => s.get(id));
+export async function loadAnalysisImage(id:string):Promise<Blob|undefined>{
+ const local=await run<Blob|undefined>("readonly",s=>s.get(id));
+ if(local)return local;
+ const {sharedImage}=await import("../team/client");const remote=await sharedImage(id);if(remote)await saveAnalysisImage(id,remote);return remote;
+}
 export const deleteAnalysisImage = (id: string) =>
   run("readwrite", (s) => s.delete(id));

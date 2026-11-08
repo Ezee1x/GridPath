@@ -4222,3 +4222,84 @@ gmp-place-autocomplete::part(prediction-item-selected) {
     flex-direction: column;
   }
 }
+
+/* Compact shared-record controls retain the established neutral palette. */
+.team-status { margin: 0; padding: 8px 24px; color: var(--text-secondary); border-bottom: 1px solid var(--border); font-size: 13px; }
+.next-actions { margin-bottom: 20px; border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; background: var(--surface); }
+.next-actions h2 { font-size: 18px; margin: 0 0 8px; }
+.next-actions ul { list-style: none; margin: 0; padding: 0; }
+.next-actions li { display: flex; gap: 16px; align-items: center; padding: 9px 0; border-top: 1px solid var(--border); }
+.next-actions li > div { flex: 1; }
+.next-actions small { display: block; color: var(--text-secondary); margin-top: 3px; }
+.document-extraction { margin: 8px 0; padding: 10px 0; border-top: 1px solid var(--border); }
+.document-extraction p { font-size: 14px; line-height: 1.5; }
+.document-extraction li { margin: 12px 0; }
+@media (max-width: 650px) { .next-actions li { flex-wrap: wrap; gap: 8px 16px; } .next-actions li > div { flex-basis: 100%; } }
+
+.engineering-reference { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; margin: 10px 0; background: var(--surface); }
+.engineering-reference > summary { font-weight: 550; cursor: pointer; }
+.engineering-reference[open] > summary { margin-bottom: 10px; }
+.engineering-reference p, .engineering-reference small { margin: 7px 0; }
+.engineering-reference small { display: block; color: var(--text-secondary); }
+.engineering-reference ul { padding-left: 20px; }
+.engineering-reference li { margin: 10px 0; }
+.engineering-reference label { display: block; margin: 10px 0; }
+.engineering-reference input:not([type="checkbox"]), .engineering-reference select, .engineering-reference textarea { max-width: 100%; border: 1px solid var(--border-strong); border-radius: 4px; padding: 8px; }
+.engineering-reference textarea { display: block; width: 100%; min-height: 75px; }
+.engineering-reference pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 380px; overflow: auto; background: var(--surface-muted); padding: 12px; font-size: 13px; }
+.engineering-reference svg { width: 100%; max-height: 190px; }
+.engineering-reference figcaption { font-size: 12px; color: var(--text-secondary); }
+.requirement-field-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0; }
+.benchmark-fields { max-height: 180px; overflow: auto; border: 1px solid var(--border); padding: 8px; }
+.document-extraction textarea { width: 100%; min-height: 60px; border: 1px solid var(--border-strong); padding: 8px; }
+@media print { .sidebar, .topbar, .next-actions, button { display:none!important; } .main-shell { margin:0; } }
+
+
+/* Inline annotated map layer: compact controls and truthful request progress. */
+.annotations-embedded { gap: 12px; min-width: 0; }
+.annotations-embedded > .annotation-tools { order: 3; }
+.annotations-embedded .annotations-section { padding: 12px; min-width: 0; }
+.annotations-embedded .annotations-heading { gap: 12px; flex-wrap: wrap; }
+.annotations-embedded .annotations-heading h2 { font-size: 18px; }
+.annotations-embedded .schedule { min-width: 680px; }
+.annotations-embedded .title-block { display: flex; flex-wrap: wrap; }
+.annotations-embedded .title-block > div { flex: 1 1 160px; }
+.annotations-embedded .scan-line { box-shadow: none; }
+.annotation-spinner { display: inline-block; flex: 0 0 auto; width: 18px; height: 18px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: annotation-spin 1s linear infinite; }
+@keyframes annotation-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .annotation-spinner { animation: none; border-style: dotted; } }
+
+
+.annotation-comparison-open { grid-template-columns: minmax(0, 1fr); }
+.annotation-comparison-open > .site-location-panel { max-width: 680px; }
+.street-comparison { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; margin-top:12px; }
+.street-comparison > section { min-width:0; }
+.street-comparison h3 { margin:0 0 6px; font-size:17px; }
+.street-comparison p { font-size:13px; margin:6px 0 10px; }
+.comparison-map, .street-comparison .street-view-pano { height:440px; min-height:440px; border:1px solid var(--border); border-radius:var(--radius); }
+.street-comparison .street-view { min-width:0; }
+.comparison-actions { margin-bottom:12px; }
+.comparison-edit { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0; }
+.comparison-edit label { display:grid; gap:6px; }
+.comparison-edit small { grid-column:1/-1; }
+.comparison-callout { border:1px solid #333; background:white; color:#202522; padding:4px 6px; font:500 12px/1.3 system-ui; max-width:190px; text-align:left; }
+.comparison-callout.selected { border:2px solid var(--accent); }
+.street-position-marker { position:relative; width:32px; height:32px; transform:rotate(var(--camera-heading,0deg)); }
+.street-camera-dot { position:absolute; left:10px; top:13px; width:12px; height:12px; border:2px solid white; border-radius:50%; background:#196bc4; }
+.street-heading-arrow { position:absolute; left:7px; top:0; width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-bottom:19px solid #196bc4; }
+@media(max-width:800px) { .street-comparison { grid-template-columns:minmax(0,1fr); } .comparison-map,.street-comparison .street-view-pano { height:360px; min-height:360px; } .comparison-edit { grid-template-columns:1fr; } }
+.street-camera-dot { top:10px; }
+.street-heading-arrow { top:-6px; }
+.street-camera-coordinates { display:block; color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+.street-comparison .viewer-empty.overlay { height:440px; }
+@media(max-width:800px) { .street-comparison .viewer-empty.overlay { height:360px; } }
+.diagram-street-comparison .street-view-pano { height:auto; min-height:300px; aspect-ratio:4/3; }
+.diagram-street-comparison .viewer-empty.overlay { height:auto; min-height:300px; aspect-ratio:4/3; }
+.diagram-street-comparison > section > p:first-of-type { min-height:38px; }
+/* Keep the requested paired diagram beside Street View on tablets and small desktops. */
+@media(min-width:601px) and (max-width:800px) { .diagram-street-comparison { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
+
+.map-label-editor { position:absolute; left:12px; bottom:12px; z-index:5; width:min(280px,calc(100% - 24px)); padding:12px; border:1px solid var(--border-strong); border-radius:var(--radius); background:var(--surface); color:var(--text); display:grid; gap:8px; }
+.map-label-editor label { font-size:14px; font-weight:600; }
+.map-label-editor input { width:100%; min-width:0; font-size:15px; padding:8px; border:1px solid var(--border-strong); border-radius:var(--radius); }
+.map-label-editor .button-row { gap:8px; margin:0; }

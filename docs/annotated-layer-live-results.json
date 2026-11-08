@@ -1,0 +1,30 @@
+{
+  "testedAt": "2026-11-08T10:25:10.932Z",
+  "note": "Actual public aerial detection requests; no site records created. Boston was tested through the browser separately. Candidate counts do not establish detection accuracy.",
+  "results": [
+    {
+      "address": "79 Lowland St, Holliston, MA",
+      "matchedAddress": "79 LOWLAND ST, HOLLISTON, MA, 01746",
+      "http": 200,
+      "completed": true,
+      "error": null,
+      "annotations": 12,
+      "width": 1024,
+      "height": 768,
+      "provider": "MassGIS 2025 aerial imagery (15 cm)",
+      "durationMs": 7512
+    },
+    {
+      "address": "25 Southgate St, Worcester, MA",
+      "matchedAddress": "25 SOUTHGATE ST, WORCESTER, MA, 01603",
+      "http": 200,
+      "completed": true,
+      "error": null,
+      "annotations": 7,
+      "width": 1024,
+      "height": 768,
+      "provider": "MassGIS 2025 aerial imagery (15 cm)",
+      "durationMs": 8015
+    }
+  ]
+}

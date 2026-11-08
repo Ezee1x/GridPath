@@ -7,6 +7,8 @@ export interface ElectricalSite {
   townId?: number | null;
 }
 export interface AdapterResult {
+  startedAt?: string;
+  durationMs?: number;
   adapter: string;
   status: "found" | "empty" | "unavailable" | "error";
   message: string;
@@ -16,7 +18,7 @@ export interface ElectricalPermit {
   id: string;
   category: string;
   issuedDate: string | null;
-  filingDate: null;
+  filingDate: string | null;
   status: string;
   address: string;
   parcelId: string;

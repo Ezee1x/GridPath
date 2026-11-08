@@ -1,11 +1,25 @@
 "use client";
+import { printableSummary } from "@/lib/engineering/printable";
+import { downloadText } from "@/components/engineering/RequirementsEvidenceMatrix";
+import {
+  RequirementsEvidenceMatrix,
+  ApplicableEngineeringReferences,
+  InformationRequest,
+} from "@/components/engineering/RequirementsEvidenceMatrix";
+import { UtilityRatesPanel } from "@/components/rates/UtilityRatesPanel";
+import { EnergyImportPanel } from "@/components/energy/EnergyImportPanel";
+import { CollectionBenchmark } from "@/components/engineering/CollectionBenchmark";
 import { useState } from "react";
 import { MetricEvidence } from "@/components/gis/SiteAnalysisPanel";
 import type { AnalysisMetric, SiteAnalysis } from "@/lib/gis/analysis-types";
 import type { SelectedAddress } from "@/lib/maps/address";
 import type { GisLayerResult } from "@/lib/gis/types";
 import type { IntakeRecord } from "@/lib/intake/types";
-import { CATEGORIES, FIELD_SCHEMA } from "@/lib/intake/schema";
+import {
+  ACTIVE_CATEGORIES,
+  ACTIVE_FIELDS,
+  FIELD_SCHEMA,
+} from "@/lib/intake/schema";
 import {
   exportIntake,
   hasConflict,
@@ -38,7 +52,11 @@ export function SiteIntelligenceDashboard({
   onViewContours?: () => void;
   analysis: SiteAnalysis;
   address: SelectedAddress;
-  layers: { parcels: GisLayerResult | null; roads: GisLayerResult | null };
+  layers: {
+    parcels: GisLayerResult | null;
+    roads: GisLayerResult | null;
+    activities?: import("@/lib/engineering/activity").CollectionActivity[];
+  };
 }) {
   const { record, warning, update, propertyStatus, retryProperty, files } =
     useIntake(analysis, address, layers, environment);
@@ -90,8 +108,8 @@ export function EngineeringRecordDashboard({
   const [mode, setMode] = useState<FieldView>("fields");
   const [accordion, setAccordion] = useState({ all: false, version: 0 });
   const counts = readiness(record);
-  const dashboardCategories = CATEGORIES.filter((c) => c.id !== "design");
-  const dashboardFields = FIELD_SCHEMA.filter((d) => d.category !== "design");
+  const dashboardCategories = ACTIVE_CATEGORIES;
+  const dashboardFields = ACTIVE_FIELDS;
   // Prioritize measured land constraints and public-record screening findings.
   // Electrical capacity and access approval require separate engineering evidence.
   const metrics = [
@@ -149,6 +167,39 @@ export function EngineeringRecordDashboard({
   }
   return (
     <div className="intelligence-dashboard">
+      <section className="next-actions" aria-label="Next actions">
+        <h2>Next actions</h2>
+        <ul>
+          {verificationItems(record)
+            .slice(0, 4)
+            .map((item) => (
+              <li key={item.id}>
+                <div>
+                  <strong>{item.definition.label}</strong>
+                  <small>
+                    {item.priority} priority · {item.field.request.status} ·{" "}
+                    {item.field.request.owner}
+                  </small>
+                </div>
+                <button
+                  className="text-link"
+                  onClick={() => setFieldId(item.id)}
+                >
+                  Review field
+                </button>
+                <button
+                  className="text-link"
+                  onClick={() => setUploadField(item.id)}
+                >
+                  Add file
+                </button>
+              </li>
+            ))}
+        </ul>
+        {!verificationItems(record).length && (
+          <p>No outstanding actions in the active site record.</p>
+        )}
+      </section>
       <section aria-labelledby="site-highlights-title">
         <div className="intelligence-heading">
           <div>
@@ -162,14 +213,6 @@ export function EngineeringRecordDashboard({
             {warning}
           </p>
         )}
-        {Object.entries(analysis?.coverage ?? {})
-          .filter(([, v]) => v.error || v.warnings.length)
-          .map(([k, v]) => (
-            <p className="notice" key={k}>
-              {k}: {[v.error, ...v.warnings].filter(Boolean).join(" ")} Previous
-              observations remain available with their retrieval dates.
-            </p>
-          ))}
         <div className="intelligence-metrics">
           {analysis &&
             metrics.map(([id, label]) => {
@@ -180,8 +223,7 @@ export function EngineeringRecordDashboard({
                   ? field!.review.status === "Engineer verified"
                     ? "Engineer verified"
                     : obs.provenance
-                  : "Not available",
-                definition = "";
+                  : "Not available";
               let target = id;
               if (obs) {
                 if (typeof obs.value !== "object" && obs.unit)
@@ -218,9 +260,6 @@ export function EngineeringRecordDashboard({
                 provenance = analysis.metrics.roadProximity.values
                   ? "Calculated from GIS geometry"
                   : "Not available";
-                definition = analysis.nearestRoad
-                  ? `${analysis.nearestRoad.name} · feature ${analysis.nearestRoad.featureId}; parcel-to-centerline, no access confirmation.`
-                  : "Road proximity has not been established.";
                 target = "roadNames";
               }
               if (id === "boundarySummary") {
@@ -233,22 +272,8 @@ export function EngineeringRecordDashboard({
                   !crossing && closest
                     ? "Calculated from GIS geometry"
                     : "Not available";
-                definition = crossing
-                  ? "A crossing roofprint prevents a representative site minimum. Review individual geometry."
-                  : closest
-                    ? `Roofprint ${closest.name} (feature ${closest.id}); smallest contained roofprint ring-to-parcel-ring minimum, including holes.`
-                    : "Requires a selected parcel and associated roofprint.";
                 target = "boundaryDistances";
               }
-              if (id === "zoning" && obs)
-                definition =
-                  "Assessor zoning attribute · Municipal confirmation required";
-              if (id === "unbuiltArea")
-                definition =
-                  "Mapped parcel polygon minus union of clipped roofprints. This is not usable battery-installation area.";
-              if (id === "totalRoofArea")
-                definition =
-                  "Overlapping contained roofprints counted once. Crossing coverage and reported area sums are separate in source details.";
               return (
                 <button
                   className="intelligence-metric"
@@ -264,8 +289,15 @@ export function EngineeringRecordDashboard({
                 >
                   <span>{label}</span>
                   <strong>{text}</strong>
-                  <small>{provenance}</small>
-                  {definition && <p>{definition}</p>}
+                  <small>
+                    {provenance === "Calculated from GIS geometry"
+                      ? "Estimated"
+                      : provenance === "Not available"
+                        ? "Missing"
+                        : provenance === "Engineer verified"
+                          ? "Engineer verified"
+                          : "Needs review"}
+                  </small>
                   <small className="intelligence-source-link">
                     Source & method ↗
                   </small>
@@ -294,10 +326,9 @@ export function EngineeringRecordDashboard({
           ))}
         </div>
         <p>
-          {record.stage === "design"
-            ? "Counts include existing conditions and proposed design fields for the design stage."
-            : `Counts use required existing-condition fields. ${FIELD_SCHEMA.filter((d) => d.condition === "proposed").length} proposed design/placement fields are not yet applicable and are excluded.`}{" "}
-          Partially collected municipality/AHJ information remains incomplete.
+          Counts use active existing-condition fields. Retired categories are
+          excluded. Partially collected municipality/AHJ information remains
+          incomplete.
         </p>
         <h3>Critical information needed</h3>
         <p>
@@ -310,6 +341,13 @@ export function EngineeringRecordDashboard({
         onAdd={setUploadField}
         fields={dashboardFields}
       />
+      <RequirementsEvidenceMatrix
+        record={record}
+        onField={setFieldId}
+        onUpload={setUploadField}
+      />
+      <InformationRequest record={record} />
+      <CollectionBenchmark record={record} update={update} />
       <details className="full-intake" open>
         <summary className="intelligence-heading">
           <h2>Full Site Record</h2>
@@ -438,6 +476,24 @@ export function EngineeringRecordDashboard({
                     onField={setFieldId}
                   />
                 )}
+                {c.id === "usage" && (
+                  <>
+                    <UtilityRatesPanel
+                      record={record}
+                      update={update}
+                      onField={setFieldId}
+                    />
+                    <EnergyImportPanel
+                      key={record.siteKey}
+                      record={record}
+                      files={files}
+                      update={update}
+                    />
+                  </>
+                )}
+                {c.id === "environment" && (
+                  <ApplicableEngineeringReferences record={record} />
+                )}
                 {c.id === "property" && (
                   <div className="intake-condition-group">
                     <p role="status">{propertyStatus}</p>
@@ -448,9 +504,6 @@ export function EngineeringRecordDashboard({
                     >
                       Retry property sources
                     </button>
-                    {record.propertyIdentification?.warnings.map((w) => (
-                      <p key={w}>{w}</p>
-                    ))}
                   </div>
                 )}
                 {(["existing", "proposed"] as const).map((condition) => {
@@ -527,24 +580,25 @@ export function EngineeringRecordDashboard({
                                     {record.electricalDiscovery?.fieldResults[
                                       d.id
                                     ] && (
-                                      <div className="electrical-field-status">
-                                        <small>
-                                          {record.electricalDiscovery.fieldResults[
-                                            d.id
-                                          ].statuses.join(" · ")}
-                                        </small>
-                                        <details>
-                                          <summary>
-                                            Source limits & next step
-                                          </summary>
-                                          <small>
-                                            {
-                                              record.electricalDiscovery
-                                                .fieldResults[d.id].reason
-                                            }
-                                          </small>
-                                        </details>
-                                      </div>
+                                      <small>
+                                        {record.electricalDiscovery.fieldResults[
+                                          d.id
+                                        ].statuses.includes("Candidate match")
+                                          ? "Candidate — needs verification"
+                                          : record.electricalDiscovery.fieldResults[
+                                                d.id
+                                              ].statuses.includes(
+                                                "Source unavailable",
+                                              )
+                                            ? "Source unavailable"
+                                            : record.electricalDiscovery.fieldResults[
+                                                  d.id
+                                                ].statuses.includes(
+                                                  "Document evidence found",
+                                                )
+                                              ? "Document attached — needs review"
+                                              : "Customer information needed"}
+                                      </small>
                                     )}
                                     {o?.complete === false && (
                                       <small>
@@ -560,9 +614,6 @@ export function EngineeringRecordDashboard({
                                         View contour map
                                       </button>
                                     )}
-                                    {o?.warnings?.map((w) => (
-                                      <small key={w}>{w}</small>
-                                    ))}
                                     {hasConflict(f) && (
                                       <small>
                                         Conflicting observations retained
@@ -572,9 +623,6 @@ export function EngineeringRecordDashboard({
                                   <td>
                                     <div className="intake-review-summary">
                                       <div className="intake-review-line">
-                                        <span>
-                                          {o?.provenance ?? "Not available"}
-                                        </span>
                                         <small>{f.review.status}</small>
                                       </div>
                                       <div className="intake-review-line intake-review-meta">
@@ -644,15 +692,27 @@ export function EngineeringRecordDashboard({
         <button type="button" className="button primary" onClick={download}>
           Export Site Record
         </button>
+        <button
+          className="button secondary"
+          onClick={() =>
+            downloadText(
+              printableSummary(portableIntake(record)),
+              "qore-site-summary.html",
+              "text/html",
+            )
+          }
+        >
+          Download printable summary
+        </button>
         <p className="muted">
           Environmental source failures preserve other successful results; prior
           observations keep their source dates.
         </p>
         <p className="muted">
-          Edits and attached files are saved for this address and parcel in this
-          browser only; they are not shared with teammates. Google Places
-          address and coordinates are session-only; portable exports retain
-          independently sourced public records.
+          Edits and files are saved for this address and parcel. Sign in through
+          Settings to sync with your team, or export a site package for handoff.
+          Google Places address and coordinates are session-only; portable
+          exports retain independently sourced public records.
         </p>
       </section>
       {measurement && analysis && (

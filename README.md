@@ -6,7 +6,7 @@ ProjectSync cuts the time engineers and project managers spend gathering propert
 
 ## Run it
 
-Node.js 22 or newer.
+Node.js 24 or newer.
 
 ```bash
 npm ci
@@ -42,14 +42,14 @@ Opt-in live source checks (with the dev server running): `npx tsx scripts/verify
 - **Public GIS and environment.** MassGIS parcels, roofprints and road centerlines; parcel matching and manual selection; areas and approximate distances; FEMA flood and MassDEP wetlands screening; LiDAR elevation and contours where coverage exists. All five layers start enabled.
 - **Property identification.** Coordinates, municipality (AHJ uncertainty kept), parcel IDs, source and calculated areas, assessor land use and zoning, with source references.
 - **One engineering record.** The site dashboard, Full Site Record and Verification Queue share one record: values, observations, sources, review state, requests, owners, notes, conflicts and evidence. Public or uploaded data is never marked Engineer Verified automatically, and verified values are protected.
-- **Files.** Add files from the dashboard, the Verification Queue or any field. Hashes, notes, duplicates and downloads are handled. File contents now survive refresh in this browser (see [docs/PERSISTENCE.md](docs/PERSISTENCE.md)).
+- **Files.** Add files from the dashboard, the Verification Queue or any field. Hashes, notes, duplicates and downloads are handled. File contents survive refresh in this browser, and can sync through the optional shared workspace (see [deployment and recovery](docs/TEAM_WORKSPACE.md)).
 - **Electrical discovery.** *Find Available Electrical Data* in Electrical Infrastructure checks the MassGIS/DPU utility territory layer, Boston electrical permits (Analyze Boston CKAN), DPU interconnection research links, and documents already linked to the record. Results are candidates, not confirmed service relationships. Field statuses and customer requests stay in sync as evidence, values and reviews change, with earlier searches and resolved requests kept as history. See [docs/electrical/SOURCE_DISCOVERY_REPORT.md](docs/electrical/SOURCE_DISCOVERY_REPORT.md).
 - **Site annotations.** The *Site annotations* tab on each site locates the property (US Census geocoder), shows its MassGIS parcel outline and OpenStreetMap power lines and substations over public MassGIS/USGS aerial imagery, and runs open-vocabulary detection (Grounding DINO, with Florence-2 reading visible markings) on aerial images, your own site photos, or licensed Street View captures. Results appear as callouts on a drawing sheet with zone references and an editable detection schedule. Annotations are machine-detected and never engineer verified; linking one to a record field adds it as a reference only, without setting a value, changing the request status or affecting readiness. Models (~1.7 GB) download to `.cache/cv-models` on the first run, then run locally with no API key.
 - **Export.** JSON export of the current record, evidence metadata and missing-information requests.
 
 ## Record shape
 
-69 internal schema fields. The dashboard shows 61 fields in six categories; eight legacy design fields remain for compatibility. 59 fields are required for intake. Don't delete stored fields or change counts without reading the migration and applicability rules in `src/lib/intake/model.ts` and `src/lib/intake/verification.ts`.
+69 internal schema fields. The dashboard, verification queue, readiness and active export inventory use the same 52 fields across five categories. Hidden buildings/design fields remain in stored records for compatibility. 52 fields are required for intake. Don't delete stored fields or change counts without reading the migration and applicability rules in `src/lib/intake/model.ts` and `src/lib/intake/verification.ts`.
 
 ## Where to start in the code
 
@@ -76,7 +76,7 @@ This project uses Next.js 16. Read `AGENTS.md` and the docs in `node_modules/nex
 
 ## Not production-ready
 
-Records and files live in one browser. There is no shared storage, sign-in, authenticated review attribution, backup or monitoring. Engineer Verified is a self-attested application review, not professional sign-off. [docs/PERSISTENCE.md](docs/PERSISTENCE.md) describes the team-storage design.
+Browser-only mode remains available. The optional self-hosted workspace adds role-based sign-in, shared SQLite records and file blobs, version conflicts, authenticated review attribution and a backup tool. ZIP site packages include available documents and annotation images. Document extraction retains page-linked unselected candidates. See [deployment and recovery](docs/TEAM_WORKSPACE.md) and [verification results](docs/RELIABILITY_QA.md). Hosting/persistent disk, HTTPS, backup scheduling, professional reviewer authorization and representative model accuracy validation still require team setup.
 
 ## History
 
@@ -85,3 +85,10 @@ Earlier phase reports in `docs/` (`PHASE3_QA.md` through `UNIFIED_RECORD_QA.md`,
 ## How the app is organized
 
 The original handoff layout: a left sidebar with Overview, Site explorer, Verification queue, Documents, Data sources and Settings. Each saved site has two tabs, *Site record* (map, Highlights of Site, readiness, files and the Full Site Record) and *Site annotations*. Colors, type and icons are the original green-grey design in `src/app/tokens.css`.
+
+
+## EQORE master engineering intake
+
+The existing record now includes linked engineering requirement coverage, official/reference-only code editions, a municipal permit directory and customer-ready missing-information requests. Electricity Usage & Rates supports reviewed CSV / restricted Green Button XML imports and an OpenEI v7 candidate/detail/bill-confirmation workflow (`OPENEI_API_KEY`, server-side only). Local PDF/image extraction provides typed page-linked candidates with existing/proposed classification and Accept/Edit/Reject; opt-in scanned-PDF OCR is limited to three low-text pages per run. JSON/ZIP exports include original tariff structures, consumption classification, requirements and measured source activity; a printable HTML summary is also available.
+
+See [integration matrix](docs/eqore-integration-matrix.md), [repeatable demonstration and actual validation](docs/eqore-demo-validation.md), and [three-site live results](docs/eqore-live-results.json). No supplied EQORE plan PDF, live OpenEI tariff access without a key, representative photo accuracy result, code compliance or manual time savings is claimed.

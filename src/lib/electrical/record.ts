@@ -1,3 +1,4 @@
+import { appendActivities } from "../engineering/activity";
 import { FIELD_SCHEMA } from "../intake/schema";
 import {
   mergeCollectedFields,
@@ -385,6 +386,21 @@ export function applyElectricalDiscovery(
   const open = reconciled.electricalDiscovery!.customerRequests;
   return {
     ...reconciled,
+    collectionBenchmark: appendActivities(
+      reconciled,
+      discovery.adapters.flatMap((a) =>
+        a.startedAt && a.durationMs != null
+          ? [
+              {
+                source: a.adapter,
+                startedAt: a.startedAt,
+                durationMs: a.durationMs,
+                status: a.status,
+              },
+            ]
+          : [],
+      ),
+    ).collectionBenchmark,
     fields: reconciled.fields.map((field) => {
       const request = open.find((r) => r.fieldId === field.id);
       if (!request) return field;

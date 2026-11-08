@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useTeamState } from "@/components/team/TeamWorkspace";
 import { X } from "lucide-react";
 import type {
   IntakeRecord,
@@ -20,85 +21,8 @@ import {
   updateRequest,
   selectedObservation,
 } from "@/lib/intake/model";
-export function valueText(value: JsonValue): string {
-  if (value === null) return "Not retrieved";
-  if (typeof value !== "object") return String(value);
-  if (!Array.isArray(value)) {
-    if ("mainBreakerAmps" in value || "mainBusAmps" in value)
-      return `Main breaker: ${value.mainBreakerAmps ?? "Not retrieved"} A · Main bus: ${value.mainBusAmps ?? "Not retrieved"} A`;
-    if (Array.isArray(value.transformers))
-      return value.transformers
-        .map((t) =>
-          t && typeof t === "object" && !Array.isArray(t)
-            ? `${t.equipmentId || "Transformer"}: ${t.capacityKva ?? "Not retrieved"} kVA · ${t.primaryVoltageV ?? "?"}/${t.secondaryVoltageV ?? "?"} V · ${t.phase ?? "?"} phase`
-            : String(t),
-        )
-        .join("; ");
-    if ("capacityKw" in value)
-      return `${value.capacityKw ?? "Not retrieved"} kW available · ${value.basis || "Basis requires verification"}`;
-    if (Array.isArray(value.poles))
-      return value.poles
-        .map((p) =>
-          p && typeof p === "object" && !Array.isArray(p)
-            ? `${p.identifier || "Identifier not retrieved"}${p.utility ? ` · ${p.utility}` : ""}`
-            : String(p),
-        )
-        .join("; ");
-    if ("availableSpaces" in value)
-      return `${value.panelId || "Panel"}: ${value.availableSpaces ?? "Not retrieved"} available breaker spaces · ${value.compatibleBreakerType || "Compatibility not verified"}`;
-    if ("availability" in value)
-      return `${value.availability}${value.revision ? ` · revision ${value.revision}` : ""}${value.documentReference ? ` · ${value.documentReference}` : ""}`;
-  }
-  if (!Array.isArray(value) && value.kind === "terrain-elevation") {
-    const n = (v: JsonValue) =>
-      typeof v === "number"
-        ? v.toLocaleString(undefined, { maximumFractionDigits: 1 })
-        : "Not retrieved";
-    return `≈ ${n(value.medianFeet)} ft ground (median) · sampled ${n(value.minimumFeet)}–${n(value.maximumFeet)} ft · range ${n(value.rangeFeet)} ft`;
-  }
-  if (!Array.isArray(value) && value.kind === "candidate-jurisdiction")
-    return `${String(value.municipality)} · Candidate municipal building jurisdiction; authority verification required. Fire jurisdiction not confirmed.`;
-  if (!Array.isArray(value) && typeof value.municipality === "string") {
-    const municipality = value.municipality
-      .toLowerCase()
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
-    const jurisdiction = value.authorityHavingJurisdiction;
-    return `${municipality} · ${typeof jurisdiction === "string" && jurisdiction.trim() ? jurisdiction : "Jurisdiction not confirmed"}`;
-  }
-  if (
-    !Array.isArray(value) &&
-    typeof value.description === "string" &&
-    typeof value.useCode === "string"
-  )
-    return `${value.description} (use code ${value.useCode})`;
-  if (!Array.isArray(value) && typeof value.assessorZoning === "string")
-    return `${value.assessorZoning} · Municipal confirmation required`;
-  if (
-    !Array.isArray(value) &&
-    typeof value.latitude === "number" &&
-    typeof value.longitude === "number"
-  ) {
-    return `${value.latitude.toFixed(6)}, ${value.longitude.toFixed(6)}`;
-  }
-  if (Array.isArray(value)) {
-    if (
-      value.every(
-        (v) =>
-          typeof v === "object" && v !== null && "value" in v && "unit" in v,
-      )
-    )
-      return value
-        .map((v) => {
-          const m = v as { value: number; unit: string };
-          return `${m.value.toLocaleString(undefined, { maximumFractionDigits: m.unit === "acres" ? 3 : 1 })} ${m.unit}`;
-        })
-        .join(" · ");
-    return value
-      .map((v) => (typeof v === "object" ? JSON.stringify(v) : String(v)))
-      .join("; ");
-  }
-  return JSON.stringify(value);
-}
+import { valueText } from "@/lib/intake/format-value";
+export { valueText } from "@/lib/intake/format-value";
 export function FieldEvidence({
   record,
   fieldId,
@@ -112,6 +36,10 @@ export function FieldEvidence({
   onClose: () => void;
   files: Map<string, File>;
 }) {
+  const team = useTeamState();
+  const canVerify =
+    !team.enabled ||
+    (!!team.user && ["admin", "engineer"].includes(team.user.role));
   const dialog = useRef<HTMLDialogElement>(null),
     definition = FIELD_SCHEMA.find((d) => d.id === fieldId)!,
     field = record.fields.find((f) => f.id === fieldId)!,
@@ -129,6 +57,7 @@ export function FieldEvidence({
   const [method, setMethod] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [reviewer, setReviewer] = useState("");
+  const reviewerName = team.user?.name || reviewer;
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -280,6 +209,18 @@ export function FieldEvidence({
     }
   }
   function choose(id: string) {
+    const candidate = field.observations.find((o) => o.id === id);
+    if (
+      candidate?.condition &&
+      candidate.condition !== "existing" &&
+      definition.condition === "existing"
+    ) {
+      setError(
+        "Proposed or unknown-condition evidence remains a reference; confirm existing conditions before selection.",
+      );
+      return;
+    }
+
     update((r) => ({
       ...r,
       updatedAt: new Date().toISOString(),
@@ -488,13 +429,23 @@ export function FieldEvidence({
               ? "Source-backed"
               : "No independent source"}
           </p>
-          {obs.warnings?.map((w) => (
-            <p key={w} className="notice">
-              {w}
-            </p>
-          ))}
           <h3>Source & method</h3>
           <p>{obs.method}</p>
+          {record.electricalDiscovery?.fieldResults[fieldId] && (
+            <p>{record.electricalDiscovery.fieldResults[fieldId].reason}</p>
+          )}
+          {!!obs.warnings?.length && (
+            <details className="field-source-notes">
+              <summary>
+                Source limitations & notes ({obs.warnings.length})
+              </summary>
+              <ul>
+                {[...new Set(obs.warnings)].map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            </details>
+          )}
           <p>
             Original units: {obs.originalUnits ?? "Not specified"} · Current
             units: {obs.unit ?? "Not specified"}
@@ -556,7 +507,9 @@ export function FieldEvidence({
                 </dl>
                 {s.referenceOnly && (
                   <p>
-                    Reference summary only; original evidence is not attached.
+                    {s.fileHash
+                      ? "Reference-only document; not evidence of existing site conditions."
+                      : "Reference summary only; original evidence is not attached."}
                   </p>
                 )}
                 {s.fileName && (
@@ -604,15 +557,20 @@ export function FieldEvidence({
           )}
         </>
       ) : (
-        <p>
-          Not retrieved.{" "}
-          {fieldId === "zoning"
-            ? "No usable assessor ZONING attribute was returned for this parcel. Municipal confirmation required. "
-            : fieldId === "landUse"
-              ? "No unambiguous town/use-code description was returned for this parcel. Numeric codes are not guessed. "
-              : ""}
-          {definition.suggestedEvidence}
-        </p>
+        <section>
+          <h3>Source & method</h3>
+          <p>
+            {record.electricalDiscovery?.fieldResults[fieldId]?.reason ??
+              "Not retrieved."}{" "}
+            {fieldId === "zoning"
+              ? "No usable assessor ZONING attribute was returned for this parcel. Municipal confirmation required. "
+              : fieldId === "landUse"
+                ? "No unambiguous town/use-code description was returned for this parcel. Numeric codes are not guessed. "
+                : ""}
+            {!record.electricalDiscovery?.fieldResults[fieldId] &&
+              definition.suggestedEvidence}
+          </p>
+        </section>
       )}
       <EnvironmentalDetails bundle={record.environment} fieldId={fieldId} />
       {definition.category === "property" && record.propertyIdentification && (
@@ -676,6 +634,30 @@ export function FieldEvidence({
             ))}
         </section>
       )}
+      {obs?.provider === "OpenEI Utility Rate Database" && (
+        <details>
+          <summary>Published tariff values and structures</summary>
+          <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
+            {JSON.stringify(obs.value, null, 2)}
+          </pre>
+          <p>
+            Original published records, dates and eligibility restrictions
+            remain in the referenced source records and rate-detail panel.
+          </p>
+          {obs.sourceKeys.map((k) =>
+            record.sources[k]?.originalRecord ? (
+              <details key={k}>
+                <summary>Original published record</summary>
+                <pre
+                  style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}
+                >
+                  {JSON.stringify(record.sources[k].originalRecord, null, 2)}
+                </pre>
+              </details>
+            ) : null,
+          )}
+        </details>
+      )}
       {field.observations.length > 0 && (
         <label className="input-label">
           Selected observation
@@ -689,7 +671,12 @@ export function FieldEvidence({
               <option
                 key={o.id}
                 value={o.id}
-                disabled={!!field.rejectedObservations?.[o.id]}
+                disabled={
+                  !!field.rejectedObservations?.[o.id] ||
+                  (!!o.condition &&
+                    o.condition !== "existing" &&
+                    definition.condition === "existing")
+                }
               >
                 {o.provider}: {valueText(o.value).slice(0, 90)}
               </option>
@@ -714,6 +701,12 @@ export function FieldEvidence({
                     : "Alternative observation"}
               </p>
               <p>{observation.method}</p>
+              {observation.condition && (
+                <small>
+                  Conditions: {observation.condition} ·{" "}
+                  {observation.extraction?.decision ?? "Sourced observation"}
+                </small>
+              )}
               {observation.sourceKeys.map((key) => {
                 const source = record.sources[key];
                 return source ? (
@@ -833,13 +826,19 @@ export function FieldEvidence({
       <details>
         <summary>Engineering review</summary>
         <p>
-          Self-attested engineering review. Receipt of a document does not
-          verify the field.
+          {team.user
+            ? "Shared reviews use your authenticated account and role."
+            : "Browser-only reviews are self-attested."}{" "}
+          Receipt of a document does not verify the field.
         </p>
         {field.review.reviewer && (
           <p>
-            Reviewed by {field.review.reviewer} · {field.review.at} ·{" "}
-            {field.review.note}
+            Reviewed by{" "}
+            {field.review.attribution?.name ?? field.review.reviewer}
+            {field.review.attribution
+              ? " (authenticated)"
+              : " (self-attested)"}{" "}
+            · {field.review.at} · {field.review.note}
           </p>
         )}
         <div className="intake-form">
@@ -847,7 +846,8 @@ export function FieldEvidence({
             Reviewer
             <input
               aria-label="Field reviewer"
-              value={reviewer}
+              value={reviewerName}
+              readOnly={!!team.user}
               onChange={(e) => setReviewer(e.target.value)}
             />
           </label>
@@ -863,7 +863,12 @@ export function FieldEvidence({
             className="button"
             onClick={() => {
               try {
-                const reviewed = reviewField(record, fieldId, reviewer, note);
+                const reviewed = reviewField(
+                  record,
+                  fieldId,
+                  reviewerName,
+                  note,
+                );
                 update(() => reviewed);
                 setError(
                   "Selected observation marked Engineer verified by explicit review.",
@@ -872,6 +877,7 @@ export function FieldEvidence({
                 setError((e as Error).message);
               }
             }}
+            disabled={!canVerify}
           >
             Verify selected field
           </button>
@@ -881,7 +887,7 @@ export function FieldEvidence({
               onClick={() => {
                 try {
                   update((r) =>
-                    rejectObservation(r, fieldId, obs.id, reviewer, note),
+                    rejectObservation(r, fieldId, obs.id, reviewerName, note),
                   );
                   setError(
                     "Observation rejected; its value and source evidence remain in history.",

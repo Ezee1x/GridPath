@@ -1,4 +1,5 @@
 "use client";
+import { appendActivities } from "@/lib/engineering/activity";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createIntakeRecord,
@@ -17,7 +18,11 @@ import type { SelectedAddress } from "@/lib/maps/address";
 export function useIntake(
   analysis: SiteAnalysis,
   address: SelectedAddress,
-  layers: { parcels: GisLayerResult | null; roads: GisLayerResult | null },
+  layers: {
+    parcels: GisLayerResult | null;
+    roads: GisLayerResult | null;
+    activities?: import("@/lib/engineering/activity").CollectionActivity[];
+  },
   environment?: EnvironmentBundle,
 ) {
   const shared = useEngineeringRecord(
@@ -55,7 +60,10 @@ export function useIntake(
       );
       setState((old) => ({
         ...old,
-        record: mergeCollectedFields(old.record, c.fields, c.sources, analysis),
+        record: appendActivities(
+          mergeCollectedFields(old.record, c.fields, c.sources, analysis),
+          layers.activities ?? [],
+        ),
       }));
     });
     return () => {
@@ -86,6 +94,12 @@ export function useIntake(
           ...old,
           record: {
             ...mergeCollectedFields(old.record, c.fields, c.sources),
+            collectionBenchmark: appendActivities(
+              old.record,
+              environment?.parcelId === analysis.parcel.featureId
+                ? (environment.activities ?? [])
+                : [],
+            ).collectionBenchmark,
             ...(environment?.parcelId === analysis.parcel.featureId
               ? { environment }
               : {}),
@@ -126,6 +140,8 @@ export function useIntake(
       locId: lookupLocId,
       townId: String(townId),
     });
+    const startedAt = new Date().toISOString(),
+      began = performance.now();
     fetch(`/api/gis/property?${params}`, { signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) throw new Error("Property lookup failed");
@@ -154,6 +170,14 @@ export function useIntake(
               c.sources,
               latest.analysis,
             ),
+            collectionBenchmark: appendActivities(old.record, [
+              {
+                source: "Linked MassGIS assessor and municipality",
+                startedAt,
+                durationMs: performance.now() - began,
+                status: data.assessor.status,
+              },
+            ]).collectionBenchmark,
             propertyIdentification: data,
           },
         }));
@@ -164,10 +188,21 @@ export function useIntake(
         );
       })
       .catch(() => {
-        if (!controller.signal.aborted)
+        if (!controller.signal.aborted) {
+          setState((old) => ({
+            record: appendActivities(old.record, [
+              {
+                source: "Linked MassGIS assessor and municipality",
+                startedAt,
+                durationMs: performance.now() - began,
+                status: "error",
+              },
+            ]),
+          }));
           setPropertyStatus(
             "Linked property lookup unavailable; existing parcel results preserved.",
           );
+        }
       });
     return () => controller.abort();
     // Identifiers define this query, not changing map layer objects. The keyed dashboard remounts for another site/parcel.

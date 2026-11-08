@@ -1,4 +1,5 @@
 import type { MapFeature, MapFeatureKind, SiteContext } from "./types";
+import { normalizedStreet } from "../gis/geometry";
 import { voltageLabel } from "./geo";
 
 /**
@@ -58,7 +59,14 @@ async function geocode(address: string) {
   const data = await getJson<{ result: { addressMatches: CensusMatch[] } }>(
     url,
   );
-  return { url, match: data.result.addressMatches[0] ?? null };
+  return {
+    url,
+    match:
+      data.result.addressMatches.length === 1 &&
+      data.result.addressMatches[0].addressComponents.state === "MA"
+        ? data.result.addressMatches[0]
+        : null,
+  };
 }
 
 /* MassGIS assessor parcels */
@@ -83,25 +91,30 @@ const safe = (s: string) =>
     .toUpperCase()
     .replace(/[^A-Z0-9 ]/g, "")
     .trim();
-async function parcelFor(match: CensusMatch) {
+async function parcelFor(match: CensusMatch, selectedParcelId?: string | null) {
   const number = match.matchedAddress.match(/^\s*(\d+)/)?.[1];
   const street = safe(match.addressComponents.streetName);
   if (!number || !street)
     return { url: `${MASSGIS_PARCELS}/query`, parcel: null, count: 0 };
   const q = new URLSearchParams({
-    where: `ADDR_NUM='${number}' AND FULL_STR LIKE '${street}%'`,
+    where: selectedParcelId
+      ? `OBJECTID = ${selectedParcelId}`
+      : `ADDR_NUM='${number}' AND FULL_STR LIKE '${street}%'`,
     geometry: `${match.coordinates.x},${match.coordinates.y}`,
     geometryType: "esriGeometryPoint",
     inSR: "4326",
-    distance: "2500",
+    distance: selectedParcelId ? "10000" : "150",
     units: "esriSRUnit_Meter",
     outFields:
-      "SITE_ADDR,CITY,USE_CODE,USE_DESC,ZONING,LOT_SIZE,LOT_UNITS,BLD_AREA,YEAR_BUILT,STORIES,MAP_PAR_ID,LOC_ID,FY",
+      "OBJECTID,SITE_ADDR,CITY,USE_CODE,USE_DESC,ZONING,LOT_SIZE,LOT_UNITS,BLD_AREA,YEAR_BUILT,STORIES,MAP_PAR_ID,LOC_ID,FY",
     returnGeometry: "true",
     outSR: "4326",
     geometryPrecision: "6",
     f: "json",
   });
+  if (selectedParcelId)
+    for (const key of ["geometry", "geometryType", "inSR", "distance", "units"])
+      q.delete(key);
   const url = `${MASSGIS_PARCELS}/query?${q}`;
   const data = await getJson<{
     features: {
@@ -109,7 +122,19 @@ async function parcelFor(match: CensusMatch) {
       geometry?: { rings: [number, number][][] };
     }[];
   }>(url);
-  return { url, parcel: data.features[0] ?? null, count: data.features.length };
+  const matches = data.features.filter((f) =>
+    selectedParcelId
+      ? String(
+          (f.attributes as unknown as Record<string, unknown>).OBJECTID,
+        ) === selectedParcelId
+      : normalizedStreet(String(f.attributes.SITE_ADDR)) ===
+        normalizedStreet(match.matchedAddress),
+  );
+  return {
+    url,
+    parcel: matches.length === 1 ? matches[0] : null,
+    count: matches.length,
+  };
 }
 
 /* OpenStreetMap via Overpass */
@@ -239,7 +264,10 @@ function toFeature(e: OsmElement): MapFeature | null {
 }
 
 /** Locates an address and gathers its parcel outline and nearby mapped power features. */
-export async function getSiteContext(address: string): Promise<SiteContext> {
+export async function getSiteContext(
+  address: string,
+  selectedParcelId?: string | null,
+): Promise<SiteContext> {
   const retrievedAt = new Date().toISOString();
   const sourcesQueried: Queried[] = [];
   const note = (name: string, url: string, ok: boolean, text: string) =>
@@ -277,7 +305,7 @@ export async function getSiteContext(address: string): Promise<SiteContext> {
   const lng = match.coordinates.x;
   const state = match.addressComponents.state || null;
   const [parcelResult, osmResult] = await Promise.allSettled([
-    state === "MA" ? parcelFor(match) : Promise.resolve(null),
+    state === "MA" ? parcelFor(match, selectedParcelId) : Promise.resolve(null),
     overpass(lat, lng),
   ]);
 
@@ -289,12 +317,17 @@ export async function getSiteContext(address: string): Promise<SiteContext> {
       r.url,
       Boolean(r.parcel),
       r.parcel
-        ? "Parcel matched by street address"
+        ? selectedParcelId
+          ? "Saved parcel feature ID matched; selection preserved"
+          : "Unambiguous exact street-address match"
         : "No parcel matched this street address",
     );
     const attrs = r.parcel?.attributes;
     if (r.parcel?.geometry?.rings?.length)
       parcel = {
+        featureId:
+          selectedParcelId ??
+          String((attrs as unknown as Record<string, unknown>)?.OBJECTID ?? ""),
         id: attrs?.MAP_PAR_ID ?? attrs?.LOC_ID ?? "Unnumbered parcel",
         rings: r.parcel.geometry.rings,
       };

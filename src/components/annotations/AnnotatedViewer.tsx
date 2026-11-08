@@ -22,6 +22,71 @@ export function tagFor(index: number) {
   return `E${index + 1}`;
 }
 
+function MapLabelEditor({
+  annotation,
+  tag,
+  onSave,
+  onClose,
+}: {
+  annotation: SiteAnnotation;
+  tag: string;
+  onSave: (label: string) => void;
+  onClose: () => void;
+}) {
+  const [label, setLabel] = useState(annotation.label);
+  const [error, setError] = useState("");
+  return (
+    <form
+      className="map-label-editor"
+      aria-label={`Edit ${tag} label on map`}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const name = label.trim();
+        if (!name) {
+          setError("Enter a label name.");
+          return;
+        }
+        if (name !== annotation.label) onSave(name);
+        onClose();
+      }}
+      onKeyDown={(e) => {
+        e.stopPropagation();
+        if (e.key === "Escape") {
+          e.preventDefault();
+          onClose();
+        }
+      }}
+    >
+      <label htmlFor={`map-label-${annotation.id}`}>Edit {tag} label</label>
+      <input
+        id={`map-label-${annotation.id}`}
+        aria-label="Annotation label on map"
+        value={label}
+        maxLength={120}
+        autoFocus
+        onFocus={(e) => e.target.select()}
+        onChange={(e) => {
+          setLabel(e.target.value);
+          setError("");
+        }}
+      />
+      {error && <small role="alert">{error}</small>}
+      <div className="button-row">
+        <button className="button small" type="submit">
+          Save label
+        </button>
+        <button
+          className="button secondary small"
+          type="button"
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
+}
+
 /**
  * Renders the original image untouched, with an SVG annotation layer on top.
  * The frame carries drawing-sheet zone references so the equipment schedule
@@ -42,6 +107,8 @@ export function AnnotatedViewer({
   onResize,
   onError,
   alt = "Site image being analyzed",
+  camera,
+  onRename,
 }: {
   src: string;
   width: number;
@@ -58,6 +125,8 @@ export function AnnotatedViewer({
   onResize?: (viewerWidth: number) => void;
   onError?: () => void;
   alt?: string;
+  camera?: { x: number; y: number; heading: number } | null;
+  onRename?: (id: string, label: string) => void;
 }) {
   const svg = useRef<SVGSVGElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -65,6 +134,8 @@ export function AnnotatedViewer({
   useEffect(() => {
     const el = stage.current!;
     const observer = new ResizeObserver(() => {
+      // Inactive map tabs stay mounted. Preserve readable callout layout while hidden.
+      if (!el.clientWidth) return;
       setScale(displayScale(width, el.clientWidth));
       onResize?.(el.clientWidth);
     });
@@ -87,6 +158,7 @@ export function AnnotatedViewer({
   const aspect = width / height;
   const rows = zoneRows(aspect);
   const m = calloutMetrics(scale);
+  const selected = annotations.find((a) => a.id === selectedId && !a.hidden);
 
   function point(e: ReactPointerEvent) {
     const ctm = svg.current!.getScreenCTM()!.inverse();
@@ -201,7 +273,7 @@ export function AnnotatedViewer({
                     tabIndex={0}
                     role="button"
                     aria-pressed={selected}
-                    aria-label={`${tagFor(index)} ${a.label}. Drag or use arrow keys to move the callout.`}
+                    aria-label={`${tagFor(index)} ${a.label}. Select to edit the label. Drag or use arrow keys to move the callout.`}
                     onPointerDown={(e) => {
                       if (drawMode) return;
                       e.stopPropagation();
@@ -280,6 +352,24 @@ export function AnnotatedViewer({
                 </g>
               );
             })}
+          {camera && (
+            <g
+              className="diagram-camera"
+              transform={`translate(${camera.x} ${camera.y}) scale(${scale})`}
+              pointerEvents="none"
+              aria-label="Street View camera position"
+            >
+              <g transform={`rotate(${camera.heading})`}>
+                <path
+                  d="M 0 -22 L -9 -3 L 9 -3 Z"
+                  fill="#196bc4"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              </g>
+              <circle r="7" fill="#196bc4" stroke="white" strokeWidth="2.5" />
+            </g>
+          )}
           {draft && (
             <rect
               x={Math.min(draft.x0, draft.x1) * width}
@@ -291,6 +381,20 @@ export function AnnotatedViewer({
             />
           )}
         </svg>
+        {selected &&
+          onRename &&
+          showAnnotations &&
+          !scanning &&
+          !drawMode &&
+          !drag && (
+            <MapLabelEditor
+              key={selected.id}
+              annotation={selected}
+              tag={tagFor(annotations.indexOf(selected))}
+              onSave={(label) => onRename(selected.id, label)}
+              onClose={() => onSelect(null)}
+            />
+          )}
       </div>
       <ol className="sheet-rows end" aria-hidden="true">
         {Array.from({ length: rows }, (_, i) => (

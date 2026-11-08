@@ -1,4 +1,5 @@
 "use client";
+import { InformationRequest } from "@/components/engineering/RequirementsEvidenceMatrix";
 import { SiteFiles, FileAttachmentDialog, fieldFileKeys } from "./SiteFiles";
 import Link from "next/link";
 import { useState } from "react";
@@ -40,6 +41,7 @@ export function VerificationQueue({
         These actions come from the Full Site Record. Evidence received is not
         engineering verification.
       </p>
+      <InformationRequest record={record} />
       <SiteFiles record={record} onAdd={setUploadField} />
       <div className="table-controls">
         <label>

@@ -1,0 +1,707 @@
+{
+  "retrievedAt": "2026-11-08T08:24:53.974Z",
+  "results": [
+    {
+      "address": "200 Clarendon St, Boston, MA",
+      "municipality": "BOSTON",
+      "publicAddress": "200 CLARENDON ST, BOSTON, MA, 02116",
+      "adapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.074892080086%2C42.349893160603&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "found",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&q=%7B%22address%22%3A%22200+CLARENDON+ST%22%7D&filters=%7B%22worktype%22%3A%22ELECTRICAL%22%7D&limit=100&sort=issued_date+desc",
+          "message": "100 exact-address electrical permit matches. Results capped at 100 recent source records; research older records manually. Filing dates and drawing URLs are not exposed; no current electrical ratings inferred."
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "permits": [
+        {
+          "id": "E1889520",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1889520%22%7D&limit=10"
+        },
+        {
+          "id": "E1837175",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1837175%22%7D&limit=10"
+        },
+        {
+          "id": "E1869107",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1869107%22%7D&limit=10"
+        },
+        {
+          "id": "E1875666",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1875666%22%7D&limit=10"
+        },
+        {
+          "id": "E1873169",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1873169%22%7D&limit=10"
+        },
+        {
+          "id": "E1846134",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1846134%22%7D&limit=10"
+        },
+        {
+          "id": "E1833268",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1833268%22%7D&limit=10"
+        },
+        {
+          "id": "E1833259",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1833259%22%7D&limit=10"
+        },
+        {
+          "id": "E1822309",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1822309%22%7D&limit=10"
+        },
+        {
+          "id": "E1821650",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1821650%22%7D&limit=10"
+        },
+        {
+          "id": "E1813561",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1813561%22%7D&limit=10"
+        },
+        {
+          "id": "E1818247",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1818247%22%7D&limit=10"
+        },
+        {
+          "id": "E1812238",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1812238%22%7D&limit=10"
+        },
+        {
+          "id": "E1804577",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1804577%22%7D&limit=10"
+        },
+        {
+          "id": "E1803027",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1803027%22%7D&limit=10"
+        },
+        {
+          "id": "E1773785",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1773785%22%7D&limit=10"
+        },
+        {
+          "id": "E1796031",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1796031%22%7D&limit=10"
+        },
+        {
+          "id": "E1788525",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1788525%22%7D&limit=10"
+        },
+        {
+          "id": "E1786223",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1786223%22%7D&limit=10"
+        },
+        {
+          "id": "E1783078",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783078%22%7D&limit=10"
+        },
+        {
+          "id": "E1783062",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783062%22%7D&limit=10"
+        },
+        {
+          "id": "E1784932",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1784932%22%7D&limit=10"
+        },
+        {
+          "id": "E1783305",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783305%22%7D&limit=10"
+        },
+        {
+          "id": "E1776569",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776569%22%7D&limit=10"
+        },
+        {
+          "id": "E1776571",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776571%22%7D&limit=10"
+        },
+        {
+          "id": "E1776572",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776572%22%7D&limit=10"
+        },
+        {
+          "id": "E1774842",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1774842%22%7D&limit=10"
+        },
+        {
+          "id": "E1770353",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1770353%22%7D&limit=10"
+        },
+        {
+          "id": "E1765474",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1765474%22%7D&limit=10"
+        },
+        {
+          "id": "E1760982",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1760982%22%7D&limit=10"
+        },
+        {
+          "id": "E1753274",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1753274%22%7D&limit=10"
+        },
+        {
+          "id": "E1749227",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1749227%22%7D&limit=10"
+        },
+        {
+          "id": "E1749778",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1749778%22%7D&limit=10"
+        },
+        {
+          "id": "E1735332",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1735332%22%7D&limit=10"
+        },
+        {
+          "id": "E1714226",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1714226%22%7D&limit=10"
+        },
+        {
+          "id": "E1707824",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1707824%22%7D&limit=10"
+        },
+        {
+          "id": "E1708537",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1708537%22%7D&limit=10"
+        },
+        {
+          "id": "E1709433",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1709433%22%7D&limit=10"
+        },
+        {
+          "id": "E1709438",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1709438%22%7D&limit=10"
+        },
+        {
+          "id": "E1703760",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1703760%22%7D&limit=10"
+        },
+        {
+          "id": "E1698550",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1698550%22%7D&limit=10"
+        },
+        {
+          "id": "E1696341",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1696341%22%7D&limit=10"
+        },
+        {
+          "id": "E1686419",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1686419%22%7D&limit=10"
+        },
+        {
+          "id": "E1684443",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1684443%22%7D&limit=10"
+        },
+        {
+          "id": "E1669151",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1669151%22%7D&limit=10"
+        },
+        {
+          "id": "E1669208",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1669208%22%7D&limit=10"
+        },
+        {
+          "id": "E1668599",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1668599%22%7D&limit=10"
+        },
+        {
+          "id": "E1664300",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1664300%22%7D&limit=10"
+        },
+        {
+          "id": "E1626739",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1626739%22%7D&limit=10"
+        },
+        {
+          "id": "E1659704",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1659704%22%7D&limit=10"
+        },
+        {
+          "id": "E1659376",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1659376%22%7D&limit=10"
+        },
+        {
+          "id": "E1653613",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1653613%22%7D&limit=10"
+        },
+        {
+          "id": "E1652012",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1652012%22%7D&limit=10"
+        },
+        {
+          "id": "E1640121",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1640121%22%7D&limit=10"
+        },
+        {
+          "id": "E1641436",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1641436%22%7D&limit=10"
+        },
+        {
+          "id": "E1637139",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1637139%22%7D&limit=10"
+        },
+        {
+          "id": "E1635853",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1635853%22%7D&limit=10"
+        },
+        {
+          "id": "E1627852",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1627852%22%7D&limit=10"
+        },
+        {
+          "id": "E1619323",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1619323%22%7D&limit=10"
+        },
+        {
+          "id": "E1616603",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1616603%22%7D&limit=10"
+        },
+        {
+          "id": "E1615388",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1615388%22%7D&limit=10"
+        },
+        {
+          "id": "E1614278",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1614278%22%7D&limit=10"
+        },
+        {
+          "id": "E1592988",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1592988%22%7D&limit=10"
+        },
+        {
+          "id": "E1587608",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1587608%22%7D&limit=10"
+        },
+        {
+          "id": "E1578385",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1578385%22%7D&limit=10"
+        },
+        {
+          "id": "E1577824",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1577824%22%7D&limit=10"
+        },
+        {
+          "id": "E1563931",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1563931%22%7D&limit=10"
+        },
+        {
+          "id": "E1502785",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1502785%22%7D&limit=10"
+        },
+        {
+          "id": "E1550445",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1550445%22%7D&limit=10"
+        },
+        {
+          "id": "E1545421",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1545421%22%7D&limit=10"
+        },
+        {
+          "id": "E1527849",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1527849%22%7D&limit=10"
+        },
+        {
+          "id": "E1512154",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1512154%22%7D&limit=10"
+        },
+        {
+          "id": "E1490508",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1490508%22%7D&limit=10"
+        },
+        {
+          "id": "E1488677",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1488677%22%7D&limit=10"
+        },
+        {
+          "id": "E1480417",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1480417%22%7D&limit=10"
+        },
+        {
+          "id": "E1477390",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1477390%22%7D&limit=10"
+        },
+        {
+          "id": "E1475787",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1475787%22%7D&limit=10"
+        },
+        {
+          "id": "E1475782",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1475782%22%7D&limit=10"
+        },
+        {
+          "id": "E1459162",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1459162%22%7D&limit=10"
+        },
+        {
+          "id": "E1449042",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1449042%22%7D&limit=10"
+        },
+        {
+          "id": "E1445850",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1445850%22%7D&limit=10"
+        },
+        {
+          "id": "E1439770",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1439770%22%7D&limit=10"
+        },
+        {
+          "id": "E1439766",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1439766%22%7D&limit=10"
+        },
+        {
+          "id": "E1436343",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1436343%22%7D&limit=10"
+        },
+        {
+          "id": "E1431867",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1431867%22%7D&limit=10"
+        },
+        {
+          "id": "E1428505",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1428505%22%7D&limit=10"
+        },
+        {
+          "id": "E1428514",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1428514%22%7D&limit=10"
+        },
+        {
+          "id": "E1423803",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1423803%22%7D&limit=10"
+        },
+        {
+          "id": "E1412407",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1412407%22%7D&limit=10"
+        },
+        {
+          "id": "E1405658",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1405658%22%7D&limit=10"
+        },
+        {
+          "id": "E1400217",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1400217%22%7D&limit=10"
+        },
+        {
+          "id": "E1400224",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1400224%22%7D&limit=10"
+        },
+        {
+          "id": "E1398113",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1398113%22%7D&limit=10"
+        },
+        {
+          "id": "E1397585",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1397585%22%7D&limit=10"
+        },
+        {
+          "id": "E1386088",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1386088%22%7D&limit=10"
+        },
+        {
+          "id": "E1382036",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1382036%22%7D&limit=10"
+        },
+        {
+          "id": "E1370639",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370639%22%7D&limit=10"
+        },
+        {
+          "id": "E1370318",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370318%22%7D&limit=10"
+        },
+        {
+          "id": "E1370295",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370295%22%7D&limit=10"
+        },
+        {
+          "id": "E1346166",
+          "address": "200 Clarendon ST",
+          "parcelId": "401134000",
+          "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1346166%22%7D&limit=10"
+        }
+      ],
+      "sourceCount": 101
+    },
+    {
+      "address": "131 Second St, Cambridge, MA",
+      "municipality": "CAMBRIDGE",
+      "publicAddress": "131 2ND ST, CAMBRIDGE, MA, 02141",
+      "adapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.079404216679%2C42.367760272915&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "found",
+          "sourceUrl": "https://data.cambridgema.gov/resource/hvtc-3ab9.json?%24where=starts_with%28upper%28full_address%29%2C%27131+2ND+ST%27%29+OR+starts_with%28upper%28full_address%29%2C%27131+SECOND+ST%27%29&%24limit=100&%24order=issue_date+DESC",
+          "message": "2 exact-address electrical permit matches. Historical context only; current electrical ratings remain unconfirmed."
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "permits": [
+        {
+          "id": "33905",
+          "address": "131 Second St, Cambridge, MA 02141",
+          "parcelId": "17-69",
+          "sourceUrl": "https://data.cambridgema.gov/resource/hvtc-3ab9.json?id=33905"
+        },
+        {
+          "id": "20148",
+          "address": "131 Second St, Cambridge, MA 02141",
+          "parcelId": "17-69",
+          "sourceUrl": "https://data.cambridgema.gov/resource/hvtc-3ab9.json?id=20148"
+        }
+      ],
+      "sourceCount": 3
+    },
+    {
+      "address": "7 Young St, Worcester, MA",
+      "municipality": "WORCESTER",
+      "publicAddress": "7 YOUNG ST, WORCESTER, MA, 01603",
+      "adapters": [
+        {
+          "adapter": "UtilityTerritoryAdapter",
+          "status": "found",
+          "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.840754062169%2C42.242992233927&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+          "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+        },
+        {
+          "adapter": "MunicipalPermitAdapter",
+          "status": "found",
+          "sourceUrl": "https://services1.arcgis.com/j8dqo2DJE7mVUBU1/arcgis/rest/services/Building_Permits/FeatureServer/0/query?f=json&where=UPPER%28Address%29+LIKE+%277+YOUNG+ST%25%27&outFields=*&returnGeometry=false&resultRecordCount=100",
+          "message": "1 exact-address building permit matches. Historical context only; current electrical ratings remain unconfirmed."
+        },
+        {
+          "adapter": "PublicElectricalRecordsAdapter",
+          "status": "unavailable",
+          "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+          "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+        }
+      ],
+      "permits": [
+        {
+          "id": "B-26-4374",
+          "address": "7 Young St Worcester MA 01603",
+          "parcelId": "08-028-08+09",
+          "sourceUrl": "https://services1.arcgis.com/j8dqo2DJE7mVUBU1/arcgis/rest/services/Building_Permits/FeatureServer/0/query?f=json&where=ObjectId%3D1&outFields=*&returnGeometry=false"
+        }
+      ],
+      "sourceCount": 2
+    }
+  ]
+}

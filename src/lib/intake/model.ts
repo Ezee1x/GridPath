@@ -1,5 +1,7 @@
+import { ENGINEERING_REQUIREMENTS } from "../engineering/library";
+import { engineeringExport } from "../engineering/coverage";
 import { normalizedStreet } from "../gis/geometry";
-import { FIELD_SCHEMA, ADDED_FIELD_IDS } from "./schema";
+import { FIELD_SCHEMA, ACTIVE_FIELDS, ADDED_FIELD_IDS } from "./schema";
 import type {
   EvidenceReference,
   FieldObservation,
@@ -91,7 +93,10 @@ function equivalentValue(a: JsonValue, b: JsonValue): boolean {
 }
 export function hasConflict(f: IntakeField) {
   const observations = f.observations.filter(
-    (o) => !f.rejectedObservations?.[o.id],
+    (o) =>
+      !f.rejectedObservations?.[o.id] &&
+      (!o.condition ||
+        o.condition === FIELD_SCHEMA.find((d) => d.id === f.id)?.condition),
   );
   const comparable = (o: FieldObservation): JsonValue =>
     f.id === "address" && typeof o.value === "string"
@@ -215,6 +220,10 @@ export function mergeCollectedFields(
       if (
         !next.rejectedObservations?.[item.observation.id] &&
         item.observation.autoSelect !== false &&
+        (!item.observation.condition ||
+          item.observation.condition === "existing" ||
+          FIELD_SCHEMA.find((d) => d.id === field.id)?.condition ===
+            "proposed") &&
         !field.pinned &&
         field.review.status !== "Engineer verified"
       )
@@ -241,9 +250,13 @@ export function mergeCollectedFields(
   };
 }
 export const isPopulated = (f: IntakeField) =>
-  !!selectedObservation(f) && selectedObservation(f)?.complete !== false;
+  !!selectedObservation(f) &&
+  selectedObservation(f)?.complete !== false &&
+  (!selectedObservation(f)?.condition ||
+    selectedObservation(f)?.condition ===
+      FIELD_SCHEMA.find((d) => d.id === f.id)?.condition);
 export function readiness(record: IntakeRecord, category?: string) {
-  const defs = FIELD_SCHEMA.filter(
+  const defs = ACTIVE_FIELDS.filter(
     (d) =>
       (!category || d.category === category) &&
       (d.condition !== "proposed" || record.stage === "design") &&
@@ -330,6 +343,11 @@ export function reviewField(
   if (
     !field ||
     !obs ||
+    (!!obs.condition &&
+      obs.condition !== "existing" &&
+      FIELD_SCHEMA.find((d) => d.id === id)?.condition === "existing") ||
+    (obs?.provider === "OpenEI Utility Rate Database" &&
+      obs.complete === false) ||
     !reviewer.trim() ||
     !note.trim() ||
     !obs.sourceKeys.some((k) => {
@@ -493,12 +511,48 @@ export function exportIntake(record: IntakeRecord) {
     retiredFields: undefined,
     extraRequests: undefined,
     exportedAt: new Date().toISOString(),
+    ...engineeringExport(record),
     readiness: readiness(record),
-    fieldInventory: FIELD_SCHEMA.map((d) => {
+    fieldInventory: ACTIVE_FIELDS.map((d) => {
       const field = record.fields.find((f) => f.id === d.id)!;
+      const backed = selectedObservation(field)?.sourceKeys.some(
+        (k) =>
+          !!record.sources[k] &&
+          !record.sources[k].referenceOnly &&
+          !!(
+            record.sources[k].serviceUrl ||
+            record.sources[k].fileHash ||
+            record.sources[k].documentId ||
+            record.sources[k].featureId
+          ),
+      );
       return {
         ...d,
         ...field,
+        siteKey: record.siteKey,
+        applicableRequirementIds: ENGINEERING_REQUIREMENTS.filter((r) =>
+          r.fieldIds.includes(d.id),
+        ).map((r) => r.id),
+        lastUpdatedAt:
+          field.observations
+            .map((o) => o.observedAt)
+            .sort()
+            .at(-1) ?? record.createdAt,
+        collectionState: hasConflict(field)
+          ? "Conflicting"
+          : field.review.status === "Engineer verified"
+            ? "Engineer verified"
+            : field.observations.some(
+                  (o) => o.extraction?.decision === "Pending",
+                ) && !selectedObservation(field)
+              ? "Extracted, awaiting review"
+              : !isPopulated(field)
+                ? "Missing"
+                : selectedObservation(field)?.confidence === "Estimated"
+                  ? "Estimated"
+                  : backed
+                    ? "Source-backed"
+                    : "Missing evidence",
         priority: field.priority ?? d.criticality,
         effectiveRequired: d.required || record.stage === "design",
         sortOrder: d.priority,
@@ -515,7 +569,7 @@ export function exportIntake(record: IntakeRecord) {
               `Not retrieved. ${d.suggestedEvidence}`),
       };
     }),
-    missingFields: FIELD_SCHEMA.filter(
+    missingFields: ACTIVE_FIELDS.filter(
       (d) =>
         (d.condition !== "proposed" || record.stage === "design") &&
         !isPopulated(record.fields.find((f) => f.id === d.id)!),
@@ -586,6 +640,7 @@ export function attachFieldEvidence(
     throw Error("Unknown field ID.");
   const keys = Object.keys(sources);
   if (!keys.length) throw Error("Supporting evidence is required.");
+  const referenceOnly = keys.every((key) => sources[key].referenceOnly);
   return {
     ...record,
     sources: { ...record.sources, ...sources },
@@ -598,12 +653,13 @@ export function attachFieldEvidence(
             evidenceKeys: [...new Set([...(f.evidenceKeys ?? []), ...keys])],
             request: {
               ...f.request,
-              status:
-                f.review.status === "Engineer verified"
+              status: referenceOnly
+                ? f.request.status
+                : f.review.status === "Engineer verified"
                   ? "Under review"
                   : "Received",
             },
-            ...(f.review.status === "Engineer verified"
+            ...(!referenceOnly && f.review.status === "Engineer verified"
               ? {
                   reviewHistory: [
                     ...(f.reviewHistory ?? []),
@@ -643,7 +699,9 @@ export function attachCandidateReference(
       f.id === fieldId
         ? {
             ...f,
-            evidenceKeys: [...new Set([...(f.evidenceKeys ?? []), reference.key])],
+            evidenceKeys: [
+              ...new Set([...(f.evidenceKeys ?? []), reference.key]),
+            ],
           }
         : f,
     ),

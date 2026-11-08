@@ -1,4 +1,5 @@
 "use client";
+import { TeamStatus } from "@/components/team/TeamWorkspace";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -123,6 +124,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {warning}
           </div>
         )}
+        <TeamStatus />
         <main>
           {ready ? children : <div className="empty">Loading ProjectSync…</div>}
         </main>

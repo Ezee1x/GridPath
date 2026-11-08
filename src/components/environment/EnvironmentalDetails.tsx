@@ -16,8 +16,8 @@ export function EnvironmentalDetails({
           : null;
   if (!data) return null;
   return (
-    <section className="analysis-source">
-      <h3>Current environmental source result</h3>
+    <details className="analysis-source">
+      <summary>Current environmental source result</summary>
       <p>
         {data.status === "error"
           ? "Current request failed. Any earlier observations remain separately dated."
@@ -105,6 +105,6 @@ export function EnvironmentalDetails({
           </p>
         ))}
       </details>
-    </section>
+    </details>
   );
 }

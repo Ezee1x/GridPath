@@ -51,5 +51,19 @@ export function equipmentValueComplete(id: string, value: JsonValue): boolean {
       !!value.availability.trim() &&
       !/not received|unknown/i.test(value.availability)
     );
-  return true;
+  if (id === "panelRating")
+    return number(value.ratingAmps) && Number(value.ratingAmps) > 0;
+  if (id === "meterModel")
+    return typeof value.model === "string" && !!value.model.trim();
+  if (id === "transformerId")
+    return typeof value.equipmentId === "string" && !!value.equipmentId.trim();
+  if (id === "meterId")
+    return typeof value.identifier === "string" && !!value.identifier.trim();
+  if (id === "poi")
+    return (
+      typeof value.existingPointReference === "string" &&
+      !!value.existingPointReference.trim()
+    );
+  if (id === "phase") return value.phase === 1 || value.phase === 3;
+  return Object.values(value).some((v) => v !== null && v !== "");
 }

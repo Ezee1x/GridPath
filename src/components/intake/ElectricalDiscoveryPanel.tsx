@@ -24,6 +24,20 @@ export function ElectricalDiscoveryPanel({
   const controller = useRef<AbortController | null>(null);
   useEffect(() => () => controller.current?.abort(), [record.siteKey]);
   const discovery = record.electricalDiscovery;
+  const automatic = useRef("");
+  const automaticAddress = discoveryAddress(record);
+  useEffect(() => {
+    if (
+      automaticAddress &&
+      record.analysis &&
+      !discovery &&
+      automatic.current !== record.siteKey
+    ) {
+      automatic.current = record.siteKey;
+      void find();
+    }
+  }, [automaticAddress, record.siteKey, record.analysis, discovery]); // eslint-disable-line react-hooks/exhaustive-deps
+
   async function find() {
     controller.current?.abort();
     const active = new AbortController();

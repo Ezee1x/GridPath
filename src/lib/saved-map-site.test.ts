@@ -38,7 +38,7 @@ test("saving again preserves identity, custom name, uploaded evidence and review
   assert.deepEqual(updated.dataFields, s.dataFields);
   assert.deepEqual(updated.sourceDocuments, s.sourceDocuments);
 });
-test("saved-map table counts use the keyed 59-required-field engineering record and never another site", () => {
+test("saved-map table counts use the keyed 52-required-field engineering record and never another site", () => {
   const s = savedMapSite("place-A", point, "2380675");
   const r = createIntakeRecord("place-A", point.address, "2380675");
   const store = {
@@ -47,8 +47,8 @@ test("saved-map table counts use the keyed 59-required-field engineering record 
         ? JSON.stringify(r)
         : null,
   };
-  assert.equal(savedSiteReadiness(s, store).total, 59);
-  assert.equal(savedSiteReadiness(s, store).missing, 59);
+  assert.equal(savedSiteReadiness(s, store).total, 52);
+  assert.equal(savedSiteReadiness(s, store).missing, 52);
   assert.equal(
     savedSiteReadiness({ ...s, mapPlaceId: "place-B" }, store).populated,
     0,

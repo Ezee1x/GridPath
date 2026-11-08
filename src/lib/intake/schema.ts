@@ -289,3 +289,11 @@ export const FIELD_SCHEMA: FieldDefinition[] = CATEGORIES.flatMap((c) =>
     };
   }),
 );
+
+/** Current intake inventory. Hidden legacy/geometry fields remain stored for maps and compatibility. */
+export const ACTIVE_CATEGORIES = CATEGORIES.filter(
+  (c) => !["buildings", "design"].includes(c.id),
+);
+export const ACTIVE_FIELDS = FIELD_SCHEMA.filter((d) =>
+  ACTIVE_CATEGORIES.some((c) => c.id === d.category),
+);

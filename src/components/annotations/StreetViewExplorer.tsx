@@ -10,6 +10,11 @@ export interface StreetViewCapture {
   pitch: number;
   fov: number;
 }
+export interface StreetViewPosition {
+  lat: number;
+  lng: number;
+  heading: number;
+}
 
 const HAS_KEY = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY?.trim());
 
@@ -32,12 +37,16 @@ export function StreetViewExplorer({
   analysisPermitted,
   busy,
   onCapture,
+  onPositionChange,
+  authorizedComparison = false,
 }: {
   address: string;
   location: { lat: number; lng: number } | null;
   analysisPermitted: boolean;
   busy: boolean;
   onCapture: (view: StreetViewCapture) => void;
+  onPositionChange?: (position: StreetViewPosition | null) => void;
+  authorizedComparison?: boolean;
 }) {
   const el = useRef<HTMLDivElement>(null);
   const panorama = useRef<google.maps.StreetViewPanorama | null>(null);
@@ -47,10 +56,15 @@ export function StreetViewExplorer({
   const [message, setMessage] = useState("");
   const lat = location?.lat;
   const lng = location?.lng;
+  const report = useRef(onPositionChange);
+  useEffect(() => {
+    report.current = onPositionChange;
+  }, [onPositionChange]);
 
   useEffect(() => {
     if (!HAS_KEY || lat === undefined || lng === undefined) return;
     let cancelled = false;
+    const listeners: google.maps.MapsEventListener[] = [];
     (async () => {
       try {
         setStatus("loading");
@@ -77,10 +91,26 @@ export function StreetViewExplorer({
         panorama.current = new sv.StreetViewPanorama(el.current!, {
           pano: data.location.pano,
           pov: { heading: (heading + 360) % 360, pitch: 0 },
+          zoom: 1,
           addressControl: false,
           motionTracking: false,
+          motionTrackingControl: false,
           fullscreenControl: true,
         });
+        const updatePosition = () => {
+          const p = panorama.current;
+          const position = p?.getPosition();
+          if (!cancelled && position)
+            report.current?.({
+              ...position.toJSON(),
+              heading: p!.getPov().heading,
+            });
+        };
+        listeners.push(
+          panorama.current.addListener("position_changed", updatePosition),
+          panorama.current.addListener("pov_changed", updatePosition),
+        );
+        updatePosition();
         setStatus("ready");
       } catch (e) {
         if (cancelled) return;
@@ -96,6 +126,10 @@ export function StreetViewExplorer({
     })();
     return () => {
       cancelled = true;
+      listeners.forEach((listener) => listener.remove());
+      panorama.current?.setVisible(false);
+      panorama.current = null;
+      report.current?.(null);
     };
   }, [lat, lng]);
 
@@ -164,9 +198,11 @@ export function StreetViewExplorer({
       )}
       <div className="street-view-bar">
         <p>
-          {analysisPermitted
-            ? "Drag to look around, then analyze the current view. Imagery © Google."
-            : "Explore only. Google's terms restrict analyzing Street View imagery, so it is never sent to the detection model. Upload your own photos for analysis. Imagery © Google."}
+          {authorizedComparison
+            ? "Drag to look around or follow the navigation arrows. Imagery © Google."
+            : analysisPermitted
+              ? "Drag to look around, then analyze the current view. Imagery © Google."
+              : "Explore only. Google's terms restrict analyzing Street View imagery, so it is never sent to the detection model. Upload your own photos for analysis. Imagery © Google."}
         </p>
         {analysisPermitted && (
           <button

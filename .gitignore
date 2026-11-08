@@ -43,3 +43,6 @@ next-env.d.ts
 
 # downloaded computer-vision models (Site annotations)
 /.cache/
+
+# Durable shared workspace data and document blobs
+/.data/

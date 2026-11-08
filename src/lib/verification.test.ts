@@ -210,7 +210,7 @@ test("queue and dashboard share one live record, synchronize requests/reviews, e
       .status,
     "Verified",
   );
-  assert.equal(exported.readiness.missing, 58);
+  assert.equal(exported.readiness.missing, 51);
   const b = createIntakeRecord("site-b", "Synthetic B", "2");
   const other = store.open(b.siteKey, () => b);
   assert.equal(readiness(other.getSnapshot().record).populated, 0);
@@ -301,7 +301,7 @@ test("design applicability and per-field priority overrides update queue and JSO
       f.id === "utilityPole" ? { ...f, priority: "Low" as const } : f,
     ),
   };
-  assert.ok(verificationItems(r).some((i) => i.id === "power"));
+  assert.ok(!verificationItems(r).some((i) => i.id === "power"), "Retired design fields remain excluded at every stage");
   assert.equal(
     verificationItems(r).find((i) => i.id === "utilityPole")!.priority,
     "Low",

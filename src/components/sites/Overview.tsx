@@ -1,4 +1,5 @@
 "use client";
+import { ImportSitePackage } from "@/components/intake/SitePackageTools";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
@@ -116,34 +117,8 @@ export function Overview() {
           </div>
         ))}
       </dl>
+      <ImportSitePackage />
       <SiteTable sites={sites} />
-      <div className="workflow-guide" aria-label="Engineering intake workflow">
-        {[
-          [
-            "1",
-            "Gather site data",
-            "Add public property records and customer documents.",
-          ],
-          [
-            "2",
-            "Verify source evidence",
-            "Resolve missing fields and record human review.",
-          ],
-          [
-            "3",
-            "Export the engineering record",
-            "Hand off structured data with its original references.",
-          ],
-        ].map(([step, title, description]) => (
-          <div key={step}>
-            <span className="step-number">{step}</span>
-            <div>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
       <footer className="page-footer">
         <span>{BRAND.name}</span>
         <span>{BRAND.attribution}</span>

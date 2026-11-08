@@ -49,8 +49,10 @@ import {
   saveAnalysisImage,
 } from "@/lib/annotations/images";
 import { AnnotatedViewer, tagFor } from "./AnnotatedViewer";
-import { StreetViewCapture, StreetViewExplorer } from "./StreetViewExplorer";
+import { StreetViewCapture } from "./StreetViewExplorer";
 import { AerialPlan } from "./AerialPlan";
+import { DiagramStreetViewComparison } from "./DiagramStreetViewComparison";
+import { cameraOnAerial } from "@/lib/annotations/camera-position";
 
 interface Capabilities {
   detector: string;
@@ -138,8 +140,19 @@ function sourceLabel(a: Analysis) {
   return a.image.fileName;
 }
 
-export function SiteAnnotations({ site }: { site: SiteRecord }) {
-  const { save } = useWorkspace();
+export function SiteAnnotations({
+  site,
+  embedded = false,
+  onSave,
+  onComparisonChange,
+}: {
+  site: SiteRecord;
+  embedded?: boolean;
+  onSave?: (site: SiteRecord) => void;
+  onComparisonChange?: (open: boolean) => void;
+}) {
+  const workspace = useWorkspace();
+  const save = onSave ?? workspace.save;
   const engineering = useSavedEngineeringRecord(site);
   // Async work finishes after other saves; always build on the newest record.
   const latest = useRef(site);
@@ -147,7 +160,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   const analyses = site.annotatedImages ?? [];
   const context = site.siteContext ?? null;
 
-  const [address, setAddress] = useState(context?.address ?? site.address);
+  const address = site.address;
   const [locating, setLocating] = useState(false);
   const [locateError, setLocateError] = useState("");
   const [viewerMode, setViewerMode] = useState<ViewerMode>(
@@ -158,9 +171,22 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   );
 
   const [activeId, setActiveId] = useState<string | null>(
-    analyses[0]?.id ?? null,
+    (embedded ? analyses.find((a) => a.image.source === "aerial") : analyses[0])
+      ?.id ?? null,
   );
   const active = analyses.find((a) => a.id === activeId) ?? null;
+  const [streetOpen, setStreetOpen] = useState(false);
+  const annotatedSection = useRef<HTMLElement>(null);
+  const comparison = streetOpen && !!active?.image.aerial;
+  useEffect(() => {
+    onComparisonChange?.(comparison);
+    if (comparison)
+      annotatedSection.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    return () => onComparisonChange?.(false);
+  }, [comparison, onComparisonChange]);
   const [staged, setStaged] = useState<Staged | null>(null);
   const [pending, setPending] = useState<{
     url: string;
@@ -183,6 +209,8 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   const [drawMode, setDrawMode] = useState(false);
   const [dragging, setDragging] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+  const request = useRef<AbortController | null>(null);
+  useEffect(() => () => request.current?.abort(), []);
   // On-screen width of the viewer; callouts are sized to read at screen scale.
   const viewerWidth = useRef(900);
   const scaleFor = (imageWidth: number) =>
@@ -231,13 +259,25 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   /* Public-source context */
 
   // Sites start without context; locate them once, automatically, on first visit.
-  const autoLocated = useRef(false);
+  const autoLocated = useRef("");
   useEffect(() => {
-    if (autoLocated.current || site.siteContext || !site.address.trim()) return;
-    autoLocated.current = true;
+    const identity = JSON.stringify([
+      site.id,
+      site.address,
+      site.parcelFeatureId,
+    ]);
+    if (
+      autoLocated.current === identity ||
+      (site.siteContext &&
+        site.siteContext.selectedParcelId === (site.parcelFeatureId ?? null) &&
+        site.siteContext.address === site.address) ||
+      !site.address.trim()
+    )
+      return;
+    autoLocated.current = identity;
     void locate(site.address);
     // Runs once per site; locate reads the newest record through refs.
-  }, [site.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [site.id, site.address, site.parcelFeatureId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function locateSite(e: FormEvent) {
     e.preventDefault();
@@ -246,17 +286,26 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   async function locate(input: string) {
     const query = input.trim();
     if (!query) return setLocateError("Enter the property's street address.");
+    const identity = `${latest.current.id}:${latest.current.parcelFeatureId ?? ""}:${latest.current.address}`;
     setLocating(true);
     setLocateError("");
     try {
       const res = await fetch("/api/annotations/context", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address: query }),
+        body: JSON.stringify({
+          address: latest.current.address,
+          parcelId: latest.current.parcelFeatureId ?? null,
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok)
         throw new Error(data.error ?? `The search failed (${res.status}).`);
+      if (
+        identity !==
+        `${latest.current.id}:${latest.current.parcelFeatureId ?? ""}:${latest.current.address}`
+      )
+        return;
       const result = data as SiteContext;
       save({ ...latest.current, siteContext: result });
       const view = initialView(result);
@@ -335,6 +384,14 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   }
 
   async function analyze(body: FormData, source: Source) {
+    request.current?.abort();
+    const controller = new AbortController();
+    request.current = controller;
+    const identity = `${site.id}:${site.parcelFeatureId ?? ""}:${site.address}`;
+    const isCurrent = () =>
+      !controller.signal.aborted &&
+      identity ===
+        `${latest.current.id}:${latest.current.parcelFeatureId ?? ""}:${latest.current.address}`;
     setError("");
     setSelectedId(null);
     setDrawMode(false);
@@ -348,6 +405,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
       const res = await fetch("/api/annotations/analyze", {
         method: "POST",
         body,
+        signal: controller.signal,
       });
       if (!res.ok || !res.body) {
         const data = await res.json().catch(() => ({}));
@@ -368,12 +426,13 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
         for (const line of lines) {
           if (!line.trim()) continue;
           const msg = JSON.parse(line);
+          if (!isCurrent()) return;
           if (msg.type === "progress")
             setProgress((p) => ({
               started: p?.started ?? Date.now(),
               detail:
                 msg.stage === "download"
-                  ? `Downloading ${msg.detail} (first run only)`
+                  ? `Preparing ${msg.detail}`
                   : msg.detail,
             }));
           else if (msg.type === "error") throw new Error(msg.error);
@@ -383,6 +442,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
       if (!result)
         throw new Error("The analysis ended without a result. Try again.");
 
+      if (!isCurrent()) return;
       const id = crypto.randomUUID();
       const now = new Date().toISOString();
       let file: File | null = source.kind === "upload" ? source.file : null;
@@ -396,7 +456,11 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
         );
       }
       if (source.kind === "aerial") {
-        const blob = await (await fetch(aerialImageUrl(source.view))).blob();
+        const blob = await (
+          await fetch(aerialImageUrl(source.view), {
+            signal: controller.signal,
+          })
+        ).blob();
         file = new File(
           [blob],
           `aerial-${result.aerialProvider?.id ?? "image"}-z${source.view.zoom}.jpg`,
@@ -404,6 +468,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
         );
       }
       if (!file) throw new Error("The analyzed image was not returned.");
+      if (!isCurrent()) return;
       await saveAnalysisImage(id, file).catch(() =>
         setError(
           "The analysis is saved, but this browser couldn't store the image. Re-run it to view the annotations again.",
@@ -469,6 +534,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
         },
         annotations,
       };
+      if (!isCurrent()) return;
       const s = latest.current;
       save({
         ...s,
@@ -478,12 +544,15 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
       if (source.kind === "upload") setStaged(null);
       setShowAnnotations(true);
     } catch (e) {
+      if (!isCurrent()) return;
       setError(
         e instanceof Error ? e.message : "The analysis could not be completed.",
       );
     } finally {
-      setProgress(null);
-      setPending(null);
+      if (request.current === controller) {
+        setProgress(null);
+        setPending(null);
+      }
     }
   }
 
@@ -493,6 +562,37 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
     setPending({ url: aerialImageUrl(view), ...AERIAL_SIZE });
     analyze(body, { kind: "aerial", view });
   }
+  const autoAnalyzed = useRef(false);
+  useEffect(() => {
+    if (!embedded || !aerialView || autoAnalyzed.current || progress) return;
+    if (
+      active?.image.source === "aerial" &&
+      !(savedUrl?.id === active.id && savedUrl.url === null)
+    )
+      return;
+    const timer = setTimeout(() => {
+      autoAnalyzed.current = true;
+      analyzeAerial(aerialView);
+    }, 0);
+    return () => clearTimeout(timer);
+    // A single attempt per mounted site/parcel. Retry is explicit after a failure.
+  }, [embedded, aerialView, active, savedUrl, progress]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function openStreetView() {
+    const aerial = active?.image.aerial
+      ? active
+      : analyses.find((a) => a.image.aerial);
+    if (!aerial) {
+      setError(
+        "The annotated aerial image is still preparing. Open Street View once it has loaded.",
+      );
+      return;
+    }
+    setActiveId(aerial.id);
+    setViewerMode("aerial");
+    setStreetOpen(true);
+  }
+
   function analyzePhoto() {
     if (!staged) return setError("Add a site photo to analyze.");
     const body = new FormData();
@@ -598,8 +698,15 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
   ];
 
   return (
-    <div className="annotations">
-      <section className="annotations-section" aria-labelledby="imagery-title">
+    <div className={`annotations ${embedded ? "annotations-embedded" : ""}`}>
+      <details
+        className="annotations-section annotation-tools"
+        hidden={comparison}
+        open={embedded ? undefined : true}
+      >
+        {embedded && (
+          <summary>Image controls, site photos &amp; Street View</summary>
+        )}
         <div className="annotations-heading">
           <div>
             <h2 id="imagery-title">Imagery</h2>
@@ -620,7 +727,9 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
                 role="radio"
                 aria-checked={viewerMode === mode}
                 className={viewerMode === mode ? "selected" : ""}
-                onClick={() => setViewerMode(mode)}
+                onClick={() =>
+                  mode === "street" ? openStreetView() : setViewerMode(mode)
+                }
               >
                 <Icon size={15} aria-hidden="true" />
                 {label}
@@ -634,8 +743,8 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
           <div className="locate-row">
             <input
               id="annotations-address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={site.address}
+              readOnly
               autoComplete="street-address"
               placeholder="Street address, town, state"
               aria-describedby="annotations-address-help"
@@ -701,16 +810,6 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
             </div>
           ))}
 
-        {viewerMode === "street" && (
-          <StreetViewExplorer
-            address={context?.location?.matchedAddress ?? address}
-            location={streetLocation}
-            analysisPermitted={Boolean(caps?.streetViewAnalysis)}
-            busy={busy}
-            onCapture={analyzeStreetView}
-          />
-        )}
-
         {viewerMode === "photos" &&
           (staged ? (
             <div className="photo-stage">
@@ -773,19 +872,24 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
               </button>
             </div>
           ))}
-      </section>
+      </details>
 
       <section
         className="annotations-section"
         aria-labelledby="annotated-title"
+        ref={annotatedSection}
       >
         <div className="annotations-heading">
           <div>
-            <h2 id="annotated-title">Annotated images</h2>
+            <h2 id="annotated-title">
+              {embedded ? "Annotated Layer" : "Annotated images"}
+            </h2>
             <p>
-              Equipment, possible BESS areas and obstacles the detection model
-              located. Callouts quote markings it could read; ratings are never
-              inferred from an image.
+              {comparison
+                ? "Navigate Street View on the right while editing the original diagram. The blue arrow follows the camera position and viewing direction."
+                : embedded
+                  ? "Public aerial imagery of this site with machine-detected features. MassGIS imagery may differ from the Google satellite view. Review detections before use."
+                  : "Equipment, possible BESS areas and obstacles the detection model located. Callouts quote markings it could read; ratings are never inferred from an image."}
             </p>
           </div>
           {analyses.length > 0 && (
@@ -809,7 +913,146 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
           )}
         </div>
 
-        {busy && pending ? (
+        {active?.image.aerial && !busy && (
+          <div className="button-row comparison-actions">
+            <button
+              className="button secondary"
+              aria-pressed={comparison}
+              onClick={() =>
+                comparison ? setStreetOpen(false) : openStreetView()
+              }
+            >
+              {comparison ? "Close Street View" : "Street View"}
+            </button>
+            {comparison && (
+              <button
+                className="button secondary"
+                aria-pressed={drawMode}
+                onClick={() => setDrawMode(!drawMode)}
+              >
+                {drawMode ? "Cancel drawing" : "Add annotation"}
+              </button>
+            )}
+          </div>
+        )}
+        {embedded && !busy && aerialView && !comparison && (
+          <button
+            className="text-link"
+            onClick={() => analyzeAerial(aerialView)}
+          >
+            {active ? "Refresh annotated layer" : "Retry annotated layer"}
+          </button>
+        )}
+        {embedded && !aerialView && (
+          <p role="status">
+            {locating
+              ? "Locating the selected site…"
+              : locateError ||
+                "Waiting for an independent public site location."}
+          </p>
+        )}
+        {(busy || error) && (
+          <div className="analysis-status" role="status" aria-live="polite">
+            {busy ? (
+              <>
+                <span className="annotation-spinner" aria-hidden="true" />
+                {progress.detail}
+                <span className="muted">{elapsed}s</span>
+                <button
+                  className="text-link"
+                  onClick={() => {
+                    request.current?.abort();
+                    setProgress(null);
+                    setPending(null);
+                    setError("Annotation cancelled. You can retry this layer.");
+                  }}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <span role="alert">{error}</span>
+            )}
+          </div>
+        )}
+
+        {comparison && active ? (
+          <>
+            <DiagramStreetViewComparison
+              address={site.address}
+              location={streetLocation}
+              analysisPermitted={Boolean(caps?.streetViewAnalysis)}
+              busy={busy}
+              onCapture={analyzeStreetView}
+              diagram={(position) => {
+                const camera =
+                  position && active.image.aerial
+                    ? cameraOnAerial(
+                        active.image.aerial,
+                        position,
+                        active.image,
+                      )
+                    : null;
+                return savedSrc ? (
+                  <>
+                    <AnnotatedViewer
+                      src={savedSrc}
+                      width={active.image.width}
+                      height={active.image.height}
+                      alt="Original annotated aerial diagram with live Street View camera indicator"
+                      annotations={annotations}
+                      showAnnotations={showAnnotations}
+                      selectedId={selectedId}
+                      drawMode={drawMode}
+                      scanning={false}
+                      camera={camera}
+                      onSelect={setSelectedId}
+                      onRename={(id, label) => updateAnnotation(id, { label })}
+                      onDraw={addManual}
+                      onResize={onResize}
+                      onMoveCallout={(id, callout) =>
+                        updateAnnotation(id, { callout }, false)
+                      }
+                    />
+                    {position && !camera && (
+                      <p className="muted">
+                        Street View camera is outside the current image extent.
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p role="status">Restoring the original annotated image…</p>
+                );
+              }}
+            />
+            {selectedId && annotations.find((a) => a.id === selectedId) && (
+              <div className="comparison-edit">
+                <label>
+                  Annotation name
+                  <input
+                    value={annotations.find((a) => a.id === selectedId)!.label}
+                    onChange={(e) =>
+                      updateAnnotation(selectedId, { label: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  Annotation notes
+                  <textarea
+                    value={annotations.find((a) => a.id === selectedId)!.notes}
+                    onChange={(e) =>
+                      updateAnnotation(selectedId, { notes: e.target.value })
+                    }
+                  />
+                </label>
+                <small>
+                  Manual observations remain unverified. Confirm equipment
+                  details against original site evidence.
+                </small>
+              </div>
+            )}
+          </>
+        ) : busy && pending ? (
           <AnnotatedViewer
             src={pending.url}
             width={pending.width}
@@ -827,6 +1070,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
         ) : active && savedSrc ? (
           <AnnotatedViewer
             src={savedSrc}
+            alt="Annotated aerial or site image with unverified feature callouts"
             width={active.image.width}
             height={active.image.height}
             annotations={annotations}
@@ -835,6 +1079,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
             drawMode={drawMode}
             scanning={false}
             onSelect={setSelectedId}
+            onRename={(id, label) => updateAnnotation(id, { label })}
             onMoveCallout={(id, callout) =>
               updateAnnotation(id, { callout }, false)
             }
@@ -854,20 +1099,6 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
                 ? "The saved annotations are listed below. Run detection again to see them on the image."
                 : "Locate the site and choose Detect features on the aerial view, or add a site photo. The first run downloads the detection models (about 1.7 GB) and takes a few minutes."}
             </p>
-          </div>
-        )}
-
-        {(busy || error) && (
-          <div className="analysis-status" role="status" aria-live="polite">
-            {busy ? (
-              <>
-                <span className="status-dot" aria-hidden="true" />
-                {progress.detail}
-                <span className="muted">{elapsed}s</span>
-              </>
-            ) : (
-              <span role="alert">{error}</span>
-            )}
           </div>
         )}
 
@@ -910,10 +1141,15 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
       </section>
 
       {active && !busy && (
-        <section
-          className="annotations-section"
-          aria-labelledby="schedule-title"
+        <details
+          className="annotations-section annotation-schedule"
+          open={embedded ? undefined : true}
         >
+          {embedded && (
+            <summary>
+              Review detections &amp; edit annotations ({visible.length})
+            </summary>
+          )}
           <div className="annotations-heading">
             <div>
               <h2 id="schedule-title">Detection schedule</h2>
@@ -1047,7 +1283,7 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
               Delete annotated image
             </button>
           </div>
-        </section>
+        </details>
       )}
     </div>
   );

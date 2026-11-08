@@ -1,3 +1,4 @@
+import { queueTeamRecord, syncTeamFile, sharedFiles } from "../team/client";
 import type { IntakeRecord } from "./types";
 import { loadIntake, INTAKE_STORAGE } from "./model";
 import { portableIntake } from "./portable";
@@ -44,6 +45,7 @@ export function createEngineeringStore(
     class FileMap extends Map<string, File> {
       set(fileKey: string, file: File) {
         super.set(fileKey, file);
+        syncTeamFile(fileKey, key, file);
         if (vault && belongsToSite(fileKey, key))
           void sha256(file)
             .then((hash) => vault.put(storedFile(fileKey, key, hash, file)))
@@ -61,10 +63,18 @@ export function createEngineeringStore(
       reconcileElectricalDiscovery(record, files);
     snapshot = { ...snapshot, record: current(snapshot.record) };
     async function restoreFiles() {
-      if (!vault) return;
       try {
         let restored = 0;
-        for (const row of await vault.list(key)) {
+        for (const row of await sharedFiles(key)) {
+          if (!snapshot.record.sources[row.key]?.fileName || files.has(row.key))
+            continue;
+          if ((await sha256(row.file)) !== row.hash) continue;
+          Map.prototype.set.call(files, row.key, row.file);
+          restored++;
+          if (vault)
+            await vault.put(storedFile(row.key, key, row.hash, row.file));
+        }
+        for (const row of (await vault?.list(key)) ?? []) {
           const source = snapshot.record.sources[row.key];
           // Restore only files this site's record still references, unaltered.
           if (!source?.fileName || files.has(row.key)) continue;
@@ -96,6 +106,7 @@ export function createEngineeringStore(
         });
         if (raw === persisted) return;
         storage.setItem(INTAKE_STORAGE + key, raw);
+        queueTeamRecord("engineering", key, JSON.parse(raw));
         persisted = raw;
         onSave?.();
       } catch {
@@ -181,6 +192,10 @@ export function engineeringStore() {
       },
       vault,
     );
+    if (typeof window !== "undefined")
+      window.addEventListener("qore-team-engineering", (event) =>
+        browserStore?.reload((event as CustomEvent<string>).detail),
+      );
     if (typeof window !== "undefined")
       window.addEventListener("storage", (event) => {
         if (event.key?.startsWith(INTAKE_STORAGE))

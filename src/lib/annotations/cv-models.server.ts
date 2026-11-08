@@ -204,3 +204,9 @@ export async function analyzeImage(
   }
   return { width: image.width, height: image.height, annotations };
 }
+
+export async function readDocumentImage(bytes: Buffer, progress: Progress) {
+  const models = await getModels(progress);
+  const image = await decode(models.lib, bytes);
+  return (await readMarkings(models, image, [0, 0, 1, 1])).join("\n");
+}

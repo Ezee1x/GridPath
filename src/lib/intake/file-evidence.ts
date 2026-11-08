@@ -1,7 +1,7 @@
 import type { EvidenceReference, IntakeRecord } from "./types";
 
 export const FILE_ACCEPT =
-  ".pdf,.png,.jpg,.jpeg,.csv,.txt,.json,.xlsx,.xls,.docx,.doc,.dwg,.dxf";
+  ".pdf,.png,.jpg,.jpeg,.csv,.xml,.txt,.json,.xlsx,.xls,.docx,.doc,.dwg,.dxf";
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 /** Prepare references before committing anything to the shared site record. */
@@ -10,7 +10,10 @@ export async function prepareFieldFiles(
   fieldId: string,
   files: File[],
   note = "",
+  scope: NonNullable<EvidenceReference["documentScope"]> = "unclassified",
 ) {
+  if (!["unclassified", "site-evidence", "reference-only"].includes(scope))
+    throw Error("Choose a valid document classification.");
   if (!record.fields.some((field) => field.id === fieldId))
     throw Error("Choose a field in this site record.");
   if (!files.length) throw Error("Choose at least one file.");
@@ -35,7 +38,9 @@ export async function prepareFieldFiles(
     )
       .map((v) => v.toString(16).padStart(2, "0"))
       .join("");
-    const key = `input:${record.siteKey}:${fieldId}:${hash}`;
+    // Keep legacy keys for unclassified uploads; separate reference copies from
+    // site evidence so re-uploading bytes cannot silently promote a sample.
+    const key = `input:${record.siteKey}:${fieldId}:${hash}${scope === "unclassified" ? "" : `:${scope}`}`;
     sources[key] = record.sources[key] ?? {
       key,
       dataset: file.name,
@@ -52,6 +57,8 @@ export async function prepareFieldFiles(
       documentId: hash,
       fileName: file.name,
       fileHash: hash,
+      documentScope: scope,
+      referenceOnly: scope === "reference-only",
     };
     bytes.set(key, file);
   }

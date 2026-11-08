@@ -5,7 +5,11 @@ import {
   attachFieldEvidence,
   readiness,
   selectedObservation,
+  exportIntake,
 } from "./intake/model";
+import { requirementCoverage } from "./engineering/coverage";
+import { extractCandidates } from "./documents/candidates";
+import { reviewDocumentCandidate } from "./documents/review";
 import { createEngineeringStore } from "./intake/record-store";
 import { prepareFieldFiles, MAX_FILE_BYTES } from "./intake/file-evidence";
 
@@ -102,4 +106,91 @@ test("upload validation rejects unsupported, empty, oversized, excessive files a
     prepareFieldFiles(record, "serviceAmperage", Array(11).fill(good)),
     /10 files/,
   );
+});
+
+test("sample plan uploads remain references through attachment, extraction review, reload and export", async () => {
+  const initial = createIntakeRecord(
+    "reference-site",
+    "Synthetic QA address",
+    null,
+  );
+  const file = new File(["Service voltage: 480 V"], "generic-sample.txt");
+  const prepared = await prepareFieldFiles(
+    initial,
+    "voltage",
+    [file],
+    "Generic design",
+    "reference-only",
+  );
+  const key = Object.keys(prepared.sources)[0];
+  const attached = attachFieldEvidence(initial, "voltage", prepared.sources);
+  assert.equal(
+    attached.fields.find((f) => f.id === "voltage")!.request.status,
+    "Missing",
+  );
+  assert.deepEqual(
+    requirementCoverage(attached).map((r) => r.status),
+    requirementCoverage(initial).map((r) => r.status),
+  );
+  const candidate = extractCandidates([
+    { page: 1, text: "Service voltage: 480 V" },
+  ])[0];
+  assert.throws(
+    () =>
+      reviewDocumentCandidate(attached, key, candidate, "Accepted", "existing"),
+    /Reference-only/,
+  );
+  const retained = reviewDocumentCandidate(
+    attached,
+    key,
+    candidate,
+    "Pending",
+    "proposed",
+  );
+  assert.equal(
+    retained.fields.find((f) => f.id === "voltage")!.selectedId,
+    null,
+  );
+  const serialized = JSON.parse(JSON.stringify(retained));
+  const output = exportIntake(serialized);
+  assert.equal(output.sources[key].referenceOnly, true);
+  assert.equal(output.sources[key].documentScope, "reference-only");
+  assert.equal(output.sources[key].fileHash, prepared.sources[key].fileHash);
+  const siteEvidence = await prepareFieldFiles(
+    retained,
+    "voltage",
+    [file],
+    "Confirmed independently",
+    "site-evidence",
+  );
+  assert.notEqual(Object.keys(siteEvidence.sources)[0], key);
+  assert.equal(retained.sources[key].referenceOnly, true);
+  assert.equal(Object.values(siteEvidence.sources)[0].referenceOnly, false);
+});
+
+test("adding a reference sample preserves a verified field's selection and review", async () => {
+  const record = createIntakeRecord("verified-reference", "Synthetic QA", null);
+  const field = record.fields.find((f) => f.id === "voltage")!;
+  field.review = {
+    status: "Engineer verified",
+    reviewer: "QA",
+    note: "Existing review",
+    at: "2026-11-08T00:00:00Z",
+  };
+  field.request.status = "Verified";
+  const prepared = await prepareFieldFiles(
+    record,
+    "voltage",
+    [new File(["Generic reference"], "sample.txt")],
+    "",
+    "reference-only",
+  );
+  const next = attachFieldEvidence(
+    record,
+    "voltage",
+    prepared.sources,
+  ).fields.find((f) => f.id === "voltage")!;
+  assert.deepEqual(next.review, field.review);
+  assert.equal(next.request.status, "Verified");
+  assert.equal(next.selectedId, field.selectedId);
 });

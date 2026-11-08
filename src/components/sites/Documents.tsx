@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { SiteRecord } from "@/lib/types";
-import { FIELD_SCHEMA } from "@/lib/intake/schema";
+import { FIELD_SCHEMA, ACTIVE_FIELDS } from "@/lib/intake/schema";
 import { useSavedEngineeringRecord } from "@/components/intake/useEngineeringRecord";
 import { FieldEvidence } from "@/components/intake/FieldEvidence";
 export const categories = [
@@ -38,7 +38,7 @@ export function Documents({ site }: { site: SiteRecord }) {
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
           >
-            {FIELD_SCHEMA.map((d) => (
+            {ACTIVE_FIELDS.map((d) => (
               <option key={d.id} value={d.id}>
                 {d.label}
               </option>

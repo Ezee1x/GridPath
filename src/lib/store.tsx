@@ -1,10 +1,12 @@
 "use client";
 import {
+  useEffect,
   createContext,
   useContext,
   useSyncExternalStore,
   ReactNode,
 } from "react";
+import { refreshTeam, syncTeamSite } from "./team/client";
 import { SiteRecord } from "./types";
 
 import { loadSavedWorkspace, WORKSPACE_STORAGE_KEY } from "./persistence";
@@ -81,6 +83,17 @@ function persist(sites: SiteRecord[]) {
 }
 const Context = createContext<Store | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    const receive = (event: Event) => {
+      const incoming = (event as CustomEvent<SiteRecord[]>).detail;
+      const map = new Map(snapshot.sites.map((s) => [s.id, s]));
+      incoming.forEach((s) => map.set(s.id, s));
+      persist([...map.values()]);
+    };
+    window.addEventListener("qore-team-sites", receive);
+    void refreshTeam().catch(() => {});
+    return () => window.removeEventListener("qore-team-sites", receive);
+  }, []);
   const state = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -88,6 +101,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   );
   function save(site: SiteRecord) {
     const updated = { ...site, updatedAt: new Date().toISOString() };
+    syncTeamSite(updated);
     persist(
       snapshot.sites.some((s) => s.id === site.id)
         ? snapshot.sites.map((s) => (s.id === site.id ? updated : s))
