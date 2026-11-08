@@ -1,34 +1,65 @@
+/*
+ * QORE ProjectSync: neutral blue and white only.
+ * Ink and slate carry text; one action blue marks what can be clicked.
+ */
 :root {
   color-scheme: light;
-  --background: #fafaf8;
-  --surface: #ffffff;
-  --surface-muted: #f5f6f3;
-  --sidebar-background: #f1f3f0;
-  --text: #1c2320;
-  --text-secondary: #5b645f;
-  --border: #dde2dd;
-  --border-strong: #cbd2cb;
-  --accent: #326b60;
-  --accent-hover: #28594f;
-  --accent-subtle: #e8efec;
-  --warning-text: var(--text);
-  --warning-background: var(--surface-muted);
-  --warning-border: var(--border);
-  --danger-text: #9d463c;
-  --danger-background: var(--surface-muted);
-  --danger-border: var(--border);
-  --success-text: var(--text);
-  --success-background: var(--surface-muted);
-  --success-border: var(--border);
-  --focus: #737b75;
+  --white: #ffffff;
+  --mist: #f3f6fa;
+  --ink: #12233d;
+  --slate: #4d5f78;
+  --rule: #d6dee8;
+  --rule-strong: #b6c3d4;
+  --blue: #2b5c93;
+  --blue-deep: #1f4774;
+  --blue-tint: #e7eef7;
+  --blue-wash: #9db4d1;
+
+  --background: var(--white);
+  --surface: var(--white);
+  --surface-muted: var(--mist);
+  --sidebar-background: var(--mist);
+  --text: var(--ink);
+  --text-secondary: var(--slate);
+  --border: var(--rule);
+  --border-strong: var(--rule-strong);
+  --accent: var(--blue);
+  --accent-hover: var(--blue-deep);
+  --accent-subtle: var(--blue-tint);
+  --warning-text: var(--ink);
+  --warning-background: var(--mist);
+  --warning-border: var(--rule);
+  --danger-text: var(--ink);
+  --danger-background: var(--mist);
+  --danger-border: var(--rule-strong);
+  --success-text: var(--ink);
+  --success-background: var(--mist);
+  --success-border: var(--rule);
+  --focus: var(--blue);
+
+  /* Readiness bar: verified, awaiting verification, missing. */
+  --state-verified: var(--blue);
+  --state-awaiting: var(--blue-wash);
+  --state-missing: #e4eaf2;
+
+  /* Drawing sheet around site imagery. */
+  --sheet-ink: var(--ink);
+  --sheet-paper: var(--white);
+  --sheet-stage: var(--mist);
+  --gutter: 22px;
+
   --font-sans:
     "Geist Variable", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  --font-serif:
+    "Source Serif 4 Variable", "Source Serif 4", Georgia, "Times New Roman",
+    serif;
   --font-body: 14px;
   --font-secondary: 13px;
   --font-label: 12px;
-  --font-section: 17px;
-  --font-heading: 28px;
+  --font-section: 22px;
+  --font-heading: 40px;
+  --font-display: clamp(34px, 4.6vw, 56px);
   --radius: 6px;
   --radius-small: 4px;
   --space-1: 4px;
@@ -38,10 +69,10 @@
   --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
-  --sidebar-width: 248px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --sidebar-width: 0px;
+  --topbar-height: 64px;
+  --content-width: 1240px;
   --control-height: 38px;
-  /* Readiness bar: verified, awaiting verification, missing. */
-  --state-verified: var(--accent);
-  --state-awaiting: #9dbcb4;
-  --state-missing: #e4e8e4;
 }

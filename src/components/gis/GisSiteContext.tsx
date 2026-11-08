@@ -327,16 +327,16 @@ export function GisSiteContext({
           style: (feature: google.maps.Data.Feature) => ({
             strokeColor:
               kind === "parcels"
-                ? "#b87921"
+                ? "#ffffff"
                 : kind === "buildings"
-                  ? "#287bb5"
-                  : "#39805e",
+                  ? "#8fbcec"
+                  : "#5f9ad8",
             strokeWeight:
               kind === "parcels" &&
               String(feature.getProperty("gisId")) === gis.parcelId
                 ? 3
                 : 2,
-            fillColor: kind === "buildings" ? "#287bb5" : "#b87921",
+            fillColor: kind === "buildings" ? "#8fbcec" : "#ffffff",
             fillOpacity: kind === "buildings" ? 0.14 : 0,
             clickable: true,
             zIndex: kind === "buildings" ? 3 : kind === "parcels" ? 2 : 1,
@@ -378,9 +378,9 @@ export function GisSiteContext({
             })),
           },
           style: {
-            strokeColor: kind === "flood" ? "#666e9a" : "#3d7d76",
+            strokeColor: kind === "flood" ? "#3f78bd" : "#a9cdf2",
             strokeWeight: 1.5,
-            fillColor: kind === "flood" ? "#767fae" : "#4a9388",
+            fillColor: kind === "flood" ? "#3f78bd" : "#a9cdf2",
             fillOpacity: 0.17,
           },
           onFeatureClick: (id) => {
@@ -404,7 +404,7 @@ export function GisSiteContext({
             },
           ],
         },
-        style: { strokeColor: "#ae7120", strokeWeight: 3, fillOpacity: 0 },
+        style: { strokeColor: "#ffffff", strokeWeight: 3, fillOpacity: 0 },
         onFeatureClick: () => setInspected(selectedParcel),
       });
     if (terrainBuildings) {
@@ -418,7 +418,7 @@ export function GisSiteContext({
             properties: { gisId: f.properties.id },
           })),
         },
-        style: { strokeColor: "#287bb5", strokeWeight: 2, fillOpacity: 0 },
+        style: { strokeColor: "#8fbcec", strokeWeight: 2, fillOpacity: 0 },
         onFeatureClick: (id: string) => {
           const feature = buildings.find((f) => f.properties.id === id);
           if (feature) setInspected(feature);
@@ -454,7 +454,7 @@ export function GisSiteContext({
           })),
         },
         style: (feature) => ({
-          strokeColor: "#735a37",
+          strokeColor: "#dbe9f8",
           strokeOpacity: 0.9,
           strokeWeight:
             Number(feature.getProperty("elevationFeet")) %

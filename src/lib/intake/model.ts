@@ -621,3 +621,31 @@ export function attachFieldEvidence(
     ),
   };
 }
+
+/**
+ * Link a machine-detected candidate (such as a site annotation) to a field as
+ * reference-only context. Unlike received evidence, it never changes the
+ * request status, review state or selected value.
+ */
+export function attachCandidateReference(
+  record: IntakeRecord,
+  fieldId: string,
+  source: EvidenceReference,
+): IntakeRecord {
+  if (!record.fields.some((f) => f.id === fieldId))
+    throw Error("Unknown field ID.");
+  const reference = { ...source, referenceOnly: true };
+  return {
+    ...record,
+    sources: { ...record.sources, [reference.key]: reference },
+    updatedAt: new Date().toISOString(),
+    fields: record.fields.map((f) =>
+      f.id === fieldId
+        ? {
+            ...f,
+            evidenceKeys: [...new Set([...(f.evidenceKeys ?? []), reference.key])],
+          }
+        : f,
+    ),
+  };
+}
