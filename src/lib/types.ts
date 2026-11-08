@@ -63,6 +63,10 @@ export interface SiteRecord {
   createdAt: string;
   updatedAt: string;
   sample: boolean;
+  /** Located address, parcel outline and mapped power features for Site annotations. */
+  siteContext?: import("./annotations/types").SiteContext;
+  /** Analyzed images with their machine-detected and edited annotations. */
+  annotatedImages?: import("./annotations/types").SiteAnalysis[];
 }
 export interface GeoJSONGeometry {
   type: "Polygon";

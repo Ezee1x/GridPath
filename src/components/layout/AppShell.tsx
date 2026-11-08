@@ -2,122 +2,100 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import {
-  LayoutDashboard,
-  Map,
-  ListChecks,
-  Files,
-  Database,
-  Settings,
-  ChevronRight,
-  Menu,
-  X,
-} from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
 import { currentSavedSiteReadiness } from "@/lib/saved-site-readiness";
 import { useIntakeUpdates } from "@/components/intake/useIntakeUpdates";
 import { BRAND } from "@/lib/brand";
 import { BrandMark } from "./BrandMark";
 import { ProjectSearch } from "@/components/sites/ProjectSearch";
+
 const navigation = [
-  ["/", "Overview", LayoutDashboard],
-  ["/explorer", "Site explorer", Map],
-  ["/verification", "Verification queue", ListChecks],
-  ["/documents", "Documents", Files],
-  ["/sources", "Data sources", Database],
+  ["/", "Sites"],
+  ["/explorer", "Site explorer"],
+  ["/verification", "Verification queue"],
+  ["/documents", "Documents"],
+  ["/sources", "Data sources"],
+  ["/settings", "Settings"],
 ] as const;
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   useIntakeUpdates();
   const { sites, ready, warning } = useWorkspace();
   const [query, setQuery] = useState("");
   const [menu, setMenu] = useState(false);
-  const current = path.startsWith("/sites/")
-    ? "Site record"
-    : path === "/settings"
-      ? "Settings"
-      : (navigation.find((n) => n[0] === path)?.[1] ?? "Workspace");
+  const isCurrent = (href: string) =>
+    path === href || (href === "/" && path.startsWith("/sites/"));
+  const outstanding = sites.reduce(
+    (n, s) => n + currentSavedSiteReadiness(s).outstanding,
+    0,
+  );
   return (
     <div className="app-shell">
-      <aside
-        id="main-sidebar"
-        className={`sidebar ${menu ? "mobile-open" : ""}`}
-      >
-        <Link href="/" className="brand">
-          <BrandMark />
-          <span className="brand-name">
-            <span>QORE</span>
-            {BRAND.shortName}
-          </span>
-        </Link>
-        <nav aria-label="Main navigation">
-          {navigation.map(([href, label, Icon]) => (
-            <Link
-              onClick={() => setMenu(false)}
-              aria-current={
-                path === href ||
-                (href === "/explorer" && path.startsWith("/sites/"))
-                  ? "page"
-                  : undefined
-              }
-              className={`nav-link ${path === href || (href === "/explorer" && path.startsWith("/sites/")) ? "active" : ""}`}
-              href={href}
-              key={href}
-            >
-              <Icon size={18} />
-              {label}
-              {label === "Verification queue" && (
-                <span className="nav-count">
-                  {sites.reduce(
-                    (n, s) => n + currentSavedSiteReadiness(s).outstanding,
-                    0,
-                  )}
-                </span>
-              )}
-            </Link>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <Link
-            href="/settings"
-            className={`nav-link ${path === "/settings" ? "active" : ""}`}
-          >
-            <Settings size={18} />
-            Settings
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="topbar">
+        <div className="topbar-inner">
+          <Link href="/" className="brand" onClick={() => setMenu(false)}>
+            <BrandMark />
+            <span className="brand-name">
+              <span>QORE</span> {BRAND.shortName}
+            </span>
           </Link>
-          <div className="sidebar-footer">
-            <p>Prototype for EQORE. Records are saved in this browser.</p>
-            <p>MIT Energy & Climate Hack 2026</p>
-          </div>
-        </div>
-      </aside>
-      <div className="main-shell">
-        <header className="topbar">
+          <nav
+            id="main-nav"
+            className={`main-nav ${menu ? "open" : ""}`}
+            aria-label="Main navigation"
+          >
+            {navigation.map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMenu(false)}
+                aria-current={isCurrent(href) ? "page" : undefined}
+                className="nav-item"
+              >
+                {label}
+                {href === "/verification" && outstanding > 0 && (
+                  <span className="nav-count">
+                    <span className="sr-only">, </span>
+                    {outstanding}
+                    <span className="sr-only"> open</span>
+                  </span>
+                )}
+              </Link>
+            ))}
+          </nav>
+          <ProjectSearch variant="global" value={query} onChange={setQuery} />
           <button
+            type="button"
             className="icon-button mobile-menu"
             onClick={() => setMenu(!menu)}
             aria-label="Toggle navigation"
             aria-expanded={menu}
-            aria-controls="main-sidebar"
+            aria-controls="main-nav"
           >
             {menu ? <X size={19} /> : <Menu size={19} />}
           </button>
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">{BRAND.shortName}</Link>
-            <ChevronRight size={14} />
-            <span aria-current="page">{current}</span>
-          </nav>
-          <ProjectSearch variant="global" value={query} onChange={setQuery} />
-        </header>
-        {warning && (
-          <div role="alert" className="notice amber-notice">
-            {warning}
-          </div>
-        )}
-        <main>
-          {ready ? children : <div className="empty">Loading ProjectSync…</div>}
-        </main>
-      </div>
+        </div>
+      </header>
+      {warning && (
+        <div role="alert" className="notice shell-notice">
+          {warning}
+        </div>
+      )}
+      <main id="main">
+        {ready ? children : <div className="empty">Loading ProjectSync…</div>}
+      </main>
+      <footer className="site-footer">
+        <p>
+          {BRAND.name} is a prototype for EQORE. Records and files are saved in
+          this browser only.
+        </p>
+        <p>MIT Energy & Climate Hack 2026</p>
+      </footer>
     </div>
   );
 }

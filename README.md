@@ -44,6 +44,7 @@ Opt-in live source checks (with the dev server running): `npx tsx scripts/verify
 - **One engineering record.** The site dashboard, Full Site Record and Verification Queue share one record: values, observations, sources, review state, requests, owners, notes, conflicts and evidence. Public or uploaded data is never marked Engineer Verified automatically, and verified values are protected.
 - **Files.** Add files from the dashboard, the Verification Queue or any field. Hashes, notes, duplicates and downloads are handled. File contents now survive refresh in this browser (see [docs/PERSISTENCE.md](docs/PERSISTENCE.md)).
 - **Electrical discovery.** *Find Available Electrical Data* in Electrical Infrastructure checks the MassGIS/DPU utility territory layer, Boston electrical permits (Analyze Boston CKAN), DPU interconnection research links, and documents already linked to the record. Results are candidates, not confirmed service relationships. Field statuses and customer requests stay in sync as evidence, values and reviews change, with earlier searches and resolved requests kept as history. See [docs/electrical/SOURCE_DISCOVERY_REPORT.md](docs/electrical/SOURCE_DISCOVERY_REPORT.md).
+- **Site annotations.** The *Site annotations* tab on each site locates the property (US Census geocoder), shows its MassGIS parcel outline and OpenStreetMap power lines and substations over public MassGIS/USGS aerial imagery, and runs open-vocabulary detection (Grounding DINO, with Florence-2 reading visible markings) on aerial images, your own site photos, or licensed Street View captures. Results appear as callouts on a drawing sheet with zone references and an editable detection schedule. Annotations are machine-detected and never engineer verified; linking one to a record field adds it as a reference only, without setting a value, changing the request status or affecting readiness. Models (~1.7 GB) download to `.cache/cv-models` on the first run, then run locally with no API key.
 - **Export.** JSON export of the current record, evidence metadata and missing-information requests.
 
 ## Record shape
@@ -60,7 +61,8 @@ Opt-in live source checks (with the dev server running): `npx tsx scripts/verify
 | Dashboard and queue | `src/components/intake/SiteIntelligenceDashboard.tsx`, `VerificationQueue.tsx` |
 | Electrical discovery | `src/lib/electrical/`, `src/app/api/electrical/discover/route.ts`, `src/components/intake/ElectricalDiscoveryPanel.tsx` |
 | GIS and environment | `src/lib/gis/`, `src/lib/environment/`, `src/app/api/gis/`, `src/app/api/environment/` |
-| Interface | `src/app/tokens.css`, `src/app/globals.css`, `src/components/layout/` |
+| Site annotations | `src/lib/annotations/`, `src/app/api/annotations/`, `src/components/annotations/` |
+| Interface | `src/app/tokens.css`, `src/app/globals.css`, `src/components/layout/`, `src/components/sites/SiteHero.tsx` |
 
 This project uses Next.js 16. Read `AGENTS.md` and the docs in `node_modules/next/dist/docs/` before relying on older Next.js behavior.
 
@@ -79,3 +81,8 @@ Records and files live in one browser. There is no shared storage, sign-in, auth
 ## History
 
 Earlier phase reports in `docs/` (`PHASE3_QA.md` through `UNIFIED_RECORD_QA.md`, `QA.md`, `DESIGN_REFINEMENT.md`) record how the app evolved. Their field counts, seeded samples and screenshots are historical; the code and this README describe the current app.
+
+## Design
+
+Neutral blue and white only (`src/app/tokens.css`): navy ink text, slate secondary text, one action blue. Headlines use Source Serif 4; body, tables and controls use Geist at the handoff's 14/13 px. A slim top bar replaces the sidebar so imagery can lead: the overview opens beside a public aerial image framed as a drawing sheet, showing a site's real annotations once it has some, and each site page has an aerial header with *Site record* and *Site annotations* tabs. Map overlays use blues and white on satellite imagery.
+
