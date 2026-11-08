@@ -1,0 +1,671 @@
+{
+  "retrievedAt": "2026-11-07T21:20:59.671706+00:00",
+  "note": "Observed metadata snapshot, not a source of seeded feature geometry. Runtime reads live metadata.",
+  "layers": {
+    "parcels": {
+      "name": "Massachusetts Property Tax Parcels",
+      "geometryType": "esriGeometryPolygon",
+      "extent": {
+        "xmin": -8185691.675433623,
+        "ymin": 5046406.75212531,
+        "xmax": -7781153.639219932,
+        "ymax": 5294988.191396058,
+        "spatialReference": {
+          "wkid": 102100,
+          "latestWkid": 3857
+        }
+      },
+      "supportedQueryFormats": "JSON, geoJSON, PBF",
+      "objectIdField": "OBJECTID",
+      "maxRecordCount": 2000,
+      "capabilities": "Query,Extract,Sync",
+      "editingInfo": {
+        "lastEditDate": 1793395676308,
+        "schemaLastEditDate": 1793395676308,
+        "dataLastEditDate": 1793395676308
+      },
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID"
+        },
+        {
+          "name": "MAP_PAR_ID",
+          "type": "esriFieldTypeString",
+          "alias": "MAP_PAR_ID"
+        },
+        {
+          "name": "LOC_ID",
+          "type": "esriFieldTypeString",
+          "alias": "LOC_ID"
+        },
+        {
+          "name": "POLY_TYPE",
+          "type": "esriFieldTypeString",
+          "alias": "POLY_TYPE"
+        },
+        {
+          "name": "MAP_NO",
+          "type": "esriFieldTypeString",
+          "alias": "MAP_NO"
+        },
+        {
+          "name": "SOURCE",
+          "type": "esriFieldTypeString",
+          "alias": "SOURCE"
+        },
+        {
+          "name": "PLAN_ID",
+          "type": "esriFieldTypeString",
+          "alias": "PLAN_ID"
+        },
+        {
+          "name": "LAST_EDIT",
+          "type": "esriFieldTypeInteger",
+          "alias": "LAST_EDIT"
+        },
+        {
+          "name": "BND_CHK",
+          "type": "esriFieldTypeString",
+          "alias": "BND_CHK"
+        },
+        {
+          "name": "NO_MATCH",
+          "type": "esriFieldTypeString",
+          "alias": "NO_MATCH"
+        },
+        {
+          "name": "TOWN_ID",
+          "type": "esriFieldTypeInteger",
+          "alias": "TOWN_ID"
+        },
+        {
+          "name": "PROP_ID",
+          "type": "esriFieldTypeString",
+          "alias": "PROP_ID"
+        },
+        {
+          "name": "BLDG_VAL",
+          "type": "esriFieldTypeInteger",
+          "alias": "BLDG_VAL"
+        },
+        {
+          "name": "LAND_VAL",
+          "type": "esriFieldTypeInteger",
+          "alias": "LAND_VAL"
+        },
+        {
+          "name": "OTHER_VAL",
+          "type": "esriFieldTypeInteger",
+          "alias": "OTHER_VAL"
+        },
+        {
+          "name": "TOTAL_VAL",
+          "type": "esriFieldTypeInteger",
+          "alias": "TOTAL_VAL"
+        },
+        {
+          "name": "FY",
+          "type": "esriFieldTypeInteger",
+          "alias": "FY"
+        },
+        {
+          "name": "LOT_SIZE",
+          "type": "esriFieldTypeDouble",
+          "alias": "LOT_SIZE"
+        },
+        {
+          "name": "LS_DATE",
+          "type": "esriFieldTypeString",
+          "alias": "LS_DATE"
+        },
+        {
+          "name": "LS_PRICE",
+          "type": "esriFieldTypeInteger",
+          "alias": "LS_PRICE"
+        },
+        {
+          "name": "USE_CODE",
+          "type": "esriFieldTypeString",
+          "alias": "USE_CODE"
+        },
+        {
+          "name": "SITE_ADDR",
+          "type": "esriFieldTypeString",
+          "alias": "SITE_ADDR"
+        },
+        {
+          "name": "ADDR_NUM",
+          "type": "esriFieldTypeString",
+          "alias": "ADDR_NUM"
+        },
+        {
+          "name": "FULL_STR",
+          "type": "esriFieldTypeString",
+          "alias": "FULL_STR"
+        },
+        {
+          "name": "LOCATION",
+          "type": "esriFieldTypeString",
+          "alias": "LOCATION"
+        },
+        {
+          "name": "CITY",
+          "type": "esriFieldTypeString",
+          "alias": "CITY"
+        },
+        {
+          "name": "ZIP",
+          "type": "esriFieldTypeString",
+          "alias": "ZIP"
+        },
+        {
+          "name": "OWNER1",
+          "type": "esriFieldTypeString",
+          "alias": "OWNER1"
+        },
+        {
+          "name": "OWN_ADDR",
+          "type": "esriFieldTypeString",
+          "alias": "OWN_ADDR"
+        },
+        {
+          "name": "OWN_CITY",
+          "type": "esriFieldTypeString",
+          "alias": "OWN_CITY"
+        },
+        {
+          "name": "OWN_STATE",
+          "type": "esriFieldTypeString",
+          "alias": "OWN_STATE"
+        },
+        {
+          "name": "OWN_ZIP",
+          "type": "esriFieldTypeString",
+          "alias": "OWN_ZIP"
+        },
+        {
+          "name": "OWN_CO",
+          "type": "esriFieldTypeString",
+          "alias": "OWN_CO"
+        },
+        {
+          "name": "LS_BOOK",
+          "type": "esriFieldTypeString",
+          "alias": "LS_BOOK"
+        },
+        {
+          "name": "LS_PAGE",
+          "type": "esriFieldTypeString",
+          "alias": "LS_PAGE"
+        },
+        {
+          "name": "REG_ID",
+          "type": "esriFieldTypeString",
+          "alias": "REG_ID"
+        },
+        {
+          "name": "ZONING",
+          "type": "esriFieldTypeString",
+          "alias": "ZONING"
+        },
+        {
+          "name": "YEAR_BUILT",
+          "type": "esriFieldTypeInteger",
+          "alias": "YEAR_BUILT"
+        },
+        {
+          "name": "BLD_AREA",
+          "type": "esriFieldTypeInteger",
+          "alias": "BLD_AREA"
+        },
+        {
+          "name": "UNITS",
+          "type": "esriFieldTypeInteger",
+          "alias": "UNITS"
+        },
+        {
+          "name": "RES_AREA",
+          "type": "esriFieldTypeInteger",
+          "alias": "RES_AREA"
+        },
+        {
+          "name": "STYLE",
+          "type": "esriFieldTypeString",
+          "alias": "STYLE"
+        },
+        {
+          "name": "NUM_ROOMS",
+          "type": "esriFieldTypeInteger",
+          "alias": "NUM_ROOMS"
+        },
+        {
+          "name": "LOT_UNITS",
+          "type": "esriFieldTypeString",
+          "alias": "LOT_UNITS"
+        },
+        {
+          "name": "STORIES",
+          "type": "esriFieldTypeString",
+          "alias": "STORIES"
+        },
+        {
+          "name": "USE_DESC",
+          "type": "esriFieldTypeString",
+          "alias": "Use Description"
+        },
+        {
+          "name": "TOWNID_UC",
+          "type": "esriFieldTypeString",
+          "alias": "Town ID and Use Code"
+        },
+        {
+          "name": "GlobalID",
+          "type": "esriFieldTypeGlobalID",
+          "alias": "GlobalID"
+        },
+        {
+          "name": "Shape__Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape__Area"
+        },
+        {
+          "name": "Shape__Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape__Length"
+        }
+      ]
+    },
+    "buildings": {
+      "name": "Building Structures",
+      "geometryType": "esriGeometryPolygon",
+      "extent": {
+        "xmin": 35492.43739999831,
+        "ymin": 777773.4376000017,
+        "xmax": 330581.91099999845,
+        "ymax": 959729.7628999986,
+        "spatialReference": {
+          "wkid": 26986,
+          "latestWkid": 26986
+        }
+      },
+      "supportedQueryFormats": "JSON, geoJSON, PBF",
+      "objectIdField": "OBJECTID",
+      "maxRecordCount": 2000,
+      "capabilities": "Query",
+      "editingInfo": {
+        "lastEditDate": 1779423303228,
+        "schemaLastEditDate": 1779423303228,
+        "dataLastEditDate": 1779423303228
+      },
+      "fields": [
+        {
+          "name": "STRUCT_ID",
+          "type": "esriFieldTypeString",
+          "alias": "Structure ID"
+        },
+        {
+          "name": "SOURCE",
+          "type": "esriFieldTypeString",
+          "alias": "Source"
+        },
+        {
+          "name": "SOURCETYPE",
+          "type": "esriFieldTypeString",
+          "alias": "Source Type"
+        },
+        {
+          "name": "SOURCEDATE",
+          "type": "esriFieldTypeInteger",
+          "alias": "Source Date"
+        },
+        {
+          "name": "SOURCEDATA",
+          "type": "esriFieldTypeString",
+          "alias": "Source Data"
+        },
+        {
+          "name": "MOVED",
+          "type": "esriFieldTypeString",
+          "alias": "Moved"
+        },
+        {
+          "name": "AREA_SQ_FT",
+          "type": "esriFieldTypeDouble",
+          "alias": "Area in Square Feet"
+        },
+        {
+          "name": "TOWN_ID",
+          "type": "esriFieldTypeSmallInteger",
+          "alias": "Town ID"
+        },
+        {
+          "name": "TOWN_ID2",
+          "type": "esriFieldTypeSmallInteger",
+          "alias": "Town ID 2"
+        },
+        {
+          "name": "TOWN_ID3",
+          "type": "esriFieldTypeSmallInteger",
+          "alias": "Town ID 3"
+        },
+        {
+          "name": "LOCAL_ID",
+          "type": "esriFieldTypeString",
+          "alias": "Local ID"
+        },
+        {
+          "name": "ARCHIVED",
+          "type": "esriFieldTypeString",
+          "alias": "Archived"
+        },
+        {
+          "name": "ARCHIVEDATE",
+          "type": "esriFieldTypeInteger",
+          "alias": "Archive Date"
+        },
+        {
+          "name": "EDIT_DATE",
+          "type": "esriFieldTypeString",
+          "alias": "Edit Date"
+        },
+        {
+          "name": "EDIT_BY",
+          "type": "esriFieldTypeString",
+          "alias": "Edited By"
+        },
+        {
+          "name": "COMMENTS",
+          "type": "esriFieldTypeString",
+          "alias": "Comment"
+        },
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID"
+        },
+        {
+          "name": "Shape__Area",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape__Area"
+        },
+        {
+          "name": "Shape__Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape__Length"
+        }
+      ]
+    },
+    "roads": {
+      "name": "MassGIS Roads",
+      "geometryType": "esriGeometryPolyline",
+      "extent": {
+        "xmin": -8184353.166085792,
+        "ymin": 5046712.383830897,
+        "xmax": -7781379.7877734,
+        "ymax": 5294987.0646470385,
+        "spatialReference": {
+          "wkid": 102100,
+          "latestWkid": 3857
+        }
+      },
+      "supportedQueryFormats": "JSON, geoJSON, PBF",
+      "objectIdField": "OBJECTID",
+      "maxRecordCount": 2000,
+      "capabilities": "Query,Sync",
+      "editingInfo": {
+        "lastEditDate": 1791315252692,
+        "schemaLastEditDate": 1791315252692,
+        "dataLastEditDate": 1791315252692
+      },
+      "fields": [
+        {
+          "name": "ST_NAME_STD",
+          "type": "esriFieldTypeString",
+          "alias": "Standardized Street Name"
+        },
+        {
+          "name": "ROAD_CLASS",
+          "type": "esriFieldTypeString",
+          "alias": "Road Classification"
+        },
+        {
+          "name": "MSAG_STR",
+          "type": "esriFieldTypeString",
+          "alias": "MSAG Street Name"
+        },
+        {
+          "name": "PRE_MOD",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name Pre-modifier"
+        },
+        {
+          "name": "PRE_DIR",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name Pre-directional"
+        },
+        {
+          "name": "PRE_TYPE",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name Pre-type"
+        },
+        {
+          "name": "ST_NAME",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name"
+        },
+        {
+          "name": "FS_PST_TYP",
+          "type": "esriFieldTypeString",
+          "alias": "Standardized Street Type"
+        },
+        {
+          "name": "POST_TYPE",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Type"
+        },
+        {
+          "name": "POST_DIR",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name Post-directional"
+        },
+        {
+          "name": "POST_MOD",
+          "type": "esriFieldTypeString",
+          "alias": "Primary Street Name Post-modifier"
+        },
+        {
+          "name": "NBRHD_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left Neighborhood"
+        },
+        {
+          "name": "NBRHD_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right Neighborhood"
+        },
+        {
+          "name": "MSAGCOM_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left MSAG Community"
+        },
+        {
+          "name": "MSAGCOM_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right MSAG Community"
+        },
+        {
+          "name": "MUNI_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right Geographic Municipality"
+        },
+        {
+          "name": "MUNI_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left Geographic Municipality"
+        },
+        {
+          "name": "CNTY_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left County"
+        },
+        {
+          "name": "CNTY_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right County"
+        },
+        {
+          "name": "STATE_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left State"
+        },
+        {
+          "name": "STATE_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right State"
+        },
+        {
+          "name": "ZIP_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left ZIP Code"
+        },
+        {
+          "name": "ZIP_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right ZIP Code"
+        },
+        {
+          "name": "CNTRY_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left Country"
+        },
+        {
+          "name": "CNTRY_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right Country"
+        },
+        {
+          "name": "L_FROM",
+          "type": "esriFieldTypeString",
+          "alias": "Left From Address"
+        },
+        {
+          "name": "L_TO",
+          "type": "esriFieldTypeString",
+          "alias": "Left To Address"
+        },
+        {
+          "name": "PARITY_L",
+          "type": "esriFieldTypeString",
+          "alias": "Left-side Range Parity"
+        },
+        {
+          "name": "R_FROM",
+          "type": "esriFieldTypeString",
+          "alias": "Right From Address"
+        },
+        {
+          "name": "R_TO",
+          "type": "esriFieldTypeString",
+          "alias": "Right To Address"
+        },
+        {
+          "name": "PARITY_R",
+          "type": "esriFieldTypeString",
+          "alias": "Right-side Range Parity"
+        },
+        {
+          "name": "L_FR_PREF",
+          "type": "esriFieldTypeString",
+          "alias": "Left From Number Prefix"
+        },
+        {
+          "name": "L_FR_SUFF",
+          "type": "esriFieldTypeString",
+          "alias": "Left From Number Suffix"
+        },
+        {
+          "name": "L_TO_PREF",
+          "type": "esriFieldTypeString",
+          "alias": "Left To Number Prefix"
+        },
+        {
+          "name": "L_TO_SUFF",
+          "type": "esriFieldTypeString",
+          "alias": "Left To Number Suffix"
+        },
+        {
+          "name": "R_FR_PREF",
+          "type": "esriFieldTypeString",
+          "alias": "Right From Number Prefix"
+        },
+        {
+          "name": "R_FR_SUFF",
+          "type": "esriFieldTypeString",
+          "alias": "Right From Number Suffix"
+        },
+        {
+          "name": "R_TO_PREF",
+          "type": "esriFieldTypeString",
+          "alias": "Right To Number Prefix"
+        },
+        {
+          "name": "R_TO_SUFF",
+          "type": "esriFieldTypeString",
+          "alias": "Right To Number Suffix"
+        },
+        {
+          "name": "DATE_UPD",
+          "type": "esriFieldTypeInteger",
+          "alias": "Last Updated"
+        },
+        {
+          "name": "EFF_DATE",
+          "type": "esriFieldTypeDate",
+          "alias": "Date Effective"
+        },
+        {
+          "name": "EXP_DATE",
+          "type": "esriFieldTypeDate",
+          "alias": "Date Expired"
+        },
+        {
+          "name": "DATA_SRC",
+          "type": "esriFieldTypeString",
+          "alias": "Data Source"
+        },
+        {
+          "name": "BASESEG_ID",
+          "type": "esriFieldTypeString",
+          "alias": "Base Segment ID"
+        },
+        {
+          "name": "STNAME_ID",
+          "type": "esriFieldTypeInteger",
+          "alias": "Street Name ID"
+        },
+        {
+          "name": "RCL_UNQ_ID",
+          "type": "esriFieldTypeString",
+          "alias": "Road Centerline Unique ID"
+        },
+        {
+          "name": "OBJECTID",
+          "type": "esriFieldTypeOID",
+          "alias": "OBJECTID"
+        },
+        {
+          "name": "GlobalID",
+          "type": "esriFieldTypeGlobalID",
+          "alias": "GlobalID"
+        },
+        {
+          "name": "Shape__Length",
+          "type": "esriFieldTypeDouble",
+          "alias": "Shape__Length"
+        }
+      ]
+    }
+  }
+}

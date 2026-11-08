@@ -1,0 +1,1487 @@
+[
+  {
+    "address": "79 Lowland Street, Holliston, MA",
+    "retrievedAt": "2026-11-08T04:21:03.798Z",
+    "publicAddress": "79 LOWLAND ST, HOLLISTON, MA, 01746",
+    "municipality": "HOLLISTON",
+    "candidates": [
+      {
+        "name": "Eversource Energy (NSTAR Electric)",
+        "townId": 136,
+        "recordId": "139",
+        "sourceKey": "electric-territory:139"
+      }
+    ],
+    "adapters": [
+      {
+        "adapter": "UtilityTerritoryAdapter",
+        "status": "found",
+        "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.41341663048%2C42.210070275826&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+        "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+      },
+      {
+        "adapter": "MunicipalPermitAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.townofholliston.us/187/Building",
+        "message": "No supported public permit API for this municipality. Use the official municipal portal for manual record research; no absence of permits is implied."
+      },
+      {
+        "adapter": "PublicElectricalRecordsAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+        "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+      }
+    ],
+    "permitCount": 0,
+    "samplePermit": null,
+    "populatedObservationFields": [
+      "utility"
+    ],
+    "originalSources": {
+      "electric-territory:139": {
+        "key": "electric-territory:139",
+        "provider": "MassGIS / Massachusetts DPU",
+        "dataset": "Electricity Providers, by Town (TOWNS_POLY_V_ELEC)",
+        "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&where=OBJECTID+%3D+139&outFields=*&returnGeometry=false",
+        "featureId": "139",
+        "featureName": "HOLLISTON",
+        "recordDate": null,
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.798Z",
+        "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
+        "townId": 136
+      }
+    }
+  },
+  {
+    "address": "50 Foster Street, Worcester, MA",
+    "retrievedAt": "2026-11-08T04:21:03.821Z",
+    "publicAddress": "50 FOSTER ST, WORCESTER, MA, 01608",
+    "municipality": "WORCESTER",
+    "candidates": [
+      {
+        "name": "National Grid (Massachusetts Electric)",
+        "townId": 348,
+        "recordId": "152",
+        "sourceKey": "electric-territory:152"
+      }
+    ],
+    "adapters": [
+      {
+        "adapter": "UtilityTerritoryAdapter",
+        "status": "found",
+        "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.801210146405%2C42.264891550213&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+        "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+      },
+      {
+        "adapter": "MunicipalPermitAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.worcesterma.gov/building-zoning",
+        "message": "No supported public permit API for this municipality. Use the official municipal portal for manual record research; no absence of permits is implied."
+      },
+      {
+        "adapter": "PublicElectricalRecordsAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+        "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+      }
+    ],
+    "permitCount": 0,
+    "samplePermit": null,
+    "populatedObservationFields": [
+      "utility"
+    ],
+    "originalSources": {
+      "electric-territory:152": {
+        "key": "electric-territory:152",
+        "provider": "MassGIS / Massachusetts DPU",
+        "dataset": "Electricity Providers, by Town (TOWNS_POLY_V_ELEC)",
+        "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&where=OBJECTID+%3D+152&outFields=*&returnGeometry=false",
+        "featureId": "152",
+        "featureName": "WORCESTER",
+        "recordDate": null,
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
+        "townId": 348
+      }
+    }
+  },
+  {
+    "address": "200 Clarendon Street, Boston, MA",
+    "retrievedAt": "2026-11-08T04:21:03.821Z",
+    "publicAddress": "200 CLARENDON ST, BOSTON, MA, 02116",
+    "municipality": "BOSTON",
+    "candidates": [
+      {
+        "name": "Eversource Energy (NSTAR Electric)",
+        "townId": 35,
+        "recordId": "258",
+        "sourceKey": "electric-territory:258"
+      }
+    ],
+    "adapters": [
+      {
+        "adapter": "UtilityTerritoryAdapter",
+        "status": "found",
+        "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.074892080086%2C42.349893160603&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+        "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+      },
+      {
+        "adapter": "MunicipalPermitAdapter",
+        "status": "found",
+        "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&q=%7B%22address%22%3A%22200+CLARENDON+ST%22%7D&filters=%7B%22worktype%22%3A%22ELECTRICAL%22%7D&limit=100&sort=issued_date+desc",
+        "message": "100 exact-address electrical permit matches. Results capped at 100 recent source records; research older records manually. Filing dates and drawing URLs are not exposed; no current electrical ratings inferred."
+      },
+      {
+        "adapter": "PublicElectricalRecordsAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+        "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+      }
+    ],
+    "permitCount": 100,
+    "samplePermit": {
+      "id": "E1889520",
+      "category": "Electrical Permit",
+      "issuedDate": "2026-08-18T17:52:09",
+      "filingDate": null,
+      "status": "Open",
+      "address": "200 Clarendon ST",
+      "parcelId": "401134000",
+      "description": "Interior updates to lighting and power on the 39th floor.",
+      "sourceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1889520%22%7D&limit=10",
+      "documentUrls": [],
+      "documentAvailability": "Not exposed by this dataset",
+      "condition": "Historical record; current installation unknown",
+      "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+    },
+    "populatedObservationFields": [
+      "utility",
+      "permits"
+    ],
+    "originalSources": {
+      "electric-territory:258": {
+        "key": "electric-territory:258",
+        "provider": "MassGIS / Massachusetts DPU",
+        "dataset": "Electricity Providers, by Town (TOWNS_POLY_V_ELEC)",
+        "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&where=OBJECTID+%3D+258&outFields=*&returnGeometry=false",
+        "featureId": "258",
+        "featureName": "BOSTON",
+        "recordDate": null,
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
+        "townId": 35
+      },
+      "boston-electrical-permit:E1889520": {
+        "key": "boston-electrical-permit:E1889520",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1889520%22%7D&limit=10",
+        "featureId": "E1889520",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-08-18T17:52:09",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1837175": {
+        "key": "boston-electrical-permit:E1837175",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1837175%22%7D&limit=10",
+        "featureId": "E1837175",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-08-05T13:11:12",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1869107": {
+        "key": "boston-electrical-permit:E1869107",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1869107%22%7D&limit=10",
+        "featureId": "E1869107",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-07-24T16:25:00",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1875666": {
+        "key": "boston-electrical-permit:E1875666",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1875666%22%7D&limit=10",
+        "featureId": "E1875666",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-07-23T15:53:00",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1873169": {
+        "key": "boston-electrical-permit:E1873169",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1873169%22%7D&limit=10",
+        "featureId": "E1873169",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-07-17T12:33:23",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1846134": {
+        "key": "boston-electrical-permit:E1846134",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1846134%22%7D&limit=10",
+        "featureId": "E1846134",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-05-06T13:10:35",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1833268": {
+        "key": "boston-electrical-permit:E1833268",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1833268%22%7D&limit=10",
+        "featureId": "E1833268",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-03-26T13:40:47",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1833259": {
+        "key": "boston-electrical-permit:E1833259",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1833259%22%7D&limit=10",
+        "featureId": "E1833259",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-03-26T13:37:55",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1822309": {
+        "key": "boston-electrical-permit:E1822309",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1822309%22%7D&limit=10",
+        "featureId": "E1822309",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-02-19T20:55:10",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1821650": {
+        "key": "boston-electrical-permit:E1821650",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1821650%22%7D&limit=10",
+        "featureId": "E1821650",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-02-18T15:18:54",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1813561": {
+        "key": "boston-electrical-permit:E1813561",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1813561%22%7D&limit=10",
+        "featureId": "E1813561",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-02-04T17:25:25",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1818247": {
+        "key": "boston-electrical-permit:E1818247",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1818247%22%7D&limit=10",
+        "featureId": "E1818247",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-02-03T19:46:27",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1812238": {
+        "key": "boston-electrical-permit:E1812238",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1812238%22%7D&limit=10",
+        "featureId": "E1812238",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2026-01-15T18:12:55",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1804577": {
+        "key": "boston-electrical-permit:E1804577",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1804577%22%7D&limit=10",
+        "featureId": "E1804577",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-12-09T15:19:21",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1803027": {
+        "key": "boston-electrical-permit:E1803027",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1803027%22%7D&limit=10",
+        "featureId": "E1803027",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-12-02T14:42:58",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1773785": {
+        "key": "boston-electrical-permit:E1773785",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1773785%22%7D&limit=10",
+        "featureId": "E1773785",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-11-12T14:10:04",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1796031": {
+        "key": "boston-electrical-permit:E1796031",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1796031%22%7D&limit=10",
+        "featureId": "E1796031",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-11-10T14:41:51",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1788525": {
+        "key": "boston-electrical-permit:E1788525",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1788525%22%7D&limit=10",
+        "featureId": "E1788525",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-10-23T16:26:05",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1786223": {
+        "key": "boston-electrical-permit:E1786223",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1786223%22%7D&limit=10",
+        "featureId": "E1786223",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-10-08T18:07:08",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1783078": {
+        "key": "boston-electrical-permit:E1783078",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783078%22%7D&limit=10",
+        "featureId": "E1783078",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-10-07T20:38:28",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1783062": {
+        "key": "boston-electrical-permit:E1783062",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783062%22%7D&limit=10",
+        "featureId": "E1783062",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-10-07T20:29:22",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1784932": {
+        "key": "boston-electrical-permit:E1784932",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1784932%22%7D&limit=10",
+        "featureId": "E1784932",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-10-06T13:33:17",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1783305": {
+        "key": "boston-electrical-permit:E1783305",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1783305%22%7D&limit=10",
+        "featureId": "E1783305",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-30T15:04:07",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1776569": {
+        "key": "boston-electrical-permit:E1776569",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776569%22%7D&limit=10",
+        "featureId": "E1776569",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-22T14:11:30",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1776571": {
+        "key": "boston-electrical-permit:E1776571",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776571%22%7D&limit=10",
+        "featureId": "E1776571",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-22T14:07:24",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1776572": {
+        "key": "boston-electrical-permit:E1776572",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1776572%22%7D&limit=10",
+        "featureId": "E1776572",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-22T14:05:43",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1774842": {
+        "key": "boston-electrical-permit:E1774842",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1774842%22%7D&limit=10",
+        "featureId": "E1774842",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-15T17:06:19",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1770353": {
+        "key": "boston-electrical-permit:E1770353",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1770353%22%7D&limit=10",
+        "featureId": "E1770353",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-09-02T12:09:44",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1765474": {
+        "key": "boston-electrical-permit:E1765474",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1765474%22%7D&limit=10",
+        "featureId": "E1765474",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-08-22T17:34:40",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1760982": {
+        "key": "boston-electrical-permit:E1760982",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1760982%22%7D&limit=10",
+        "featureId": "E1760982",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-08-22T15:05:51",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1753274": {
+        "key": "boston-electrical-permit:E1753274",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1753274%22%7D&limit=10",
+        "featureId": "E1753274",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-08-15T12:31:36",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1749227": {
+        "key": "boston-electrical-permit:E1749227",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1749227%22%7D&limit=10",
+        "featureId": "E1749227",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-07-29T17:40:11",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1749778": {
+        "key": "boston-electrical-permit:E1749778",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1749778%22%7D&limit=10",
+        "featureId": "E1749778",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-07-22T17:04:58",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1735332": {
+        "key": "boston-electrical-permit:E1735332",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1735332%22%7D&limit=10",
+        "featureId": "E1735332",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-07-01T12:56:35",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1714226": {
+        "key": "boston-electrical-permit:E1714226",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1714226%22%7D&limit=10",
+        "featureId": "E1714226",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-05-07T18:05:30",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1707824": {
+        "key": "boston-electrical-permit:E1707824",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1707824%22%7D&limit=10",
+        "featureId": "E1707824",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-05-05T17:50:22",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1708537": {
+        "key": "boston-electrical-permit:E1708537",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1708537%22%7D&limit=10",
+        "featureId": "E1708537",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-04-30T19:44:33",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1709433": {
+        "key": "boston-electrical-permit:E1709433",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1709433%22%7D&limit=10",
+        "featureId": "E1709433",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-04-25T14:15:40",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1709438": {
+        "key": "boston-electrical-permit:E1709438",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1709438%22%7D&limit=10",
+        "featureId": "E1709438",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-04-25T14:15:34",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1703760": {
+        "key": "boston-electrical-permit:E1703760",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1703760%22%7D&limit=10",
+        "featureId": "E1703760",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-04-10T12:13:47",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1698550": {
+        "key": "boston-electrical-permit:E1698550",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1698550%22%7D&limit=10",
+        "featureId": "E1698550",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-03-17T15:32:51",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1696341": {
+        "key": "boston-electrical-permit:E1696341",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1696341%22%7D&limit=10",
+        "featureId": "E1696341",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-03-11T13:01:29",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1686419": {
+        "key": "boston-electrical-permit:E1686419",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1686419%22%7D&limit=10",
+        "featureId": "E1686419",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-01-31T17:00:56",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1684443": {
+        "key": "boston-electrical-permit:E1684443",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1684443%22%7D&limit=10",
+        "featureId": "E1684443",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2025-01-17T13:23:00",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1669151": {
+        "key": "boston-electrical-permit:E1669151",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1669151%22%7D&limit=10",
+        "featureId": "E1669151",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-11-20T15:16:47",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1669208": {
+        "key": "boston-electrical-permit:E1669208",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1669208%22%7D&limit=10",
+        "featureId": "E1669208",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-11-18T18:15:14",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1668599": {
+        "key": "boston-electrical-permit:E1668599",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1668599%22%7D&limit=10",
+        "featureId": "E1668599",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-11-18T14:03:03",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1664300": {
+        "key": "boston-electrical-permit:E1664300",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1664300%22%7D&limit=10",
+        "featureId": "E1664300",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-11-08T20:38:52",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1626739": {
+        "key": "boston-electrical-permit:E1626739",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1626739%22%7D&limit=10",
+        "featureId": "E1626739",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-11-05T13:06:39",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1659704": {
+        "key": "boston-electrical-permit:E1659704",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1659704%22%7D&limit=10",
+        "featureId": "E1659704",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-10-15T11:33:06",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1659376": {
+        "key": "boston-electrical-permit:E1659376",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1659376%22%7D&limit=10",
+        "featureId": "E1659376",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-10-09T21:37:42",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1653613": {
+        "key": "boston-electrical-permit:E1653613",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1653613%22%7D&limit=10",
+        "featureId": "E1653613",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-10-04T12:30:36",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1652012": {
+        "key": "boston-electrical-permit:E1652012",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1652012%22%7D&limit=10",
+        "featureId": "E1652012",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-10-01T17:02:42",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1640121": {
+        "key": "boston-electrical-permit:E1640121",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1640121%22%7D&limit=10",
+        "featureId": "E1640121",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-08-30T12:26:31",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1641436": {
+        "key": "boston-electrical-permit:E1641436",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1641436%22%7D&limit=10",
+        "featureId": "E1641436",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-08-30T12:23:15",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1637139": {
+        "key": "boston-electrical-permit:E1637139",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1637139%22%7D&limit=10",
+        "featureId": "E1637139",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-08-26T12:48:04",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1635853": {
+        "key": "boston-electrical-permit:E1635853",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1635853%22%7D&limit=10",
+        "featureId": "E1635853",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-08-20T12:31:35",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1627852": {
+        "key": "boston-electrical-permit:E1627852",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1627852%22%7D&limit=10",
+        "featureId": "E1627852",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-08-07T20:07:59",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1619323": {
+        "key": "boston-electrical-permit:E1619323",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1619323%22%7D&limit=10",
+        "featureId": "E1619323",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-07-17T12:00:32",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1616603": {
+        "key": "boston-electrical-permit:E1616603",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1616603%22%7D&limit=10",
+        "featureId": "E1616603",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-06-20T17:29:53",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1615388": {
+        "key": "boston-electrical-permit:E1615388",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1615388%22%7D&limit=10",
+        "featureId": "E1615388",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-06-17T18:09:40",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1614278": {
+        "key": "boston-electrical-permit:E1614278",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1614278%22%7D&limit=10",
+        "featureId": "E1614278",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-06-13T18:09:02",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1592988": {
+        "key": "boston-electrical-permit:E1592988",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1592988%22%7D&limit=10",
+        "featureId": "E1592988",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-04-24T12:55:09",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1587608": {
+        "key": "boston-electrical-permit:E1587608",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1587608%22%7D&limit=10",
+        "featureId": "E1587608",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-04-04T17:56:02",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1578385": {
+        "key": "boston-electrical-permit:E1578385",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1578385%22%7D&limit=10",
+        "featureId": "E1578385",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-03-08T19:42:11",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1577824": {
+        "key": "boston-electrical-permit:E1577824",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1577824%22%7D&limit=10",
+        "featureId": "E1577824",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-03-08T19:16:18",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1563931": {
+        "key": "boston-electrical-permit:E1563931",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1563931%22%7D&limit=10",
+        "featureId": "E1563931",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-01-19T16:49:34",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1502785": {
+        "key": "boston-electrical-permit:E1502785",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1502785%22%7D&limit=10",
+        "featureId": "E1502785",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2024-01-11T21:11:25",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1550445": {
+        "key": "boston-electrical-permit:E1550445",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1550445%22%7D&limit=10",
+        "featureId": "E1550445",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-12-06T18:22:00",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1545421": {
+        "key": "boston-electrical-permit:E1545421",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1545421%22%7D&limit=10",
+        "featureId": "E1545421",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-11-16T18:45:00",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1527849": {
+        "key": "boston-electrical-permit:E1527849",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1527849%22%7D&limit=10",
+        "featureId": "E1527849",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-09-25T19:07:56",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1512154": {
+        "key": "boston-electrical-permit:E1512154",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1512154%22%7D&limit=10",
+        "featureId": "E1512154",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-08-09T13:29:38",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1490508": {
+        "key": "boston-electrical-permit:E1490508",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1490508%22%7D&limit=10",
+        "featureId": "E1490508",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-06-29T11:52:23",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1488677": {
+        "key": "boston-electrical-permit:E1488677",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1488677%22%7D&limit=10",
+        "featureId": "E1488677",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-06-23T13:53:57",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1480417": {
+        "key": "boston-electrical-permit:E1480417",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1480417%22%7D&limit=10",
+        "featureId": "E1480417",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-06-01T12:24:25",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1477390": {
+        "key": "boston-electrical-permit:E1477390",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1477390%22%7D&limit=10",
+        "featureId": "E1477390",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-05-24T20:01:03",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1475787": {
+        "key": "boston-electrical-permit:E1475787",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1475787%22%7D&limit=10",
+        "featureId": "E1475787",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-05-18T18:49:14",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1475782": {
+        "key": "boston-electrical-permit:E1475782",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1475782%22%7D&limit=10",
+        "featureId": "E1475782",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-05-18T10:32:09",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1459162": {
+        "key": "boston-electrical-permit:E1459162",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1459162%22%7D&limit=10",
+        "featureId": "E1459162",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-04-07T15:20:14",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1449042": {
+        "key": "boston-electrical-permit:E1449042",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1449042%22%7D&limit=10",
+        "featureId": "E1449042",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-03-17T11:13:04",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1445850": {
+        "key": "boston-electrical-permit:E1445850",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1445850%22%7D&limit=10",
+        "featureId": "E1445850",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-03-06T19:42:36",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1439770": {
+        "key": "boston-electrical-permit:E1439770",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1439770%22%7D&limit=10",
+        "featureId": "E1439770",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-02-09T19:19:49",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1439766": {
+        "key": "boston-electrical-permit:E1439766",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1439766%22%7D&limit=10",
+        "featureId": "E1439766",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-02-09T19:14:19",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1436343": {
+        "key": "boston-electrical-permit:E1436343",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1436343%22%7D&limit=10",
+        "featureId": "E1436343",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-01-31T19:07:36",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1431867": {
+        "key": "boston-electrical-permit:E1431867",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1431867%22%7D&limit=10",
+        "featureId": "E1431867",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-01-11T17:51:53",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1428505": {
+        "key": "boston-electrical-permit:E1428505",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1428505%22%7D&limit=10",
+        "featureId": "E1428505",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-01-05T14:19:37",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1428514": {
+        "key": "boston-electrical-permit:E1428514",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1428514%22%7D&limit=10",
+        "featureId": "E1428514",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2023-01-05T14:17:17",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1423803": {
+        "key": "boston-electrical-permit:E1423803",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1423803%22%7D&limit=10",
+        "featureId": "E1423803",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-12-19T19:19:37",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1412407": {
+        "key": "boston-electrical-permit:E1412407",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1412407%22%7D&limit=10",
+        "featureId": "E1412407",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-11-12T12:03:32",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1405658": {
+        "key": "boston-electrical-permit:E1405658",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1405658%22%7D&limit=10",
+        "featureId": "E1405658",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-10-19T17:23:46",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1400217": {
+        "key": "boston-electrical-permit:E1400217",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1400217%22%7D&limit=10",
+        "featureId": "E1400217",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-10-12T12:14:50",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1400224": {
+        "key": "boston-electrical-permit:E1400224",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1400224%22%7D&limit=10",
+        "featureId": "E1400224",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-10-12T12:13:36",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1398113": {
+        "key": "boston-electrical-permit:E1398113",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1398113%22%7D&limit=10",
+        "featureId": "E1398113",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-10-05T16:19:39",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1397585": {
+        "key": "boston-electrical-permit:E1397585",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1397585%22%7D&limit=10",
+        "featureId": "E1397585",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-10-03T19:15:44",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1386088": {
+        "key": "boston-electrical-permit:E1386088",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1386088%22%7D&limit=10",
+        "featureId": "E1386088",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-09-06T12:24:59",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1382036": {
+        "key": "boston-electrical-permit:E1382036",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1382036%22%7D&limit=10",
+        "featureId": "E1382036",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-08-22T19:19:18",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1370639": {
+        "key": "boston-electrical-permit:E1370639",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370639%22%7D&limit=10",
+        "featureId": "E1370639",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-08-18T20:16:21",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1370318": {
+        "key": "boston-electrical-permit:E1370318",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370318%22%7D&limit=10",
+        "featureId": "E1370318",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-08-03T20:45:15",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1370295": {
+        "key": "boston-electrical-permit:E1370295",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1370295%22%7D&limit=10",
+        "featureId": "E1370295",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-08-03T20:45:11",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      },
+      "boston-electrical-permit:E1346166": {
+        "key": "boston-electrical-permit:E1346166",
+        "provider": "City of Boston Inspectional Services",
+        "dataset": "Approved Building Permits — electrical records",
+        "serviceUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=6ddcd912-32a0-43df-9908-63574f8c7e77&filters=%7B%22permitnumber%22%3A%22E1346166%22%7D&limit=10",
+        "featureId": "E1346166",
+        "featureName": "200 Clarendon ST",
+        "recordDate": "2022-07-08T12:11:07",
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.821Z",
+        "matchingMethod": "Exact normalized street address and Boston municipality; numeric parcel ID also matches (leading-zero normalization). Permit issue/status does not establish installation or current condition."
+      }
+    }
+  },
+  {
+    "address": "300 Baker Avenue, Concord, MA",
+    "retrievedAt": "2026-11-08T04:21:03.822Z",
+    "publicAddress": "300 BAKER AVE, CONCORD, MA, 01742",
+    "municipality": "CONCORD",
+    "candidates": [
+      {
+        "name": "Concord Municipal Light Plant",
+        "townId": 67,
+        "recordId": "174",
+        "sourceKey": "electric-territory:174"
+      }
+    ],
+    "adapters": [
+      {
+        "adapter": "UtilityTerritoryAdapter",
+        "status": "found",
+        "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.385194107749%2C42.459007955471&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+        "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+      },
+      {
+        "adapter": "MunicipalPermitAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://concordma.gov/",
+        "message": "No supported public permit API for this municipality. Use the official municipal portal for manual record research; no absence of permits is implied."
+      },
+      {
+        "adapter": "PublicElectricalRecordsAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+        "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+      }
+    ],
+    "permitCount": 0,
+    "samplePermit": null,
+    "populatedObservationFields": [
+      "utility"
+    ],
+    "originalSources": {
+      "electric-territory:174": {
+        "key": "electric-territory:174",
+        "provider": "MassGIS / Massachusetts DPU",
+        "dataset": "Electricity Providers, by Town (TOWNS_POLY_V_ELEC)",
+        "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&where=OBJECTID+%3D+174&outFields=*&returnGeometry=false",
+        "featureId": "174",
+        "featureName": "CONCORD",
+        "recordDate": null,
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.822Z",
+        "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
+        "townId": 67
+      }
+    }
+  },
+  {
+    "address": "25 Haven Street, Reading, MA",
+    "retrievedAt": "2026-11-08T04:21:03.822Z",
+    "publicAddress": "25 HAVEN ST, READING, MA, 01867",
+    "municipality": "READING",
+    "candidates": [
+      {
+        "name": "Reading Municipal Light Department",
+        "townId": 246,
+        "recordId": "273",
+        "sourceKey": "electric-territory:273"
+      }
+    ],
+    "adapters": [
+      {
+        "adapter": "UtilityTerritoryAdapter",
+        "status": "found",
+        "sourceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&geometry=-71.10665299375%2C42.52215907502&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTOWN%2CTOWN_ID%2CELEC%2CELEC_LABEL&returnGeometry=false",
+        "message": "1 municipality-level provider record(s) found. Actual service requires bill confirmation."
+      },
+      {
+        "adapter": "MunicipalPermitAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/lists/massachusetts-city-and-town-websites",
+        "message": "No supported public permit API for this municipality. Use the official municipal portal for manual record research; no absence of permits is implied."
+      },
+      {
+        "adapter": "PublicElectricalRecordsAdapter",
+        "status": "unavailable",
+        "sourceUrl": "https://www.mass.gov/info-details/utility-interconnection-in-massachusetts",
+        "message": "Official DPU interconnection reports and filings are available for manual research. No reliable site-to-account/project identifier is available for automatic joining. Generic engineering requirements do not confirm equipment, tariff or approval."
+      }
+    ],
+    "permitCount": 0,
+    "samplePermit": null,
+    "populatedObservationFields": [
+      "utility"
+    ],
+    "originalSources": {
+      "electric-territory:273": {
+        "key": "electric-territory:273",
+        "provider": "MassGIS / Massachusetts DPU",
+        "dataset": "Electricity Providers, by Town (TOWNS_POLY_V_ELEC)",
+        "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/AGOL/ElectricityProviders/MapServer/0/query?f=json&where=OBJECTID+%3D+273&outFields=*&returnGeometry=false",
+        "featureId": "273",
+        "featureName": "READING",
+        "recordDate": null,
+        "datasetUpdated": null,
+        "retrievedAt": "2026-11-08T04:21:03.822Z",
+        "matchingMethod": "Independent Census address point intersected with official MassGIS municipality-level provider polygons; not a meter/service-account match. Dataset vintage is not supplied by the REST feature.",
+        "townId": 246
+      }
+    }
+  }
+]
