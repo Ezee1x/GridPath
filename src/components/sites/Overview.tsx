@@ -99,8 +99,8 @@ export function Overview() {
             )}
           </form>
           <p id="intake-help" className="intake-note">
-            Manual intake creates a preliminary record. Parcel and utility
-            retrieval are not connected.
+            Manual intake creates a preliminary record. Use Site Explorer for
+            public GIS context; utility retrieval is not connected.
           </p>
         </details>
         <Link className="reference-banner" href="/sites/century-tywood">

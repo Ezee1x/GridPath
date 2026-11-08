@@ -14,16 +14,8 @@ import {
   selectedAddressFromPlace,
 } from "@/lib/maps/google-maps";
 import { GoogleAddressSearch } from "./GoogleAddressSearch";
-import { GoogleSiteMap } from "./GoogleSiteMap";
+import { GisSiteContext } from "@/components/gis/GisSiteContext";
 const PLACE_ID_KEY = "qore-projectsync-explorer-place-id";
-const engineeringStatuses = [
-  ["Parcel boundaries", "Not retrieved"],
-  ["Building footprint", "Not retrieved"],
-  ["Road access", "Not evaluated"],
-  ["Electrical infrastructure", "Not verified"],
-  ["Existing transformer", "Unknown"],
-  ["Site measurements", "Pending"],
-];
 export function GoogleAddressWorkspace({
   compact = false,
 }: {
@@ -126,62 +118,50 @@ export function GoogleAddressWorkspace({
         )}
       </div>
       {showMap && (
-        <div className="satellite-workspace-grid">
-          <GoogleSiteMap address={selected} />
-          <aside className="site-location-panel">
-            <section>
-              <h2>Site location</h2>
-              {selected ? (
-                <dl className="location-details">
-                  {[
-                    ["Formatted address", selected.formattedAddress],
-                    ["City / town", selected.city ?? "Not returned"],
-                    ["State", selected.state],
-                    ["ZIP code", selected.postalCode ?? "Not returned"],
-                    ["Latitude", selected.latitude.toFixed(6)],
-                    ["Longitude", selected.longitude.toFixed(6)],
-                    ["Address source", selected.source],
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <dt>{label}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              ) : (
-                <p className="location-empty">
-                  Search for a Massachusetts street address or open the
-                  Century-Tywood example to see its location.
-                </p>
-              )}
-            </section>
-            {selected?.city === "Holliston" &&
-              selected.formattedAddress.includes("79 Lowland") &&
-              selected.postalCode !== "01747" && (
-                <p className="notice">
-                  Address review: Google returns ZIP{" "}
-                  {selected.postalCode ?? "unavailable"}; the supplied reference
-                  record says 01747. The saved record has not been changed.
-                </p>
-              )}
-            <section className="engineering-location-status">
-              <h3>Engineering data status</h3>
-              <dl>
-                {engineeringStatuses.map(([label, value]) => (
+        <GisSiteContext
+          key={
+            selected
+              ? `${selected.placeId}:${selected.latitude}:${selected.longitude}`
+              : "no-address"
+          }
+          address={selected}
+        >
+          <section>
+            <h2>Site location</h2>
+            {selected ? (
+              <dl className="location-details">
+                {[
+                  ["Formatted address", selected.formattedAddress],
+                  ["City / town", selected.city ?? "Not returned"],
+                  ["State", selected.state],
+                  ["ZIP code", selected.postalCode ?? "Not returned"],
+                  ["Latitude", selected.latitude.toFixed(6)],
+                  ["Longitude", selected.longitude.toFixed(6)],
+                  ["Address source", selected.source],
+                ].map(([label, value]) => (
                   <div key={label}>
                     <dt>{label}</dt>
                     <dd>{value}</dd>
                   </div>
                 ))}
               </dl>
-              <p>
-                Satellite imagery is visual context. It does not verify
-                electrical equipment, clearances, dimensions, or parcel
-                boundaries.
+            ) : (
+              <p className="location-empty">
+                Search for a Massachusetts street address or open the
+                Century-Tywood example to see its location.
               </p>
-            </section>
-          </aside>
-        </div>
+            )}
+          </section>
+          {selected?.city === "Holliston" &&
+            selected.formattedAddress.includes("79 Lowland") &&
+            selected.postalCode !== "01747" && (
+              <p className="notice">
+                Address review: Google returns ZIP{" "}
+                {selected.postalCode ?? "unavailable"}; the supplied reference
+                record says 01747. The saved record has not been changed.
+              </p>
+            )}
+        </GisSiteContext>
       )}
     </div>
   );

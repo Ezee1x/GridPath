@@ -13,7 +13,7 @@ import { GoogleAddressWorkspace } from "./maps/GoogleAddressWorkspace";
 const headings: Record<string, [string, string]> = {
   explorer: [
     "Site explorer",
-    "Search Massachusetts addresses and inspect overhead satellite imagery.",
+    "Search Massachusetts addresses and inspect satellite imagery with source-backed public GIS context.",
   ],
   verification: [
     "Verification queue",
@@ -108,13 +108,18 @@ export function WorkspacePage({ section }: { section: string }) {
           <div className="notice">
             <ShieldCheck size={19} />
             Google Places provides live address lookup and Google Maps supplies
-            satellite visualization when configured. Engineering datasets below
-            remain disconnected.
+            satellite visualization when configured. MassGIS parcel, roofprint
+            and road queries are available in Site Explorer. Other engineering
+            integrations remain disconnected.
           </div>
           <div className="source-connections">
             {integrationTargets.map((s) => (
               <section className="integration-card" key={s.name}>
-                <Badge>Not connected</Badge>
+                <Badge>
+                  {s.name === "MassGIS"
+                    ? "Live public GIS queries"
+                    : "Not connected"}
+                </Badge>
                 <h2>{s.name}</h2>
                 <p>{s.detail}</p>
               </section>

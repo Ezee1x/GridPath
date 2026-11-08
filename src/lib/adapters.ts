@@ -24,7 +24,10 @@ export interface ExtractionAdapter {
   ): Promise<{ fields: SiteField[]; sources: SourceDocument[] }>;
 }
 export const integrationTargets = [
-  { name: "MassGIS", detail: "Parcels & building information" },
+  {
+    name: "MassGIS",
+    detail: "Live assessment parcels, mapped roofprints & road centerlines",
+  },
   { name: "Municipal GIS", detail: "Zoning, jurisdiction & permits" },
   { name: "FEMA", detail: "Flood hazard information" },
   { name: "OpenStreetMap", detail: "Geographic context & road access" },

@@ -4,6 +4,8 @@ import { MASSACHUSETTS_BOUNDS, SelectedAddress } from "@/lib/maps/address";
 import { useGoogleMaps } from "./useGoogleMaps";
 export interface GeoJsonMapLayer {
   id: string;
+  labels?: { position: { lat: number; lng: number }; text: string }[];
+  onFeatureClick?: (id: string) => void;
   featureCollection: { type: "FeatureCollection"; features: object[] };
   style?: google.maps.Data.StylingFunction | google.maps.Data.StyleOptions;
 }
@@ -11,9 +13,13 @@ const NO_LAYERS: GeoJsonMapLayer[] = [];
 export function GoogleSiteMap({
   address,
   layers = NO_LAYERS,
+  mode = "satellite",
+  viewBounds,
 }: {
   address: SelectedAddress | null;
   layers?: GeoJsonMapLayer[];
+  mode?: "satellite" | "roadmap";
+  viewBounds?: { north: number; south: number; east: number; west: number };
 }) {
   const host = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
@@ -80,6 +86,12 @@ export function GoogleSiteMap({
       marker.current.map = map.current;
     }
   }, [address, ready, libraries]);
+  const boundsKey = viewBounds ? JSON.stringify(viewBounds) : "";
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    map.current.setMapTypeId(mode);
+    if (boundsKey) map.current.fitBounds(JSON.parse(boundsKey), 35);
+  }, [mode, boundsKey, ready]);
   useEffect(() => {
     if (!ready || !map.current || !libraries) return;
     const instance = map.current;
@@ -89,14 +101,44 @@ export function GoogleSiteMap({
         style: layer.style,
       });
       data.addGeoJson(layer.featureCollection);
-      return data;
+      const click = data.addListener(
+        "click",
+        (event: google.maps.Data.MouseEvent) => {
+          layer.onFeatureClick?.(String(event.feature.getProperty("gisId")));
+        },
+      );
+      const labels = (layer.labels ?? []).map((label) => {
+        const content = document.createElement("span");
+        content.className = "contour-map-label";
+        content.textContent = label.text;
+        return new libraries.marker.AdvancedMarkerElement({
+          map: instance,
+          position: label.position,
+          content,
+          title: label.text,
+          collisionBehavior:
+            google.maps.CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY,
+        });
+      });
+      return { data, click, labels };
     });
-    return () => overlays.forEach((data) => data.setMap(null));
+    return () =>
+      overlays.forEach(({ data, click, labels }) => {
+        labels.forEach((label) => {
+          label.map = null;
+        });
+        click.remove();
+        data.setMap(null);
+      });
   }, [layers, ready, libraries]);
   return (
     <section
       className="google-map-frame"
-      aria-label="Google satellite site map"
+      aria-label={
+        mode === "satellite"
+          ? "Google satellite site map"
+          : "LiDAR elevation and contours map"
+      }
     >
       <div ref={host} className="google-map-canvas" />
       {(loading || (!ready && !error && !mapError)) && (
@@ -112,7 +154,9 @@ export function GoogleSiteMap({
       )}
       <div className="google-map-caption">
         {address
-          ? "Address marker from Google Places. Parcel boundaries are not displayed."
+          ? mode === "satellite"
+            ? "Google Places address marker. MassGIS overlays are public records requiring verification."
+            : "Google basemap and address marker. Elevation contours come from MassGIS LiDAR, not Google imagery."
           : "Massachusetts overview — select a street address to inspect a site."}
       </div>
     </section>

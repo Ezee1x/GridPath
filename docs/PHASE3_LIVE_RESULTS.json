@@ -1,0 +1,825 @@
+{
+  "observedAt": "2026-11-07",
+  "note": "Live API integration observations, not application seed data. Worcester and Springfield candidates were explicitly supplied for testing and remain unverified associations.",
+  "sites": [
+    {
+      "address": "79 Lowland Street, Holliston, MA",
+      "latitude": 42.2096727,
+      "longitude": -71.4137934,
+      "coordinateSource": "Observed Google Places point from live featured-site lookup",
+      "parcel": {
+        "featureId": "2251987",
+        "parcelId": "012.0-0004-0064.2",
+        "parcelIdentifierField": "MAP_PAR_ID",
+        "recordAddress": "79 LOWLAND ST",
+        "selection": "automatic",
+        "pointContained": true,
+        "addressMatches": true,
+        "requiresVerification": true,
+        "method": "A unique fee parcel containing the selected point and matching its normalized street address can be suggested automatically. Other candidates require manual selection. No parcel association is engineer verified.",
+        "sources": ["parcels:2251987"]
+      },
+      "buildings": 1,
+      "metrics": {
+        "parcelArea": {
+          "values": [
+            {
+              "value": 535744.4400000139,
+              "unit": "sq ft"
+            },
+            {
+              "value": 49772.28713909761,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 12.299000000000001,
+              "unit": "acres"
+            }
+          ],
+          "quality": "source-backed"
+        },
+        "mappedParcelArea": {
+          "values": [
+            {
+              "value": 544600.9327127073,
+              "unit": "sq ft"
+            },
+            {
+              "value": 50595.082235844646,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 12.50231709625099,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "totalRoofprintArea": {
+          "values": [
+            {
+              "value": 78678.66180644,
+              "unit": "sq ft"
+            },
+            {
+              "value": 7309.486864949978,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 1.8062135400926986,
+              "unit": "acres"
+            }
+          ],
+          "quality": "source-backed"
+        },
+        "mappedRoofprintCoverage": {
+          "values": [
+            {
+              "value": 78684.23790421127,
+              "unit": "sq ft"
+            },
+            {
+              "value": 7310.004901384267,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 1.8063415496834077,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "remainingLandArea": {
+          "values": [
+            {
+              "value": 465916.69480849575,
+              "unit": "sq ft"
+            },
+            {
+              "value": 43285.07733446035,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 10.695975546567578,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "roadProximity": {
+          "values": [
+            {
+              "value": 21.736686136177205,
+              "unit": "ft"
+            },
+            {
+              "value": 6.625341934306813,
+              "unit": "m"
+            }
+          ],
+          "quality": "estimated"
+        }
+      },
+      "buildingBoundaryDistances": [
+        {
+          "id": "2767213",
+          "name": "207131_884364",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 59.57627809232749,
+              "unit": "ft"
+            },
+            {
+              "value": 18.15884956254142,
+              "unit": "m"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "parcels": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "buildings": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "roads": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        }
+      }
+    },
+    {
+      "address": "100 Institute Road, Worcester, MA",
+      "latitude": 42.273133336788,
+      "longitude": -71.81125656808,
+      "coordinateSource": "U.S. Census current address geocoder (test inputs only)",
+      "parcel": {
+        "featureId": "2217903",
+        "parcelId": "02-044-01+02",
+        "parcelIdentifierField": "MAP_PAR_ID",
+        "recordAddress": "100 INSTITUTE RD",
+        "selection": "manual",
+        "pointContained": false,
+        "addressMatches": true,
+        "requiresVerification": true,
+        "method": "A unique fee parcel containing the selected point and matching its normalized street address can be suggested automatically. Other candidates require manual selection. No parcel association is engineer verified.",
+        "sources": ["parcels:2217903"]
+      },
+      "buildings": 25,
+      "metrics": {
+        "parcelArea": {
+          "values": [
+            {
+              "value": 2003118.3682817258,
+              "unit": "sq ft"
+            },
+            {
+              "value": 186095.7858932071,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 45.98527016257287,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "mappedParcelArea": {
+          "values": [
+            {
+              "value": 2003118.3682817258,
+              "unit": "sq ft"
+            },
+            {
+              "value": 186095.7858932071,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 45.98527016257287,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "totalRoofprintArea": {
+          "values": [
+            {
+              "value": 425207.35701045004,
+              "unit": "sq ft"
+            },
+            {
+              "value": 39503.0560966351,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 9.761417745877846,
+              "unit": "acres"
+            }
+          ],
+          "quality": "source-backed"
+        },
+        "mappedRoofprintCoverage": {
+          "values": [
+            {
+              "value": 425236.9258871982,
+              "unit": "sq ft"
+            },
+            {
+              "value": 39505.803135174385,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 9.762096553884003,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "remainingLandArea": {
+          "values": [
+            {
+              "value": 1577881.4423945262,
+              "unit": "sq ft"
+            },
+            {
+              "value": 146589.98275803257,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 36.223173608688825,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "roadProximity": {
+          "values": [
+            {
+              "value": 0,
+              "unit": "ft"
+            },
+            {
+              "value": 0,
+              "unit": "m"
+            }
+          ],
+          "quality": "estimated"
+        }
+      },
+      "buildingBoundaryDistances": [
+        {
+          "id": "2714448",
+          "name": "174506_891677",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 355.42135593485307,
+              "unit": "ft"
+            },
+            {
+              "value": 108.33242928894322,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "2907400",
+          "name": "174611_891747",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 3.744505925654505,
+              "unit": "ft"
+            },
+            {
+              "value": 1.141325406139493,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "2996603",
+          "name": "174653_891493",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 87.51632234499233,
+              "unit": "ft"
+            },
+            {
+              "value": 26.674975050753662,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3016604",
+          "name": "174576_891569",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 26.921551121202008,
+              "unit": "ft"
+            },
+            {
+              "value": 8.205688781742372,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3139411",
+          "name": "174675_891622",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 116.94712654108613,
+              "unit": "ft"
+            },
+            {
+              "value": 35.645484169723055,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3246816",
+          "name": "174564_891459",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 7.4395822329225325,
+              "unit": "ft"
+            },
+            {
+              "value": 2.267584664594788,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3329256",
+          "name": "174602_891659",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 9.684390741911693,
+              "unit": "ft"
+            },
+            {
+              "value": 2.9518022981346843,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3395783",
+          "name": "174512_891458",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 10.512358942439954,
+              "unit": "ft"
+            },
+            {
+              "value": 3.204167005655698,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3424785",
+          "name": "174627_891538",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 26.809018064181988,
+              "unit": "ft"
+            },
+            {
+              "value": 8.17138870596267,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3454924",
+          "name": "174525_891715",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 217.6192658423539,
+              "unit": "ft"
+            },
+            {
+              "value": 66.33035222874948,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3478534",
+          "name": "174733_891665",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 30.318387366904446,
+              "unit": "ft"
+            },
+            {
+              "value": 9.241044469432476,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3598320",
+          "name": "174677_891538",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 103.14386179320017,
+              "unit": "ft"
+            },
+            {
+              "value": 31.438249074567413,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3687183",
+          "name": "174777_891650",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 25.50869264712698,
+              "unit": "ft"
+            },
+            {
+              "value": 7.7750495188443045,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3721731",
+          "name": "174195_891513",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 23.87318554257738,
+              "unit": "ft"
+            },
+            {
+              "value": 7.276546953377586,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3792369",
+          "name": "174563_891645",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 100.26596750472822,
+              "unit": "ft"
+            },
+            {
+              "value": 30.561066895441165,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3933628",
+          "name": "174550_891747",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 211.13523608139886,
+              "unit": "ft"
+            },
+            {
+              "value": 64.35401995761038,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "3940334",
+          "name": "174730_891574",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 164.2526924992534,
+              "unit": "ft"
+            },
+            {
+              "value": 50.06422067377244,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "4332434",
+          "name": "174629_891576",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 133.43580035064343,
+              "unit": "ft"
+            },
+            {
+              "value": 40.67123194687612,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "4538298",
+          "name": "174518_891520",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 205.55649387062545,
+              "unit": "ft"
+            },
+            {
+              "value": 62.653619331766635,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "4837452",
+          "name": "174683_891681",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 30.499731725347154,
+              "unit": "ft"
+            },
+            {
+              "value": 9.296318229885813,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "5033068",
+          "name": "174388_891568",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 225.15115460318714,
+              "unit": "ft"
+            },
+            {
+              "value": 68.62607192305144,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "5203008",
+          "name": "174394_891654",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 284.2863969999093,
+              "unit": "ft"
+            },
+            {
+              "value": 86.65049380557235,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "5220106",
+          "name": "174488_891597",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 198.25121427670643,
+              "unit": "ft"
+            },
+            {
+              "value": 60.42697011154012,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "5255762",
+          "name": "174746_891515",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 17.442116089413044,
+              "unit": "ft"
+            },
+            {
+              "value": 5.316356984053097,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "id": "5337027",
+          "name": "174392_891477",
+          "association": "Within selected parcel \u2014 unverified association",
+          "values": [
+            {
+              "value": 24.89658766737212,
+              "unit": "ft"
+            },
+            {
+              "value": 7.588479921015023,
+              "unit": "m"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "parcels": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "buildings": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "roads": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        }
+      }
+    },
+    {
+      "address": "1500 Main Street, Springfield, MA",
+      "latitude": 42.103439890485,
+      "longitude": -72.5924750201,
+      "coordinateSource": "U.S. Census current address geocoder (test inputs only)",
+      "parcel": {
+        "featureId": "2475347",
+        "parcelId": "F_359644_2864182",
+        "parcelIdentifierField": "LOC_ID",
+        "recordAddress": "1500 MAIN ST",
+        "selection": "manual",
+        "pointContained": false,
+        "addressMatches": true,
+        "requiresVerification": true,
+        "method": "A unique fee parcel containing the selected point and matching its normalized street address can be suggested automatically. Other candidates require manual selection. No parcel association is engineer verified.",
+        "sources": ["parcels:2475347"]
+      },
+      "buildings": 1,
+      "metrics": {
+        "parcelArea": {
+          "values": [
+            {
+              "value": 173804.40000000453,
+              "unit": "sq ft"
+            },
+            {
+              "value": 16146.957125376002,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 3.99,
+              "unit": "acres"
+            }
+          ],
+          "quality": "source-backed"
+        },
+        "mappedParcelArea": {
+          "values": [
+            {
+              "value": 178391.4362901601,
+              "unit": "sq ft"
+            },
+            {
+              "value": 16573.106741321768,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 4.095303863410365,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "totalRoofprintArea": {
+          "values": [
+            {
+              "value": 0,
+              "unit": "sq ft"
+            },
+            {
+              "value": 0,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 0,
+              "unit": "acres"
+            }
+          ],
+          "quality": "source-backed"
+        },
+        "mappedRoofprintCoverage": {
+          "values": [
+            {
+              "value": 171528.3607460535,
+              "unit": "sq ft"
+            },
+            {
+              "value": 15935.506159524626,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 3.9377493284216953,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "remainingLandArea": {
+          "values": [
+            {
+              "value": 6863.0755441065885,
+              "unit": "sq ft"
+            },
+            {
+              "value": 637.6005817971396,
+              "unit": "m\u00b2"
+            },
+            {
+              "value": 0.15755453498866873,
+              "unit": "acres"
+            }
+          ],
+          "quality": "estimated"
+        },
+        "roadProximity": {
+          "values": [
+            {
+              "value": 13.989671786769337,
+              "unit": "ft"
+            },
+            {
+              "value": 4.264051960607294,
+              "unit": "m"
+            }
+          ],
+          "quality": "estimated"
+        }
+      },
+      "buildingBoundaryDistances": [
+        {
+          "id": "3769527",
+          "name": "109682_873025",
+          "association": "Crosses parcel boundary \u2014 review required",
+          "values": [
+            {
+              "value": 0,
+              "unit": "ft"
+            },
+            {
+              "value": 0,
+              "unit": "m"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "parcels": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "buildings": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        },
+        "roads": {
+          "retrieved": true,
+          "warnings": [],
+          "error": null
+        }
+      }
+    }
+  ]
+}

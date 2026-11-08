@@ -312,8 +312,9 @@ export function SiteDetail({ id }: { id: string }) {
                   <span>
                     No marker or parcel boundary is shown.
                     <br />
-                    Parcel retrieval is not connected. Use Site Explorer for a
-                    live Google address and satellite preview.
+                    Public GIS context has not been attached to this saved
+                    record. Use Site Explorer for live satellite imagery and
+                    MassGIS overlays.
                   </span>
                 </div>
                 <div className="map-footer">
