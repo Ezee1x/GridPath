@@ -1,0 +1,1366 @@
+{
+  "retrievedAt": "2026-11-08T00:47:16.514Z",
+  "results": [
+    {
+      "municipality": "Holliston",
+      "address": "79 Lowland Street",
+      "parcel": {
+        "OBJECTID": 2251987,
+        "SITE_ADDR": "79 LOWLAND ST",
+        "CITY": "HOLLISTON",
+        "LOC_ID": "M_207103_884292",
+        "MAP_PAR_ID": "012.0-0004-0064.2"
+      },
+      "flood": {
+        "kind": "flood",
+        "parcelId": "2251987",
+        "retrievedAt": "2026-11-08T00:45:45.440Z",
+        "method": "Parcel/polygon intersection in a site-local azimuthal equidistant meter projection. Overlap areas are unioned before conversion to square feet. Display geometry is clipped to the bounded site view.",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Preliminary mapped screening, not a regulatory flood determination or proof of no flood risk.",
+          "FEMA geometry is requested in native NAD83 (EPSG:4269), generalized by the service at 0.00001 degree (roughly 1 meter locally) to avoid its full-geometry query failure. NAD83/WGS84 display alignment is approximate; areas and distances are computed in projected meters, never degree units."
+        ],
+        "coverage": "mapped",
+        "complete": true,
+        "zones": [
+          "X",
+          "AE"
+        ],
+        "specialFloodHazardIntersection": true,
+        "overlapSquareFeet": 544236.4546856978,
+        "specialHazardOverlapSquareFeet": 184691.25094032925,
+        "effectivePanels": [
+          {
+            "OBJECTID": 726344,
+            "DFIRM_ID": "25027C",
+            "FIRM_PAN": "25027C0900E",
+            "EFF_DATE": 1309737600000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Not Printed",
+            "SOURCE_CIT": "25027C_FIRM1"
+          },
+          {
+            "OBJECTID": 822874,
+            "DFIRM_ID": "25017C",
+            "FIRM_PAN": "25017C0633F",
+            "EFF_DATE": 1751932800000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25017C_FIRM1"
+          }
+        ],
+        "featureCount": 5,
+        "sources": {
+          "flood:dataset": {
+            "key": "flood:dataset",
+            "provider": "FEMA",
+            "dataset": "National Flood Hazard Layer \u2014 Flood Hazard Zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood:27607446": {
+            "key": "flood:27607446",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/27607446",
+            "featureId": "27607446",
+            "featureName": "Zone X \u00b7 0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood:27607927": {
+            "key": "flood:27607927",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/27607927",
+            "featureId": "27607927",
+            "featureName": "Zone X \u00b7 0.2 PCT ANNUAL CHANCE FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood:27608168": {
+            "key": "flood:27608168",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/27608168",
+            "featureId": "27608168",
+            "featureName": "Zone AE \u00b7 FLOODWAY",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood:27608175": {
+            "key": "flood:27608175",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/27608175",
+            "featureId": "27608175",
+            "featureName": "Zone AE",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood:27615701": {
+            "key": "flood:27615701",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/27615701",
+            "featureId": "27615701",
+            "featureName": "Zone X \u00b7 AREA OF MINIMAL FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood-coverage:1018": {
+            "key": "flood-coverage:1018",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/1018",
+            "featureId": "1018",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood-coverage:6201": {
+            "key": "flood-coverage:6201",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/6201",
+            "featureId": "6201",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood-panel:726344": {
+            "key": "flood-panel:726344",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/726344",
+            "featureId": "726344",
+            "featureName": "25027C0900E",
+            "recordDate": "2011-07-04",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          },
+          "flood-panel:822874": {
+            "key": "flood-panel:822874",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/822874",
+            "featureId": "822874",
+            "featureName": "25017C0633F",
+            "recordDate": "2025-07-08",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.440Z"
+          }
+        }
+      },
+      "wetlands": {
+        "kind": "wetlands",
+        "parcelId": "2251987",
+        "retrievedAt": "2026-11-08T00:47:16.514Z",
+        "sources": {
+          "wetlands:dataset": {
+            "key": "wetlands:dataset",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MADEP Wetlands \u2014 mapped resource polygons",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:89957": {
+            "key": "wetlands:89957",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/89957",
+            "featureId": "89957",
+            "featureName": "SHRUB SWAMP",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:35905": {
+            "key": "wetlands:35905",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/35905",
+            "featureId": "35905",
+            "featureName": "SHALLOW MARSH MEADOW OR FEN",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:89465": {
+            "key": "wetlands:89465",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/89465",
+            "featureId": "89465",
+            "featureName": "SHRUB SWAMP",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:18465": {
+            "key": "wetlands:18465",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/18465",
+            "featureId": "18465",
+            "featureName": "DEEP MARSH",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:144109": {
+            "key": "wetlands:144109",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/144109",
+            "featureId": "144109",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:18235": {
+            "key": "wetlands:18235",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/18235",
+            "featureId": "18235",
+            "featureName": "DEEP MARSH",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:146685": {
+            "key": "wetlands:146685",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/146685",
+            "featureId": "146685",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:135912": {
+            "key": "wetlands:135912",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/135912",
+            "featureId": "135912",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:89743": {
+            "key": "wetlands:89743",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/89743",
+            "featureId": "89743",
+            "featureName": "SHRUB SWAMP",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:143895": {
+            "key": "wetlands:143895",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/143895",
+            "featureId": "143895",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:135310": {
+            "key": "wetlands:135310",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/135310",
+            "featureId": "135310",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:143901": {
+            "key": "wetlands:143901",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/143901",
+            "featureId": "143901",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:36293": {
+            "key": "wetlands:36293",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/36293",
+            "featureId": "36293",
+            "featureName": "SHALLOW MARSH MEADOW OR FEN",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:135699": {
+            "key": "wetlands:135699",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/135699",
+            "featureId": "135699",
+            "featureName": "WOODED SWAMP DECIDUOUS",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:58783": {
+            "key": "wetlands:58783",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/58783",
+            "featureId": "58783",
+            "featureName": "OPEN WATER",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          },
+          "wetlands:58739": {
+            "key": "wetlands:58739",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/58739",
+            "featureId": "58739",
+            "featureName": "OPEN WATER",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:47:16.514Z"
+          }
+        },
+        "radiusMeters": 250,
+        "method": "Wetland polygons queried with a parcel-based meter buffer. Intersection union area and parcel-polygon-to-wetland-boundary minimum distance use a site-local meter projection; zero distance means the mapped wetland boundary intersects or lies within the parcel.",
+        "status": "ready",
+        "error": null,
+        "complete": true,
+        "intersects": true,
+        "overlapSquareFeet": 125056.69456979116,
+        "nearestBoundaryFeet": 0,
+        "warnings": [
+          "Uses the official statewide MassGIS DEP Wetland Areas service. The initially supplied MADEP_Wetlands copy has a regional extent and is not used to infer statewide absence.",
+          "Planning-scale mapped wetlands, primarily interpreted from 2005 imagery with earlier baselines and source-specific updates. Dataset edit dates are not imagery dates.",
+          "Not a formal wetland delineation, regulatory buffer, protected-area finding or installation prohibition."
+        ],
+        "failedAttempts": [
+          {
+            "retrievedAt": "2026-11-08T00:45:45.454Z",
+            "status": "error",
+            "error": "The operation was aborted due to timeout"
+          }
+        ],
+        "featureCount": 16
+      },
+      "elevation": {
+        "kind": "elevation",
+        "parcelId": "2251987",
+        "retrievedAt": "2026-11-08T00:45:45.460Z",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Bare-earth terrain, not roof height, building height or current grading. Source acquisition dates range from 2013 to 2021; consult the returned tile projects.",
+          "Preliminary terrain screening; contour interval does not establish survey accuracy. Horizontal transformation uses NAD83 Massachusetts Mainland / meters (EPSG:26986) and WGS84 display coordinates."
+        ],
+        "method": "Bounded ImageServer exportImage as unrendered Float32 GeoTIFF, EPSG:26986 meters; georeferencing read from TIFF. Parcel statistics use valid pixel centers inside polygon rings, excluding holes, NoData and mask-zero cells. Median, sampled extrema and range converted from meters to feet.",
+        "summary": {
+          "medianFeet": 165.77783219144726,
+          "minimumFeet": 152.52251011805896,
+          "maximumFeet": 179.37592634065882,
+          "rangeFeet": 26.853416222599858,
+          "validSamples": 50716,
+          "parcelSamples": 50716,
+          "validCoverageFraction": 1,
+          "completeParcelExtent": true
+        },
+        "raster": {
+          "width": 419,
+          "height": 400,
+          "extentMeters": [
+            206903.14813923865,
+            884096.4191390146,
+            207321.73569060635,
+            884495.7995896181
+          ],
+          "epsg": 26986,
+          "pixelSizeMeters": [
+            0.999015635722439,
+            0.9984511265088805
+          ],
+          "noData": -9999,
+          "pixelType": "Float32",
+          "verticalUnits": "meters",
+          "verticalDatum": "NAVD88 \u2014 Geoid18 (meters), 2021 project documentation",
+          "exportUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=206903.14813923865%2C884096.4191390146%2C207321.73569060635%2C884495.7995896181&bboxSR=26986&imageSR=26986&size=419%2C400&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D"
+        },
+        "tiles": [
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11914",
+            "name": "19TCG300675",
+            "project": "2021_CENTRAL_EASTERN_MA",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG300675.zip",
+            "contourUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/contours/contour_1ft_19TCG300675.zip"
+          }
+        ],
+        "bounds": [
+          -71.41640490677091,
+          42.207283730655035,
+          -71.4113309105743,
+          42.210883178455774
+        ],
+        "contours": {
+          "status": "ready",
+          "method": "official-vectors",
+          "intervalFeet": 5,
+          "supportedIntervals": [
+            1,
+            2,
+            5,
+            10
+          ],
+          "complete": true,
+          "error": null,
+          "featureCount": 144
+        },
+        "sources": {
+          "elevation:dem": {
+            "key": "elevation:dem",
+            "provider": "MassGIS",
+            "dataset": "LiDAR 2013\u20132021 32-bit float bare-earth DEM",
+            "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=206903.14813923865%2C884096.4191390146%2C207321.73569060635%2C884495.7995896181&bboxSR=26986&imageSR=26986&size=419%2C400&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D",
+            "featureId": "EPSG26986:206903.15,884096.42,207321.74,884495.80:419x400",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.460Z"
+          },
+          "elevation:index": {
+            "key": "elevation:index",
+            "provider": "MassGIS",
+            "dataset": "Latest and Best LiDAR Terrain Data Index",
+            "serviceUrl": "https://gis-prod.digital.mass.gov/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=massgis%3AGISDATA.LIDARINDEX_POLY_CURRENT_BEST&bbox=-71.41640490677091%2C42.207283730655035%2C-71.4113309105743%2C42.210883178455774%2CEPSG%3A4326&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.460Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11914": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11914",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 19TCG300675 \u00b7 2021_CENTRAL_EASTERN_MA",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG300675.zip",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11914",
+            "featureName": "19TCG300675",
+            "recordDate": "2021",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.460Z"
+          },
+          "elevation:contours": {
+            "key": "elevation:contours",
+            "provider": "MassGIS",
+            "dataset": "Official 1-foot contour vectors \u2014 filtered interval",
+            "serviceUrl": "https://www.mass.gov/info-details/massgis-data-1-foot-elevation-contours-for-central-and-eastern-ma",
+            "featureId": "massgis:GISDATA.CONTOURS_1FT_2021_ARC",
+            "featureName": null,
+            "recordDate": "2023-05",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:45:45.460Z"
+          }
+        }
+      }
+    },
+    {
+      "municipality": "Worcester",
+      "address": "25 Southgate Street",
+      "parcel": {
+        "OBJECTID": 588601,
+        "SITE_ADDR": "25 SOUTHGATE ST",
+        "CITY": "WORCESTER",
+        "LOC_ID": "F_571469_2915601",
+        "MAP_PAR_ID": "07-024-01-03"
+      },
+      "flood": {
+        "kind": "flood",
+        "parcelId": "588601",
+        "retrievedAt": "2026-11-08T00:46:05.273Z",
+        "method": "Parcel/polygon intersection in a site-local azimuthal equidistant meter projection. Overlap areas are unioned before conversion to square feet. Display geometry is clipped to the bounded site view.",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Preliminary mapped screening, not a regulatory flood determination or proof of no flood risk.",
+          "FEMA geometry is requested in native NAD83 (EPSG:4269), generalized by the service at 0.00001 degree (roughly 1 meter locally) to avoid its full-geometry query failure. NAD83/WGS84 display alignment is approximate; areas and distances are computed in projected meters, never degree units."
+        ],
+        "coverage": "mapped",
+        "complete": true,
+        "zones": [
+          "X"
+        ],
+        "specialFloodHazardIntersection": false,
+        "overlapSquareFeet": 131979.77997302214,
+        "specialHazardOverlapSquareFeet": 0,
+        "effectivePanels": [
+          {
+            "OBJECTID": 726359,
+            "DFIRM_ID": "25027C",
+            "FIRM_PAN": "25027C0802E",
+            "EFF_DATE": 1309737600000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25027C_FIRM1"
+          },
+          {
+            "OBJECTID": 726439,
+            "DFIRM_ID": "25027C",
+            "FIRM_PAN": "25027C0806E",
+            "EFF_DATE": 1309737600000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25027C_FIRM1"
+          }
+        ],
+        "featureCount": 1,
+        "sources": {
+          "flood:dataset": {
+            "key": "flood:dataset",
+            "provider": "FEMA",
+            "dataset": "National Flood Hazard Layer \u2014 Flood Hazard Zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood:23305916": {
+            "key": "flood:23305916",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/23305916",
+            "featureId": "23305916",
+            "featureName": "Zone X \u00b7 AREA OF MINIMAL FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-coverage:1023": {
+            "key": "flood-coverage:1023",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/1023",
+            "featureId": "1023",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-coverage:3971": {
+            "key": "flood-coverage:3971",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/3971",
+            "featureId": "3971",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-coverage:3974": {
+            "key": "flood-coverage:3974",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/3974",
+            "featureId": "3974",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-coverage:6203": {
+            "key": "flood-coverage:6203",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/6203",
+            "featureId": "6203",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-panel:726359": {
+            "key": "flood-panel:726359",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/726359",
+            "featureId": "726359",
+            "featureName": "25027C0802E",
+            "recordDate": "2011-07-04",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          },
+          "flood-panel:726439": {
+            "key": "flood-panel:726439",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/726439",
+            "featureId": "726439",
+            "featureName": "25027C0806E",
+            "recordDate": "2011-07-04",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.273Z"
+          }
+        }
+      },
+      "wetlands": {
+        "kind": "wetlands",
+        "parcelId": "588601",
+        "retrievedAt": "2026-11-08T00:46:05.277Z",
+        "radiusMeters": 250,
+        "method": "Wetland polygons queried with a parcel-based meter buffer. Intersection union area and parcel-polygon-to-wetland-boundary minimum distance use a site-local meter projection; zero distance means the mapped wetland boundary intersects or lies within the parcel.",
+        "status": "ready",
+        "error": null,
+        "complete": true,
+        "intersects": false,
+        "overlapSquareFeet": 0,
+        "nearestBoundaryFeet": null,
+        "warnings": [
+          "Uses the official statewide MassGIS DEP Wetland Areas service. The initially supplied MADEP_Wetlands copy has a regional extent and is not used to infer statewide absence.",
+          "Planning-scale mapped wetlands, primarily interpreted from 2005 imagery with earlier baselines and source-specific updates. Dataset edit dates are not imagery dates.",
+          "Not a formal wetland delineation, regulatory buffer, protected-area finding or installation prohibition."
+        ],
+        "featureCount": 0,
+        "sources": {
+          "wetlands:dataset": {
+            "key": "wetlands:dataset",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MADEP Wetlands \u2014 mapped resource polygons",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.277Z"
+          }
+        }
+      },
+      "elevation": {
+        "kind": "elevation",
+        "parcelId": "588601",
+        "retrievedAt": "2026-11-08T00:46:05.279Z",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Bare-earth terrain, not roof height, building height or current grading. Source acquisition dates range from 2013 to 2021; consult the returned tile projects.",
+          "Preliminary terrain screening; contour interval does not establish survey accuracy. Horizontal transformation uses NAD83 Massachusetts Mainland / meters (EPSG:26986) and WGS84 display coordinates."
+        ],
+        "method": "Bounded ImageServer exportImage as unrendered Float32 GeoTIFF, EPSG:26986 meters; georeferencing read from TIFF. Parcel statistics use valid pixel centers inside polygon rings, excluding holes, NoData and mask-zero cells. Median, sampled extrema and range converted from meters to feet.",
+        "summary": {
+          "medianFeet": 464.99352442623746,
+          "minimumFeet": 459.33715940460445,
+          "maximumFeet": 467.7360014026872,
+          "rangeFeet": 8.398841998082759,
+          "validSamples": 12297,
+          "parcelSamples": 12297,
+          "validCoverageFraction": 1,
+          "completeParcelExtent": true
+        },
+        "raster": {
+          "width": 265,
+          "height": 271,
+          "extentMeters": [
+            174066.30780421582,
+            888523.1409351015,
+            174331.14593165414,
+            888793.5774631714
+          ],
+          "epsg": 26986,
+          "pixelSizeMeters": [
+            0.9993891601446349,
+            0.9979207677856032
+          ],
+          "noData": -9999,
+          "pixelType": "Float32",
+          "verticalUnits": "meters",
+          "verticalDatum": "NAVD88 \u2014 Geoid18 (meters), 2021 project documentation",
+          "exportUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=174066.30780421582%2C888523.1409351015%2C174331.14593165414%2C888793.5774631714&bboxSR=26986&imageSR=26986&size=265%2C271&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D"
+        },
+        "tiles": [
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11684",
+            "name": "19TBG267680",
+            "project": "2021_CENTRAL_EASTERN_MA",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TBG267680.zip",
+            "contourUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/contours/contour_1ft_19TBG267680.zip"
+          }
+        ],
+        "bounds": [
+          -71.81425763149927,
+          42.24674178651985,
+          -71.81103647163853,
+          42.24918524732184
+        ],
+        "contours": {
+          "status": "ready",
+          "method": "official-vectors",
+          "intervalFeet": 5,
+          "supportedIntervals": [
+            1,
+            2,
+            5,
+            10
+          ],
+          "complete": true,
+          "error": null,
+          "featureCount": 49
+        },
+        "sources": {
+          "elevation:dem": {
+            "key": "elevation:dem",
+            "provider": "MassGIS",
+            "dataset": "LiDAR 2013\u20132021 32-bit float bare-earth DEM",
+            "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=174066.30780421582%2C888523.1409351015%2C174331.14593165414%2C888793.5774631714&bboxSR=26986&imageSR=26986&size=265%2C271&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D",
+            "featureId": "EPSG26986:174066.31,888523.14,174331.15,888793.58:265x271",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.279Z"
+          },
+          "elevation:index": {
+            "key": "elevation:index",
+            "provider": "MassGIS",
+            "dataset": "Latest and Best LiDAR Terrain Data Index",
+            "serviceUrl": "https://gis-prod.digital.mass.gov/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=massgis%3AGISDATA.LIDARINDEX_POLY_CURRENT_BEST&bbox=-71.81425763149927%2C42.24674178651985%2C-71.81103647163853%2C42.24918524732184%2CEPSG%3A4326&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.279Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11684": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11684",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 19TBG267680 \u00b7 2021_CENTRAL_EASTERN_MA",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TBG267680.zip",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.11684",
+            "featureName": "19TBG267680",
+            "recordDate": "2021",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.279Z"
+          },
+          "elevation:contours": {
+            "key": "elevation:contours",
+            "provider": "MassGIS",
+            "dataset": "Official 1-foot contour vectors \u2014 filtered interval",
+            "serviceUrl": "https://www.mass.gov/info-details/massgis-data-1-foot-elevation-contours-for-central-and-eastern-ma",
+            "featureId": "massgis:GISDATA.CONTOURS_1FT_2021_ARC",
+            "featureName": null,
+            "recordDate": "2023-05",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:05.279Z"
+          }
+        }
+      }
+    },
+    {
+      "municipality": "Boston",
+      "address": "200 Clarendon Street",
+      "parcel": {
+        "OBJECTID": 2380675,
+        "SITE_ADDR": "200 Clarendon ST",
+        "CITY": "BOSTON",
+        "LOC_ID": "F_771022_2952578",
+        "MAP_PAR_ID": "0401134000"
+      },
+      "flood": {
+        "kind": "flood",
+        "parcelId": "2380675",
+        "retrievedAt": "2026-11-08T00:46:10.210Z",
+        "method": "Parcel/polygon intersection in a site-local azimuthal equidistant meter projection. Overlap areas are unioned before conversion to square feet. Display geometry is clipped to the bounded site view.",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Preliminary mapped screening, not a regulatory flood determination or proof of no flood risk.",
+          "FEMA geometry is requested in native NAD83 (EPSG:4269), generalized by the service at 0.00001 degree (roughly 1 meter locally) to avoid its full-geometry query failure. NAD83/WGS84 display alignment is approximate; areas and distances are computed in projected meters, never degree units."
+        ],
+        "coverage": "mapped",
+        "complete": true,
+        "zones": [
+          "X"
+        ],
+        "specialFloodHazardIntersection": false,
+        "overlapSquareFeet": 69789.53419127838,
+        "specialHazardOverlapSquareFeet": 0,
+        "effectivePanels": [
+          {
+            "OBJECTID": 745581,
+            "DFIRM_ID": "25025C",
+            "FIRM_PAN": "25025C0077K",
+            "EFF_DATE": 1719964800000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25025C_FIRM1"
+          },
+          {
+            "OBJECTID": 822944,
+            "DFIRM_ID": "25017C",
+            "FIRM_PAN": "25017C0577F",
+            "EFF_DATE": 1751932800000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25017C_FIRM1"
+          }
+        ],
+        "featureCount": 1,
+        "sources": {
+          "flood:dataset": {
+            "key": "flood:dataset",
+            "provider": "FEMA",
+            "dataset": "National Flood Hazard Layer \u2014 Flood Hazard Zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          },
+          "flood:24072836": {
+            "key": "flood:24072836",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/24072836",
+            "featureId": "24072836",
+            "featureName": "Zone X \u00b7 AREA OF MINIMAL FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          },
+          "flood-coverage:1022": {
+            "key": "flood-coverage:1022",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/1022",
+            "featureId": "1022",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          },
+          "flood-coverage:5246": {
+            "key": "flood-coverage:5246",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/5246",
+            "featureId": "5246",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          },
+          "flood-panel:745581": {
+            "key": "flood-panel:745581",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/745581",
+            "featureId": "745581",
+            "featureName": "25025C0077K",
+            "recordDate": "2024-07-03",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          },
+          "flood-panel:822944": {
+            "key": "flood-panel:822944",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/822944",
+            "featureId": "822944",
+            "featureName": "25017C0577F",
+            "recordDate": "2025-07-08",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.210Z"
+          }
+        }
+      },
+      "wetlands": {
+        "kind": "wetlands",
+        "parcelId": "2380675",
+        "retrievedAt": "2026-11-08T00:46:10.208Z",
+        "radiusMeters": 250,
+        "method": "Wetland polygons queried with a parcel-based meter buffer. Intersection union area and parcel-polygon-to-wetland-boundary minimum distance use a site-local meter projection; zero distance means the mapped wetland boundary intersects or lies within the parcel.",
+        "status": "ready",
+        "error": null,
+        "complete": true,
+        "intersects": false,
+        "overlapSquareFeet": 0,
+        "nearestBoundaryFeet": null,
+        "warnings": [
+          "Uses the official statewide MassGIS DEP Wetland Areas service. The initially supplied MADEP_Wetlands copy has a regional extent and is not used to infer statewide absence.",
+          "Planning-scale mapped wetlands, primarily interpreted from 2005 imagery with earlier baselines and source-specific updates. Dataset edit dates are not imagery dates.",
+          "Not a formal wetland delineation, regulatory buffer, protected-area finding or installation prohibition."
+        ],
+        "featureCount": 0,
+        "sources": {
+          "wetlands:dataset": {
+            "key": "wetlands:dataset",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MADEP Wetlands \u2014 mapped resource polygons",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.208Z"
+          }
+        }
+      },
+      "elevation": {
+        "kind": "elevation",
+        "parcelId": "2380675",
+        "retrievedAt": "2026-11-08T00:46:10.211Z",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Bare-earth terrain, not roof height, building height or current grading. Source acquisition dates range from 2013 to 2021; consult the returned tile projects.",
+          "Preliminary terrain screening; contour interval does not establish survey accuracy. Horizontal transformation uses NAD83 Massachusetts Mainland / meters (EPSG:26986) and WGS84 display coordinates."
+        ],
+        "method": "Bounded ImageServer exportImage as unrendered Float32 GeoTIFF, EPSG:26986 meters; georeferencing read from TIFF. Parcel statistics use valid pixel centers inside polygon rings, excluding holes, NoData and mask-zero cells. Median, sampled extrema and range converted from meters to feet.",
+        "summary": {
+          "medianFeet": 10.313624785015277,
+          "minimumFeet": 8.828120594575337,
+          "maximumFeet": 12.713304654819758,
+          "rangeFeet": 3.8851840602444225,
+          "validSamples": 6504,
+          "parcelSamples": 6504,
+          "validCoverageFraction": 1,
+          "completeParcelExtent": true
+        },
+        "raster": {
+          "width": 220,
+          "height": 230,
+          "extentMeters": [
+            234898.01713269542,
+            899832.617455218,
+            235117.79335368134,
+            900062.1294776984
+          ],
+          "epsg": 26986,
+          "pixelSizeMeters": [
+            0.9989828226632778,
+            0.9978783586102983
+          ],
+          "noData": -9999,
+          "pixelType": "Float32",
+          "verticalUnits": "meters",
+          "verticalDatum": "NAVD88 \u2014 Geoid18 (meters), 2021 project documentation",
+          "exportUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=234898.01713269542%2C899832.617455218%2C235117.79335368134%2C900062.1294776984&bboxSR=26986&imageSR=26986&size=220%2C230&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D"
+        },
+        "tiles": [
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9590",
+            "name": "19TCG328690",
+            "project": "2021_CENTRAL_EASTERN_MA",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG328690.zip",
+            "contourUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/contours/contour_1ft_19TCG328690.zip"
+          },
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9817",
+            "name": "19TCG328689",
+            "project": "2021_CENTRAL_EASTERN_MA",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG328689.zip",
+            "contourUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/contours/contour_1ft_19TCG328689.zip"
+          }
+        ],
+        "bounds": [
+          -71.07645236424453,
+          42.348200065913794,
+          -71.07377112565773,
+          42.35027614807964
+        ],
+        "contours": {
+          "status": "ready",
+          "method": "official-vectors",
+          "intervalFeet": 5,
+          "supportedIntervals": [
+            1,
+            2,
+            5,
+            10
+          ],
+          "complete": true,
+          "error": null,
+          "featureCount": 64
+        },
+        "sources": {
+          "elevation:dem": {
+            "key": "elevation:dem",
+            "provider": "MassGIS",
+            "dataset": "LiDAR 2013\u20132021 32-bit float bare-earth DEM",
+            "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=234898.01713269542%2C899832.617455218%2C235117.79335368134%2C900062.1294776984&bboxSR=26986&imageSR=26986&size=220%2C230&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D",
+            "featureId": "EPSG26986:234898.02,899832.62,235117.79,900062.13:220x230",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.211Z"
+          },
+          "elevation:index": {
+            "key": "elevation:index",
+            "provider": "MassGIS",
+            "dataset": "Latest and Best LiDAR Terrain Data Index",
+            "serviceUrl": "https://gis-prod.digital.mass.gov/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=massgis%3AGISDATA.LIDARINDEX_POLY_CURRENT_BEST&bbox=-71.07645236424453%2C42.348200065913794%2C-71.07377112565773%2C42.35027614807964%2CEPSG%3A4326&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.211Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9590": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9590",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 19TCG328690 \u00b7 2021_CENTRAL_EASTERN_MA",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG328690.zip",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9590",
+            "featureName": "19TCG328690",
+            "recordDate": "2021",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.211Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9817": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9817",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 19TCG328689 \u00b7 2021_CENTRAL_EASTERN_MA",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2021_LIDAR/be_rasters/be_19TCG328689.zip",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.9817",
+            "featureName": "19TCG328689",
+            "recordDate": "2021",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.211Z"
+          },
+          "elevation:contours": {
+            "key": "elevation:contours",
+            "provider": "MassGIS",
+            "dataset": "Official 1-foot contour vectors \u2014 filtered interval",
+            "serviceUrl": "https://www.mass.gov/info-details/massgis-data-1-foot-elevation-contours-for-central-and-eastern-ma",
+            "featureId": "massgis:GISDATA.CONTOURS_1FT_2021_ARC",
+            "featureName": null,
+            "recordDate": "2023-05",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:10.211Z"
+          }
+        }
+      }
+    },
+    {
+      "municipality": "Springfield",
+      "address": "1500 Main Street",
+      "parcel": {
+        "OBJECTID": 2475347,
+        "SITE_ADDR": "1500 MAIN ST",
+        "CITY": "SPRINGFIELD",
+        "LOC_ID": "F_359644_2864182",
+        "MAP_PAR_ID": null
+      },
+      "flood": {
+        "kind": "flood",
+        "parcelId": "2475347",
+        "retrievedAt": "2026-11-08T00:46:11.658Z",
+        "method": "Parcel/polygon intersection in a site-local azimuthal equidistant meter projection. Overlap areas are unioned before conversion to square feet. Display geometry is clipped to the bounded site view.",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Preliminary mapped screening, not a regulatory flood determination or proof of no flood risk.",
+          "FEMA geometry is requested in native NAD83 (EPSG:4269), generalized by the service at 0.00001 degree (roughly 1 meter locally) to avoid its full-geometry query failure. NAD83/WGS84 display alignment is approximate; areas and distances are computed in projected meters, never degree units."
+        ],
+        "coverage": "mapped",
+        "complete": true,
+        "zones": [
+          "X"
+        ],
+        "specialFloodHazardIntersection": false,
+        "overlapSquareFeet": 178391.4362767866,
+        "specialHazardOverlapSquareFeet": 0,
+        "effectivePanels": [
+          {
+            "OBJECTID": 266772,
+            "DFIRM_ID": "25013C",
+            "FIRM_PAN": "25013C0402E",
+            "EFF_DATE": 1373932800000,
+            "PRE_DATE": 253392451200000,
+            "PANEL_TYP": "Countywide, Panel Printed",
+            "SOURCE_CIT": "25013C_BASE1"
+          },
+          {
+            "OBJECTID": 679655,
+            "DFIRM_ID": "09003C",
+            "FIRM_PAN": "09003C0125F",
+            "EFF_DATE": 1222387200000,
+            "PRE_DATE": null,
+            "PANEL_TYP": "Countywide, Not Printed",
+            "SOURCE_CIT": "09003C_FIRM1"
+          }
+        ],
+        "featureCount": 1,
+        "sources": {
+          "flood:dataset": {
+            "key": "flood:dataset",
+            "provider": "FEMA",
+            "dataset": "National Flood Hazard Layer \u2014 Flood Hazard Zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          },
+          "flood:6874530": {
+            "key": "flood:6874530",
+            "provider": "FEMA",
+            "dataset": "FEMA NFHL flood hazard zones",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/6874530",
+            "featureId": "6874530",
+            "featureName": "Zone X \u00b7 AREA OF MINIMAL FLOOD HAZARD",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          },
+          "flood-coverage:1017": {
+            "key": "flood-coverage:1017",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/1017",
+            "featureId": "1017",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          },
+          "flood-coverage:3966": {
+            "key": "flood-coverage:3966",
+            "provider": "FEMA",
+            "dataset": "NFHL Availability",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/0/3966",
+            "featureId": "3966",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          },
+          "flood-panel:266772": {
+            "key": "flood-panel:266772",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/266772",
+            "featureId": "266772",
+            "featureName": "25013C0402E",
+            "recordDate": "2013-07-16",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          },
+          "flood-panel:679655": {
+            "key": "flood-panel:679655",
+            "provider": "FEMA",
+            "dataset": "NFHL FIRM Panels",
+            "serviceUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/3/679655",
+            "featureId": "679655",
+            "featureName": "09003C0125F",
+            "recordDate": "2008-09-26",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.658Z"
+          }
+        }
+      },
+      "wetlands": {
+        "kind": "wetlands",
+        "parcelId": "2475347",
+        "retrievedAt": "2026-11-08T00:46:11.660Z",
+        "radiusMeters": 250,
+        "method": "Wetland polygons queried with a parcel-based meter buffer. Intersection union area and parcel-polygon-to-wetland-boundary minimum distance use a site-local meter projection; zero distance means the mapped wetland boundary intersects or lies within the parcel.",
+        "status": "ready",
+        "error": null,
+        "complete": true,
+        "intersects": false,
+        "overlapSquareFeet": 0,
+        "nearestBoundaryFeet": 675.2873721334391,
+        "warnings": [
+          "Uses the official statewide MassGIS DEP Wetland Areas service. The initially supplied MADEP_Wetlands copy has a regional extent and is not used to infer statewide absence.",
+          "Planning-scale mapped wetlands, primarily interpreted from 2005 imagery with earlier baselines and source-specific updates. Dataset edit dates are not imagery dates.",
+          "Not a formal wetland delineation, regulatory buffer, protected-area finding or installation prohibition."
+        ],
+        "featureCount": 1,
+        "sources": {
+          "wetlands:dataset": {
+            "key": "wetlands:dataset",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MADEP Wetlands \u2014 mapped resource polygons",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          },
+          "wetlands:68941": {
+            "key": "wetlands:68941",
+            "provider": "MassDEP / MassGIS",
+            "dataset": "MassDEP Wetlands",
+            "serviceUrl": "https://services1.arcgis.com/hGdibHYSPO59RG1h/ArcGIS/rest/services/DEP_Wetlands/FeatureServer/1/68941",
+            "featureId": "68941",
+            "featureName": "OPEN WATER",
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          }
+        }
+      },
+      "elevation": {
+        "kind": "elevation",
+        "parcelId": "2475347",
+        "retrievedAt": "2026-11-08T00:46:11.660Z",
+        "status": "ready",
+        "error": null,
+        "warnings": [
+          "Bare-earth terrain, not roof height, building height or current grading. Source acquisition dates range from 2013 to 2021; consult the returned tile projects.",
+          "Preliminary terrain screening; contour interval does not establish survey accuracy. Horizontal transformation uses NAD83 Massachusetts Mainland / meters (EPSG:26986) and WGS84 display coordinates.",
+          "Contours generated server-side from bounded float DEM pixels using marching squares with linear interpolation and NoData exclusions; not official vector contours."
+        ],
+        "method": "Bounded ImageServer exportImage as unrendered Float32 GeoTIFF, EPSG:26986 meters; georeferencing read from TIFF. Parcel statistics use valid pixel centers inside polygon rings, excluding holes, NoData and mask-zero cells. Median, sampled extrema and range converted from meters to feet.",
+        "summary": {
+          "medianFeet": 67.96278665697794,
+          "minimumFeet": 65.79166322242557,
+          "maximumFeet": 70.19105545804882,
+          "rangeFeet": 4.399392235623257,
+          "validSamples": 16619,
+          "parcelSamples": 16619,
+          "validCoverageFraction": 1,
+          "completeParcelExtent": true
+        },
+        "raster": {
+          "width": 310,
+          "height": 294,
+          "extentMeters": [
+            109533.18301590081,
+            872873.2876443015,
+            109842.76895104584,
+            873166.871577289
+          ],
+          "epsg": 26986,
+          "pixelSizeMeters": [
+            0.998664306919466,
+            0.9985848060796405
+          ],
+          "noData": -9999,
+          "pixelType": "Float32",
+          "verticalUnits": "meters",
+          "verticalDatum": "NAVD88; geoid realization is project-specific \u2014 confirm tile metadata",
+          "exportUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=109533.18301590081%2C872873.2876443015%2C109842.76895104584%2C873166.871577289&bboxSR=26986&imageSR=26986&size=310%2C294&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D"
+        },
+        "tiles": [
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2090",
+            "name": "18TXM699663",
+            "project": "2015 Massachusetts (QL2)",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2015_Mass/dem_img/18TXM699663.img.bz2",
+            "contourUrl": null
+          },
+          {
+            "id": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2994",
+            "name": "18TXM697663",
+            "project": "2015 Massachusetts (QL2)",
+            "demUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2015_Mass/dem_img/18TXM697663.img.bz2",
+            "contourUrl": null
+          }
+        ],
+        "bounds": [
+          -72.5937696429481,
+          42.10105258196511,
+          -72.58998171270284,
+          42.103731242041846
+        ],
+        "contours": {
+          "status": "ready",
+          "method": "dem-isolines",
+          "intervalFeet": 5,
+          "supportedIntervals": [
+            5,
+            10
+          ],
+          "complete": true,
+          "error": null,
+          "featureCount": 24
+        },
+        "sources": {
+          "elevation:dem": {
+            "key": "elevation:dem",
+            "provider": "MassGIS",
+            "dataset": "LiDAR 2013\u20132021 32-bit float bare-earth DEM",
+            "serviceUrl": "https://arcgisserver.digital.mass.gov/arcgisserver/rest/services/LiDAR/DEM_lidar_2013to2021_32bitFloat/ImageServer/exportImage?f=json&bbox=109533.18301590081%2C872873.2876443015%2C109842.76895104584%2C873166.871577289&bboxSR=26986&imageSR=26986&size=310%2C294&format=tiff&pixelType=F32&noData=-9999&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D",
+            "featureId": "EPSG26986:109533.18,872873.29,109842.77,873166.87:310x294",
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          },
+          "elevation:index": {
+            "key": "elevation:index",
+            "provider": "MassGIS",
+            "dataset": "Latest and Best LiDAR Terrain Data Index",
+            "serviceUrl": "https://gis-prod.digital.mass.gov/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=massgis%3AGISDATA.LIDARINDEX_POLY_CURRENT_BEST&bbox=-72.5937696429481%2C42.10105258196511%2C-72.58998171270284%2C42.103731242041846%2CEPSG%3A4326&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+            "featureId": null,
+            "featureName": null,
+            "recordDate": null,
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2090": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2090",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 18TXM699663 \u00b7 2015 Massachusetts (QL2)",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2015_Mass/dem_img/18TXM699663.img.bz2",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2090",
+            "featureName": "18TXM699663",
+            "recordDate": "2015",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          },
+          "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2994": {
+            "key": "lidar-tile:GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2994",
+            "provider": "MassGIS",
+            "dataset": "LiDAR tile 18TXM697663 \u00b7 2015 Massachusetts (QL2)",
+            "serviceUrl": "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/lidar/2015_Mass/dem_img/18TXM697663.img.bz2",
+            "featureId": "GISDATA.LIDARINDEX_POLY_CURRENT_BEST.2994",
+            "featureName": "18TXM697663",
+            "recordDate": "2015",
+            "datasetUpdated": null,
+            "retrievedAt": "2026-11-08T00:46:11.660Z"
+          }
+        }
+      }
+    }
+  ]
+}

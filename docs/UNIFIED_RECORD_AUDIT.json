@@ -1,0 +1,313 @@
+{
+  "before": 58,
+  "after": 69,
+  "requiredIntake": 58,
+  "proposed": 11,
+  "categories": [
+    {
+      "category": "Property Identification",
+      "count": 9
+    },
+    {
+      "category": "Buildings and Geometry",
+      "count": 9
+    },
+    {
+      "category": "Roads and Logistics",
+      "count": 7
+    },
+    {
+      "category": "Environmental and Permitting",
+      "count": 8
+    },
+    {
+      "category": "Electrical Infrastructure",
+      "count": 20
+    },
+    {
+      "category": "Electricity Usage and Rates",
+      "count": 7
+    },
+    {
+      "category": "Proposed BESS Design",
+      "count": 9
+    }
+  ],
+  "added": [
+    {
+      "id": "facilityName",
+      "label": "Facility name",
+      "category": "property",
+      "priority": "Low"
+    },
+    {
+      "id": "propertyType",
+      "label": "Property type / occupancy description",
+      "category": "property",
+      "priority": "Medium"
+    },
+    {
+      "id": "serviceAmperage",
+      "label": "Service amperage",
+      "category": "electrical",
+      "priority": "Critical"
+    },
+    {
+      "id": "availableCapacity",
+      "label": "Available electrical capacity",
+      "category": "electrical",
+      "priority": "Critical"
+    },
+    {
+      "id": "utilityPole",
+      "label": "Utility pole identifiers",
+      "category": "electrical",
+      "priority": "Medium"
+    },
+    {
+      "id": "breakerSpace",
+      "label": "Available breaker space",
+      "category": "electrical",
+      "priority": "High"
+    },
+    {
+      "id": "undergroundUtilities",
+      "label": "Underground utilities and obstructions",
+      "category": "electrical",
+      "priority": "High"
+    },
+    {
+      "id": "equipmentDistance",
+      "label": "Existing electrical equipment separation distances",
+      "category": "electrical",
+      "priority": "Medium"
+    },
+    {
+      "id": "existingConduit",
+      "label": "Existing field-verified conduit route",
+      "category": "electrical",
+      "priority": "High"
+    },
+    {
+      "id": "existingClearances",
+      "label": "Existing equipment working clearances",
+      "category": "electrical",
+      "priority": "High"
+    },
+    {
+      "id": "utilityBills",
+      "label": "Utility bills",
+      "category": "usage",
+      "priority": "High"
+    }
+  ],
+  "legacyRequirements": 34,
+  "distinctMappedFields": 32,
+  "unmapped": [],
+  "mapping": [
+    {
+      "legacyId": "facility",
+      "legacyLabel": "Facility name",
+      "fieldId": "facilityName",
+      "label": "Facility name"
+    },
+    {
+      "legacyId": "address",
+      "legacyLabel": "Site address",
+      "fieldId": "address",
+      "label": "Address"
+    },
+    {
+      "legacyId": "municipality",
+      "legacyLabel": "Municipality",
+      "fieldId": "municipalityAhj",
+      "label": "Municipality and authority having jurisdiction"
+    },
+    {
+      "legacyId": "jurisdiction",
+      "legacyLabel": "Jurisdiction / AHJ",
+      "fieldId": "municipalityAhj",
+      "label": "Municipality and authority having jurisdiction"
+    },
+    {
+      "legacyId": "propertyType",
+      "legacyLabel": "Property type",
+      "fieldId": "propertyType",
+      "label": "Property type / occupancy description"
+    },
+    {
+      "legacyId": "parcel",
+      "legacyLabel": "Parcel ID",
+      "fieldId": "parcelId",
+      "label": "Parcel ID"
+    },
+    {
+      "legacyId": "footprint",
+      "legacyLabel": "Building footprint",
+      "fieldId": "totalRoofArea",
+      "label": "Total roofprint area"
+    },
+    {
+      "legacyId": "zoning",
+      "legacyLabel": "Zoning",
+      "fieldId": "zoning",
+      "label": "Zoning district"
+    },
+    {
+      "legacyId": "road",
+      "legacyLabel": "Road access",
+      "fieldId": "delivery",
+      "label": "Delivery vehicle access constraints"
+    },
+    {
+      "legacyId": "flood",
+      "legacyLabel": "Flood exposure",
+      "fieldId": "flood",
+      "label": "Flood hazard designation"
+    },
+    {
+      "legacyId": "permits",
+      "legacyLabel": "Public permit information",
+      "fieldId": "permits",
+      "label": "Public permit records"
+    },
+    {
+      "legacyId": "utility",
+      "legacyLabel": "Utility provider",
+      "fieldId": "utility",
+      "label": "Serving utility"
+    },
+    {
+      "legacyId": "voltage",
+      "legacyLabel": "Service voltage",
+      "fieldId": "voltage",
+      "label": "Service voltage"
+    },
+    {
+      "legacyId": "phase",
+      "legacyLabel": "Phase configuration",
+      "fieldId": "phase",
+      "label": "Phase configuration"
+    },
+    {
+      "legacyId": "amperage",
+      "legacyLabel": "Service amperage",
+      "fieldId": "serviceAmperage",
+      "label": "Service amperage"
+    },
+    {
+      "legacyId": "panel",
+      "legacyLabel": "Main distribution panel",
+      "fieldId": "panelRating",
+      "label": "Main distribution panel rating"
+    },
+    {
+      "legacyId": "breaker",
+      "legacyLabel": "Main breaker and bus ratings",
+      "fieldId": "breaker",
+      "label": "Main breaker and main bus ratings"
+    },
+    {
+      "legacyId": "transformer",
+      "legacyLabel": "Existing utility transformer ratings",
+      "fieldId": "transformerCapacity",
+      "label": "Existing utility transformer electrical ratings"
+    },
+    {
+      "legacyId": "meter",
+      "legacyLabel": "Revenue meter model",
+      "fieldId": "meterModel",
+      "label": "Revenue meter model"
+    },
+    {
+      "legacyId": "singleLine",
+      "legacyLabel": "Existing single-line diagram",
+      "fieldId": "singleLine",
+      "label": "Existing electrical single-line diagram availability"
+    },
+    {
+      "legacyId": "capacity",
+      "legacyLabel": "Available electrical capacity",
+      "fieldId": "availableCapacity",
+      "label": "Available electrical capacity"
+    },
+    {
+      "legacyId": "poles",
+      "legacyLabel": "Utility pole references",
+      "fieldId": "utilityPole",
+      "label": "Utility pole identifiers"
+    },
+    {
+      "legacyId": "room",
+      "legacyLabel": "Main electrical room location",
+      "fieldId": "room",
+      "label": "Electrical room location"
+    },
+    {
+      "legacyId": "poi",
+      "legacyLabel": "Potential point of interconnection",
+      "fieldId": "poi",
+      "label": "Potential point of interconnection"
+    },
+    {
+      "legacyId": "distance",
+      "legacyLabel": "Distance to equipment area",
+      "fieldId": "equipmentDistance",
+      "label": "Existing electrical equipment separation distances"
+    },
+    {
+      "legacyId": "space",
+      "legacyLabel": "Available breaker space",
+      "fieldId": "breakerSpace",
+      "label": "Available breaker space"
+    },
+    {
+      "legacyId": "conduit",
+      "legacyLabel": "Field-verified conduit route",
+      "fieldId": "existingConduit",
+      "label": "Existing field-verified conduit route"
+    },
+    {
+      "legacyId": "access",
+      "legacyLabel": "Site access limitations",
+      "fieldId": "delivery",
+      "label": "Delivery vehicle access constraints"
+    },
+    {
+      "legacyId": "clearances",
+      "legacyLabel": "Working clearances",
+      "fieldId": "existingClearances",
+      "label": "Existing equipment working clearances"
+    },
+    {
+      "legacyId": "underground",
+      "legacyLabel": "Underground utilities and obstructions",
+      "fieldId": "undergroundUtilities",
+      "label": "Underground utilities and obstructions"
+    },
+    {
+      "legacyId": "bills",
+      "legacyLabel": "Recent utility bills",
+      "fieldId": "utilityBills",
+      "label": "Utility bills"
+    },
+    {
+      "legacyId": "load",
+      "legacyLabel": "15-minute electricity load data",
+      "fieldId": "interval",
+      "label": "15-minute interval load profile"
+    },
+    {
+      "legacyId": "tariff",
+      "legacyLabel": "Tariff verification",
+      "fieldId": "tariff",
+      "label": "Utility rate schedule"
+    },
+    {
+      "legacyId": "peak",
+      "legacyLabel": "Peak demand",
+      "fieldId": "demand",
+      "label": "Maximum demand"
+    }
+  ]
+}
