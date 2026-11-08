@@ -37,8 +37,8 @@ export function VerificationQueue({
   return (
     <section className="missing-intake" aria-label="Field verification queue">
       <p>
-        Each request is a field that still needs information or a review.
-        Receiving a file doesn&apos;t verify it.
+        These actions come from the Full Site Record. Evidence received is not
+        engineering verification.
       </p>
       <SiteFiles record={record} onAdd={setUploadField} />
       <div className="table-controls">

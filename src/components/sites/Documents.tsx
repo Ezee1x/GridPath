@@ -23,10 +23,11 @@ export function Documents({ site }: { site: SiteRecord }) {
     (s) => s.fileName || s.documentId,
   );
   return (
-    <section className="documents">
+    <section className="card panel-padding">
+      <h2>Documents & evidence</h2>
       <p>
-        Every file and source reference on this site, with the fields it
-        supports. Receiving a file never verifies its contents.
+        Attach evidence to its field in the Full Site Record. Receipt never
+        verifies its contents.
       </p>
       {warning && <p role="status">{warning}</p>}
       <div className="button-row">

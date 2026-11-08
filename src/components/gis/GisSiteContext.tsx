@@ -171,12 +171,7 @@ export function GisSiteContext({
   hideDashboard = false,
   dashboard,
   onContourAction,
-  mode = "site",
-  onSaved,
 }: {
-  /** "new": choosing a property to add; "site": working on a saved site. */
-  mode?: "new" | "site";
-  onSaved?: (siteId: string) => void;
   address: SelectedAddress | null;
   children: ReactNode;
   initialParcelId?: string | null;
@@ -333,16 +328,16 @@ export function GisSiteContext({
           style: (feature: google.maps.Data.Feature) => ({
             strokeColor:
               kind === "parcels"
-                ? "#ffffff"
+                ? "#b87921"
                 : kind === "buildings"
-                  ? "#8fbcec"
-                  : "#5f9ad8",
+                  ? "#287bb5"
+                  : "#39805e",
             strokeWeight:
               kind === "parcels" &&
               String(feature.getProperty("gisId")) === gis.parcelId
                 ? 3
                 : 2,
-            fillColor: kind === "buildings" ? "#8fbcec" : "#ffffff",
+            fillColor: kind === "buildings" ? "#287bb5" : "#b87921",
             fillOpacity: kind === "buildings" ? 0.14 : 0,
             clickable: true,
             zIndex: kind === "buildings" ? 3 : kind === "parcels" ? 2 : 1,
@@ -384,9 +379,9 @@ export function GisSiteContext({
             })),
           },
           style: {
-            strokeColor: kind === "flood" ? "#3f78bd" : "#a9cdf2",
+            strokeColor: kind === "flood" ? "#666e9a" : "#3d7d76",
             strokeWeight: 1.5,
-            fillColor: kind === "flood" ? "#3f78bd" : "#a9cdf2",
+            fillColor: kind === "flood" ? "#767fae" : "#4a9388",
             fillOpacity: 0.17,
           },
           onFeatureClick: (id) => {
@@ -410,7 +405,7 @@ export function GisSiteContext({
             },
           ],
         },
-        style: { strokeColor: "#ffffff", strokeWeight: 3, fillOpacity: 0 },
+        style: { strokeColor: "#ae7120", strokeWeight: 3, fillOpacity: 0 },
         onFeatureClick: () => setInspected(selectedParcel),
       });
     if (terrainBuildings) {
@@ -424,7 +419,7 @@ export function GisSiteContext({
             properties: { gisId: f.properties.id },
           })),
         },
-        style: { strokeColor: "#8fbcec", strokeWeight: 2, fillOpacity: 0 },
+        style: { strokeColor: "#287bb5", strokeWeight: 2, fillOpacity: 0 },
         onFeatureClick: (id: string) => {
           const feature = buildings.find((f) => f.properties.id === id);
           if (feature) setInspected(feature);
@@ -460,7 +455,7 @@ export function GisSiteContext({
           })),
         },
         style: (feature) => ({
-          strokeColor: "#dbe9f8",
+          strokeColor: "#735a37",
           strokeOpacity: 0.9,
           strokeWeight:
             Number(feature.getProperty("elevationFeet")) %
@@ -782,25 +777,23 @@ export function GisSiteContext({
                 Inspect selected parcel & source
               </button>
             )}
-            {mode === "site" && (
-              <button
-                className="button primary"
-                type="button"
-                disabled={
-                  !address ||
-                  gis.layers.parcels.status === "loading" ||
-                  gis.layers.parcels.status === "idle"
-                }
-                onClick={() => {
-                  setRequested(true);
-                  setRun((n) => n + 1);
-                }}
-              >
-                Analyze Site
-              </button>
-            )}
             <button
-              className={`button ${mode === "new" ? "primary" : "secondary"}`}
+              className="button primary"
+              type="button"
+              disabled={
+                !address ||
+                gis.layers.parcels.status === "loading" ||
+                gis.layers.parcels.status === "idle"
+              }
+              onClick={() => {
+                setRequested(true);
+                setRun((n) => n + 1);
+              }}
+            >
+              Analyze Site
+            </button>
+            <button
+              className="button secondary"
               type="button"
               disabled={
                 !address ||
@@ -809,27 +802,21 @@ export function GisSiteContext({
               }
               onClick={() => {
                 if (!address || !publicPoint) return;
-                const record = savedMapSite(
-                  address.placeId,
-                  publicPoint,
-                  gis.parcelId,
-                  saved,
+                save(
+                  savedMapSite(
+                    address.placeId,
+                    publicPoint,
+                    gis.parcelId,
+                    saved,
+                  ),
                 );
-                save(record);
                 setRequested(true);
                 setSaveMessage("Site record saved in this browser.");
-                onSaved?.(record.id);
               }}
             >
-              {mode === "new"
-                ? saved
-                  ? "Update and open site"
-                  : "Save and open site"
-                : saved
-                  ? "Update saved record"
-                  : "Save site record"}
+              {saved ? "Update saved record" : "Save site record"}
             </button>
-            {saved && mode === "site" && (
+            {saved && (
               <Link className="text-link" href={`/sites/${saved.id}`}>
                 Open saved record
               </Link>

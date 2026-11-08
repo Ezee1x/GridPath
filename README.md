@@ -62,7 +62,7 @@ Opt-in live source checks (with the dev server running): `npx tsx scripts/verify
 | Electrical discovery | `src/lib/electrical/`, `src/app/api/electrical/discover/route.ts`, `src/components/intake/ElectricalDiscoveryPanel.tsx` |
 | GIS and environment | `src/lib/gis/`, `src/lib/environment/`, `src/app/api/gis/`, `src/app/api/environment/` |
 | Site annotations | `src/lib/annotations/`, `src/app/api/annotations/`, `src/components/annotations/` |
-| Interface | `src/app/tokens.css`, `src/app/globals.css`, `src/components/layout/`, `src/components/sites/SiteHero.tsx` |
+| Interface | `src/app/tokens.css`, `src/app/globals.css`, `src/components/layout/` |
 
 This project uses Next.js 16. Read `AGENTS.md` and the docs in `node_modules/next/dist/docs/` before relying on older Next.js behavior.
 
@@ -84,17 +84,4 @@ Earlier phase reports in `docs/` (`PHASE3_QA.md` through `UNIFIED_RECORD_QA.md`,
 
 ## How the app is organized
 
-- **Your sites** (`/`): a dark aerial hero, your saved sites with progress, and the four steps every site follows.
-- **Add a site** (`/new`): search the address, confirm the parcel on the map, save. The site opens right away. Hand entry is a fallback.
-- **A site** (`/sites/:id`), in four steps:
-  1. **Map & property**: map, public GIS layers, parcel choice, Analyze Site and the eight Highlights of Site.
-  2. **Annotations**: aerial, Street View and photo detection (locates the site automatically on first visit).
-  3. **Record & missing info**: readiness, then All fields, Requests to collect (the Verification Queue) and Files.
-  4. **Export**: readiness summary and the JSON export with sources.
-- **Settings** (`/settings`): storage, the data sources the app actually uses, review limits, clear sites.
-
-The old `/explorer`, `/verification`, `/documents` and `/sources` URLs redirect to their new homes.
-
-## Design
-
-Night blue `#071A4A`, cobalt `#1F4FE0` and ice `#EEF3FF`, with one electric lime `#C8F03C` reserved for the main action and the current step (`src/app/tokens.css`). Headlines use Unbounded; text, tables and controls use Figtree at the handoff's 14/13 px. Dark full-bleed aerial bands open the home and site pages; the working areas stay light. Map overlays use blues and white on satellite imagery.
+The original handoff layout: a left sidebar with Overview, Site explorer, Verification queue, Documents, Data sources and Settings. Each saved site has two tabs, *Site record* (map, Highlights of Site, readiness, files and the Full Site Record) and *Site annotations*. Colors, type and icons are the original green-grey design in `src/app/tokens.css`.
