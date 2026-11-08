@@ -82,7 +82,19 @@ Records and files live in one browser. There is no shared storage, sign-in, auth
 
 Earlier phase reports in `docs/` (`PHASE3_QA.md` through `UNIFIED_RECORD_QA.md`, `QA.md`, `DESIGN_REFINEMENT.md`) record how the app evolved. Their field counts, seeded samples and screenshots are historical; the code and this README describe the current app.
 
+## How the app is organized
+
+- **Your sites** (`/`): a dark aerial hero, your saved sites with progress, and the four steps every site follows.
+- **Add a site** (`/new`): search the address, confirm the parcel on the map, save. The site opens right away. Hand entry is a fallback.
+- **A site** (`/sites/:id`), in four steps:
+  1. **Map & property**: map, public GIS layers, parcel choice, Analyze Site and the eight Highlights of Site.
+  2. **Annotations**: aerial, Street View and photo detection (locates the site automatically on first visit).
+  3. **Record & missing info**: readiness, then All fields, Requests to collect (the Verification Queue) and Files.
+  4. **Export**: readiness summary and the JSON export with sources.
+- **Settings** (`/settings`): storage, the data sources the app actually uses, review limits, clear sites.
+
+The old `/explorer`, `/verification`, `/documents` and `/sources` URLs redirect to their new homes.
+
 ## Design
 
-Neutral blue and white only (`src/app/tokens.css`): navy ink text, slate secondary text, one action blue. Headlines use Source Serif 4; body, tables and controls use Geist at the handoff's 14/13 px. A slim top bar replaces the sidebar so imagery can lead: the overview opens beside a public aerial image framed as a drawing sheet, showing a site's real annotations once it has some, and each site page has an aerial header with *Site record* and *Site annotations* tabs. Map overlays use blues and white on satellite imagery.
-
+Night blue `#071A4A`, cobalt `#1F4FE0` and ice `#EEF3FF`, with one electric lime `#C8F03C` reserved for the main action and the current step (`src/app/tokens.css`). Headlines use Unbounded; text, tables and controls use Figtree at the handoff's 14/13 px. Dark full-bleed aerial bands open the home and site pages; the working areas stay light. Map overlays use blues and white on satellite imagery.

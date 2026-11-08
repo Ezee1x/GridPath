@@ -1,67 +1,75 @@
 /*
- * QORE ProjectSync: neutral blue and white only.
- * Ink and slate carry text; one action blue marks what can be clicked.
+ * QORE ProjectSync: night blue, cobalt and ice, with one electric lime accent
+ * for the primary action and the current step. Nothing else is lime.
  */
 :root {
   color-scheme: light;
+  --night: #071a4a;
+  --night-2: #0d2a6b;
+  --cobalt: #1f4fe0;
+  --cobalt-deep: #173cb0;
+  --electric: #4d8bff;
+  --sky: #a9c6ff;
+  --ice: #eef3ff;
   --white: #ffffff;
-  --mist: #f3f6fa;
-  --ink: #12233d;
-  --slate: #4d5f78;
-  --rule: #d6dee8;
-  --rule-strong: #b6c3d4;
-  --blue: #2b5c93;
-  --blue-deep: #1f4774;
-  --blue-tint: #e7eef7;
-  --blue-wash: #9db4d1;
+  --ink: #0e1e45;
+  --slate: #4a5b80;
+  --rule: #d9e2f5;
+  --rule-strong: #b7c6e8;
+  --lime: #c8f03c;
+  --lime-deep: #b3dc22;
 
+  /* Older names kept so existing components follow the palette. */
+  --mist: var(--ice);
+  --blue: var(--cobalt);
+  --blue-deep: var(--cobalt-deep);
+  --blue-tint: #e3ebff;
+  --blue-wash: var(--sky);
   --background: var(--white);
   --surface: var(--white);
-  --surface-muted: var(--mist);
-  --sidebar-background: var(--mist);
+  --surface-muted: var(--ice);
+  --sidebar-background: var(--ice);
   --text: var(--ink);
   --text-secondary: var(--slate);
   --border: var(--rule);
   --border-strong: var(--rule-strong);
-  --accent: var(--blue);
-  --accent-hover: var(--blue-deep);
-  --accent-subtle: var(--blue-tint);
+  --accent: var(--cobalt);
+  --accent-hover: var(--cobalt-deep);
+  --accent-subtle: #e3ebff;
   --warning-text: var(--ink);
-  --warning-background: var(--mist);
+  --warning-background: var(--ice);
   --warning-border: var(--rule);
   --danger-text: var(--ink);
-  --danger-background: var(--mist);
+  --danger-background: var(--ice);
   --danger-border: var(--rule-strong);
   --success-text: var(--ink);
-  --success-background: var(--mist);
+  --success-background: var(--ice);
   --success-border: var(--rule);
-  --focus: var(--blue);
+  --focus: var(--cobalt);
 
-  /* Readiness bar: verified, awaiting verification, missing. */
-  --state-verified: var(--blue);
-  --state-awaiting: var(--blue-wash);
-  --state-missing: #e4eaf2;
+  --state-verified: var(--cobalt);
+  --state-awaiting: var(--sky);
+  --state-missing: #e2e9f8;
 
-  /* Drawing sheet around site imagery. */
   --sheet-ink: var(--ink);
   --sheet-paper: var(--white);
-  --sheet-stage: var(--mist);
+  --sheet-stage: var(--ice);
   --gutter: 22px;
 
   --font-sans:
-    "Geist Variable", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  --font-serif:
-    "Source Serif 4 Variable", "Source Serif 4", Georgia, "Times New Roman",
-    serif;
+    "Figtree Variable", "Figtree", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-display:
+    "Unbounded Variable", "Unbounded", "Figtree Variable", sans-serif;
+  --font-serif: var(--font-display);
   --font-body: 14px;
   --font-secondary: 13px;
   --font-label: 12px;
   --font-section: 22px;
-  --font-heading: 40px;
-  --font-display: clamp(34px, 4.6vw, 56px);
-  --radius: 6px;
-  --radius-small: 4px;
+  --font-heading: 36px;
+  --radius: 10px;
+  --radius-small: 6px;
+  --radius-pill: 999px;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -72,7 +80,7 @@
   --space-12: 48px;
   --space-16: 64px;
   --sidebar-width: 0px;
-  --topbar-height: 64px;
-  --content-width: 1240px;
-  --control-height: 38px;
+  --topbar-height: 68px;
+  --content-width: 1200px;
+  --control-height: 40px;
 }

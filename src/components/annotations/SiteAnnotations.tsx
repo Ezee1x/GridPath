@@ -230,9 +230,21 @@ export function SiteAnnotations({ site }: { site: SiteRecord }) {
 
   /* Public-source context */
 
-  async function locateSite(e: FormEvent) {
+  // Sites start without context; locate them once, automatically, on first visit.
+  const autoLocated = useRef(false);
+  useEffect(() => {
+    if (autoLocated.current || site.siteContext || !site.address.trim()) return;
+    autoLocated.current = true;
+    void locate(site.address);
+    // Runs once per site; locate reads the newest record through refs.
+  }, [site.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function locateSite(e: FormEvent) {
     e.preventDefault();
-    const query = address.trim();
+    void locate(address);
+  }
+  async function locate(input: string) {
+    const query = input.trim();
     if (!query) return setLocateError("Enter the property's street address.");
     setLocating(true);
     setLocateError("");

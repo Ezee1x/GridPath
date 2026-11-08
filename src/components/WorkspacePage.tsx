@@ -1,204 +1,158 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, RotateCcw, ShieldCheck } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { useWorkspace } from "@/lib/store";
-import { SiteTable } from "./sites/SiteTable";
-import { MissingInformation } from "./sites/MissingInformation";
-import { Documents } from "./sites/Documents";
-import { integrationTargets } from "@/lib/adapters";
-import { Badge, Empty } from "./ui";
-import { PageHeader } from "./layout/PageHeader";
-import { GoogleAddressWorkspace } from "./maps/GoogleAddressWorkspace";
-const headings: Record<string, [string, string]> = {
-  explorer: [
-    "Site explorer",
-    "Search Massachusetts addresses and inspect satellite imagery with source-backed public GIS context.",
+import { Empty } from "./ui";
+
+/** What the app actually connects to, in the order a site uses them. */
+const SOURCES: [string, string, string][] = [
+  [
+    "Google Maps and Places",
+    "Address search, satellite map and Street View browsing",
+    "Needs a browser API key",
   ],
-  verification: [
-    "Verification queue",
-    "Resolve missing information and record the evidence behind each review.",
+  [
+    "US Census geocoder",
+    "Independent address point for every public lookup",
+    "Live",
   ],
-  documents: [
-    "Documents",
-    "Manage source records and stage customer documents by site.",
+  [
+    "MassGIS parcels, roofprints and roads",
+    "Parcel boundaries, building footprints, road centerlines and assessor records",
+    "Live",
   ],
-  sources: [
-    "Data sources",
-    "A clear view of what is connected, and what is prepared for integration.",
+  ["FEMA flood hazard layer", "Flood zone screening", "Live"],
+  ["MassDEP wetlands", "Wetland screening", "Live"],
+  ["MassGIS LiDAR", "Elevation and contours", "Live where coverage exists"],
+  [
+    "MassGIS / DPU electricity providers",
+    "Utility territory candidates",
+    "Live",
   ],
-  settings: [
-    "Workspace settings",
-    "Manage the local workspace and understand its storage boundaries.",
+  ["Analyze Boston permits", "Electrical permit records", "Live, Boston only"],
+  ["MassGIS and USGS aerial imagery", "Images for site annotations", "Live"],
+  [
+    "OpenStreetMap",
+    "Mapped power lines, poles and substations near a site",
+    "Live",
   ],
-};
+  [
+    "Grounding DINO and Florence-2",
+    "Equipment detection and marking reading on images",
+    "Runs locally",
+  ],
+  [
+    "Document extraction",
+    "Reading values out of uploaded drawings and bills",
+    "Not connected",
+  ],
+];
+
 export function WorkspacePage({ section }: { section: string }) {
-  const { sites, reset } = useWorkspace();
-  const [selected, setSelected] = useState("");
+  const { reset } = useWorkspace();
   const [confirm, setConfirm] = useState(false);
   const [resetDone, setResetDone] = useState(false);
-  const site = sites.find((s) => s.id === selected) ?? sites[0];
-  const heading = headings[section];
-  if (!heading)
+  if (section !== "settings")
     return (
       <Empty title="Page not found">
-        <Link href="/">Return to overview</Link>
+        <Link href="/">See your sites</Link>
       </Empty>
     );
   return (
-    <>
-      <PageHeader
-        title={heading[0]}
-        description={heading[1]}
-        action={
-          section === "explorer" ? (
-            <Link className="button secondary" href="/">
-              New site record
-              <ArrowUpRight size={16} />
-            </Link>
-          ) : undefined
-        }
-      />
-      {section === "explorer" && (
-        <>
-          <GoogleAddressWorkspace />
-          <div className="explorer-records">
-            <SiteTable sites={sites} />
-          </div>
-        </>
-      )}
-      {["verification", "documents"].includes(section) && (
-        <>
-          <div className="site-picker">
-            <label>
-              Select site
-              <select
-                value={site?.id ?? ""}
-                onChange={(e) => setSelected(e.target.value)}
-              >
-                {sites.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.facilityName === s.address
-                      ? s.address
-                      : `${s.facilityName} — ${s.address}`}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {site && (
-              <Link className="text-link" href={`/sites/${site.id}`}>
-                Open record
-                <ArrowUpRight size={15} />
-              </Link>
-            )}
-          </div>
-          {site ? (
-            section === "verification" ? (
-              <MissingInformation key={site.id} site={site} />
-            ) : (
-              <Documents key={site.id} site={site} />
-            )
-          ) : (
-            <Empty title="No site records">
-              Create a record to start gathering evidence.
-            </Empty>
-          )}
-        </>
-      )}
-      {section === "sources" && (
-        <>
-          <div className="notice">
-            <ShieldCheck size={19} />
-            Google Places provides live address lookup and Google Maps supplies
-            satellite visualization when configured. MassGIS parcel, roofprint
-            and road queries are available in Site Explorer. Other engineering
-            integrations remain disconnected.
-          </div>
-          <div className="source-connections">
-            {integrationTargets.map((s) => (
-              <section className="integration-card" key={s.name}>
-                <Badge>
-                  {s.name === "MassGIS"
-                    ? "Live public GIS queries"
-                    : "Not connected"}
-                </Badge>
-                <h2>{s.name}</h2>
-                <p>{s.detail}</p>
-              </section>
+    <div className="settings">
+      <header className="page-intro">
+        <h1>Settings</h1>
+        <p>
+          Where your data lives, what the app connects to, and how to start
+          over.
+        </p>
+      </header>
+
+      <section className="settings-section" aria-labelledby="storage-title">
+        <h2 id="storage-title">Storage</h2>
+        <p>
+          Sites, records, notes, annotations and attached files are saved in
+          this browser only. They survive a refresh but aren&apos;t shared with
+          teammates or other devices. Use Export on a site to hand it off.
+        </p>
+      </section>
+
+      <section className="settings-section" aria-labelledby="sources-title">
+        <h2 id="sources-title">Data sources</h2>
+        <p>
+          Public sources fill in values with their original references. Nothing
+          they return is marked engineer verified.
+        </p>
+        <table className="sources-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Used for</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {SOURCES.map(([name, use, status]) => (
+              <tr key={name}>
+                <th scope="row">{name}</th>
+                <td>{use}</td>
+                <td>
+                  <span
+                    className={`source-status ${status.startsWith("Live") || status === "Runs locally" ? "on" : ""}`}
+                  >
+                    {status}
+                  </span>
+                </td>
+              </tr>
             ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section className="settings-section" aria-labelledby="reviews-title">
+        <h2 id="reviews-title">About reviews</h2>
+        <p>
+          Engineer verified means someone in this browser recorded a review. It
+          isn&apos;t an authenticated professional sign-off. Completeness counts
+          collected information; it isn&apos;t a feasibility or code-compliance
+          decision.
+        </p>
+      </section>
+
+      <section className="settings-section" aria-labelledby="reset-title">
+        <h2 id="reset-title">Clear your sites</h2>
+        <p>
+          Removes every saved site from this browser. Export any you want to
+          keep first.
+        </p>
+        {confirm ? (
+          <div className="button-row">
+            <button
+              className="button danger"
+              onClick={() => {
+                reset();
+                setConfirm(false);
+                setResetDone(true);
+              }}
+            >
+              Clear all sites
+            </button>
+            <button
+              className="button secondary"
+              onClick={() => setConfirm(false)}
+            >
+              Cancel
+            </button>
           </div>
-          <section className="card panel-padding">
-            <h2>Evidence requirements</h2>
-            <p className="muted">
-              Each imported record needs field values, existing / proposed
-              classification, source references, retrieval timestamps,
-              confidence, and human review state. Retrieval must never imply
-              engineering verification.
-            </p>
-          </section>
-        </>
-      )}
-      {section === "settings" && (
-        <div className="settings-stack">
-          <section className="card panel-padding">
-            <h2>Browser storage</h2>
-            <p className="muted">
-              Site records, collection statuses, owners, notes, and attached
-              files are saved in this browser only. Files survive a refresh but
-              are not shared with teammates or other devices. Export a record
-              to hand it off.
-            </p>
-            <Badge tone="teal">
-              Saved records work without a Google Maps key
-            </Badge>
-          </section>
-          <section className="card panel-padding">
-            <h2>Review limitations</h2>
-            <p className="muted">
-              Human reviews in this workspace are self-attested, not
-              authenticated engineering sign-offs. Data completeness is a
-              collection metric, not a feasibility assessment, code-compliance
-              determination, or installation approval.
-            </p>
-          </section>
-          <section className="card panel-padding">
-            <h2>Clear saved site records</h2>
-            <p className="muted">
-              Remove saved site records from this browser. Export any records
-              you want to keep first.
-            </p>
-            {confirm ? (
-              <div className="button-row">
-                <button
-                  className="button danger"
-                  onClick={() => {
-                    reset();
-                    setConfirm(false);
-                    setResetDone(true);
-                  }}
-                >
-                  Confirm reset
-                </button>
-                <button
-                  className="button secondary"
-                  onClick={() => setConfirm(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button
-                className="button secondary"
-                onClick={() => setConfirm(true)}
-              >
-                <RotateCcw size={16} />
-                Clear site records
-              </button>
-            )}
-            {resetDone && <p role="status">Site records cleared.</p>}
-          </section>
-        </div>
-      )}
-    </>
+        ) : (
+          <button className="button secondary" onClick={() => setConfirm(true)}>
+            <RotateCcw size={16} aria-hidden="true" />
+            Clear sites
+          </button>
+        )}
+        {resetDone && <p role="status">All sites cleared.</p>}
+      </section>
+    </div>
   );
 }

@@ -171,7 +171,12 @@ export function GisSiteContext({
   hideDashboard = false,
   dashboard,
   onContourAction,
+  mode = "site",
+  onSaved,
 }: {
+  /** "new": choosing a property to add; "site": working on a saved site. */
+  mode?: "new" | "site";
+  onSaved?: (siteId: string) => void;
   address: SelectedAddress | null;
   children: ReactNode;
   initialParcelId?: string | null;
@@ -185,7 +190,8 @@ export function GisSiteContext({
   const [saveMessage, setSaveMessage] = useState("");
   const saved = sites.find(
     (s) =>
-      s.mapPlaceId === address?.placeId &&
+      !!address &&
+      s.mapPlaceId === address.placeId &&
       (s.parcelFeatureId ?? null) === gis.parcelId,
   );
   const publicPoint = gis.layers.parcels.result?.queryLocation;
@@ -776,23 +782,25 @@ export function GisSiteContext({
                 Inspect selected parcel & source
               </button>
             )}
+            {mode === "site" && (
+              <button
+                className="button primary"
+                type="button"
+                disabled={
+                  !address ||
+                  gis.layers.parcels.status === "loading" ||
+                  gis.layers.parcels.status === "idle"
+                }
+                onClick={() => {
+                  setRequested(true);
+                  setRun((n) => n + 1);
+                }}
+              >
+                Analyze Site
+              </button>
+            )}
             <button
-              className="button primary"
-              type="button"
-              disabled={
-                !address ||
-                gis.layers.parcels.status === "loading" ||
-                gis.layers.parcels.status === "idle"
-              }
-              onClick={() => {
-                setRequested(true);
-                setRun((n) => n + 1);
-              }}
-            >
-              Analyze Site
-            </button>
-            <button
-              className="button secondary"
+              className={`button ${mode === "new" ? "primary" : "secondary"}`}
               type="button"
               disabled={
                 !address ||
@@ -801,21 +809,27 @@ export function GisSiteContext({
               }
               onClick={() => {
                 if (!address || !publicPoint) return;
-                save(
-                  savedMapSite(
-                    address.placeId,
-                    publicPoint,
-                    gis.parcelId,
-                    saved,
-                  ),
+                const record = savedMapSite(
+                  address.placeId,
+                  publicPoint,
+                  gis.parcelId,
+                  saved,
                 );
+                save(record);
                 setRequested(true);
                 setSaveMessage("Site record saved in this browser.");
+                onSaved?.(record.id);
               }}
             >
-              {saved ? "Update saved record" : "Save site record"}
+              {mode === "new"
+                ? saved
+                  ? "Update and open site"
+                  : "Save and open site"
+                : saved
+                  ? "Update saved record"
+                  : "Save site record"}
             </button>
-            {saved && (
+            {saved && mode === "site" && (
               <Link className="text-link" href={`/sites/${saved.id}`}>
                 Open saved record
               </Link>
