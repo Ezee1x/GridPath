@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/figtree";
-import "@fontsource-variable/unbounded";
+import "@fontsource-variable/geist";
 import "./globals.css";
 import { BRAND } from "@/lib/brand";
 import { WorkspaceProvider } from "@/lib/store";
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
     description: BRAND.description,
   },
 };
-export const viewport: Viewport = { themeColor: "#071a4a" };
+export const viewport: Viewport = { themeColor: "#326b60" };
 export default function RootLayout({
   children,
 }: {
