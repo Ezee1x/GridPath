@@ -57,8 +57,8 @@ export function Documents({ site }: { site: SiteRecord }) {
           </p>
           <p>
             {files.has(source.key)
-              ? "File available this session"
-              : "Source reference retained; re-add file bytes after refresh."}
+              ? "File stored in this browser"
+              : "Reference saved. Re-add the file to open it here."}
           </p>
           {source.serviceUrl && (
             <a href={source.serviceUrl} target="_blank" rel="noreferrer">

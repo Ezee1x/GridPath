@@ -185,7 +185,8 @@ export function GisSiteContext({
   const [saveMessage, setSaveMessage] = useState("");
   const saved = sites.find(
     (s) =>
-      s.mapPlaceId === address?.placeId &&
+      !!address &&
+      s.mapPlaceId === address.placeId &&
       (s.parcelFeatureId ?? null) === gis.parcelId,
   );
   const publicPoint = gis.layers.parcels.result?.queryLocation;

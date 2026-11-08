@@ -271,6 +271,7 @@ export async function discoverElectrical(
     siteKey: site.siteKey,
     parcelFeatureId: site.parcelFeatureId,
     retrievedAt: new Date().toISOString(),
+    queryAddress: site.address,
     publicAddress: null,
     municipality: null,
     adapters: [],

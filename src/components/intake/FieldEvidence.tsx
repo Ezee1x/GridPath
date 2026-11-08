@@ -451,7 +451,7 @@ export function FieldEvidence({
               <p key={key}>
                 {source.dataset} ·{" "}
                 {files.has(key)
-                  ? "File available this session"
+                  ? "File stored in this browser"
                   : "Reference retained"}
                 {source.serviceUrl && (
                   <a href={source.serviceUrl} target="_blank" rel="noreferrer">
@@ -563,8 +563,8 @@ export function FieldEvidence({
                   <p>
                     Document: {s.fileName}.{" "}
                     {files.has(k)
-                      ? "File available this session."
-                      : "Re-add the file to inspect its contents after refresh."}
+                      ? "File stored in this browser."
+                      : "Reference saved. Re-add the file to open it here."}
                   </p>
                 )}
                 {files.has(k) && (

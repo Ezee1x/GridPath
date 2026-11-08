@@ -1,10 +1,20 @@
 import type { IntakeRecord } from "./types";
 import { loadIntake, INTAKE_STORAGE } from "./model";
 import { portableIntake } from "./portable";
+import { reconcileElectricalDiscovery } from "../electrical/record";
+import {
+  belongsToSite,
+  indexedDbVault,
+  sha256,
+  storedFile,
+  toFile,
+  type FileVault,
+} from "./file-vault";
 type StorageAccess = Pick<Storage, "getItem" | "setItem">;
 export function createEngineeringStore(
   storage?: StorageAccess,
   onSave?: () => void,
+  vault?: FileVault | null,
 ) {
   const entries = new Map<string, ReturnType<typeof makeEntry>>();
   function makeEntry(key: string, initialize: () => IntakeRecord) {
@@ -18,9 +28,64 @@ export function createEngineeringStore(
       warning =
         "Saved engineering record could not be loaded. Its stored copy is preserved; export session changes before replacing it.";
     }
-    let snapshot = { record: saved ?? initialize(), warning, blocked };
-    const files = new Map<string, File>(),
-      listeners = new Set<() => void>();
+    let snapshot = {
+      record: saved ?? initialize(),
+      warning,
+      blocked,
+      /** "browser": file contents survive refresh here. "session": memory only. */
+      fileStorage: (vault ? "browser" : "session") as "browser" | "session",
+    };
+    const listeners = new Set<() => void>();
+    const fileWarning = (text: string) => {
+      snapshot = { ...snapshot, warning: text };
+      notify();
+    };
+    // Every attachment written to the shared map is also kept in the vault.
+    class FileMap extends Map<string, File> {
+      set(fileKey: string, file: File) {
+        super.set(fileKey, file);
+        if (vault && belongsToSite(fileKey, key))
+          void sha256(file)
+            .then((hash) => vault.put(storedFile(fileKey, key, hash, file)))
+            .catch(() =>
+              fileWarning(
+                "This file is attached for the current session only. Browser file storage is unavailable or full.",
+              ),
+            );
+        return this;
+      }
+    }
+    const files = new FileMap();
+    // Discovery statuses follow the record: evidence, values and reviews update them.
+    const current = (record: IntakeRecord) =>
+      reconcileElectricalDiscovery(record, files);
+    snapshot = { ...snapshot, record: current(snapshot.record) };
+    async function restoreFiles() {
+      if (!vault) return;
+      try {
+        let restored = 0;
+        for (const row of await vault.list(key)) {
+          const source = snapshot.record.sources[row.key];
+          // Restore only files this site's record still references, unaltered.
+          if (!source?.fileName || files.has(row.key)) continue;
+          if (!belongsToSite(row.key, key) || row.siteKey !== key) continue;
+          if (source.fileHash && source.fileHash !== row.hash) continue;
+          if ((await sha256(row.blob)) !== row.hash) continue;
+          Map.prototype.set.call(files, row.key, toFile(row));
+          restored++;
+        }
+        if (restored) {
+          snapshot = { ...snapshot, record: current(snapshot.record) };
+          persist();
+          notify();
+        }
+      } catch {
+        fileWarning(
+          "Stored file contents could not be read from this browser. File references are kept; re-add files to open them.",
+        );
+      }
+    }
+    const restoring = restoreFiles();
     let persisted = "";
     function persist() {
       if (snapshot.blocked || !storage) return;
@@ -53,12 +118,13 @@ export function createEngineeringStore(
         };
       },
       files,
+      restoring,
       flush: () => {
         persist();
         notify();
       },
       update: (fn: (r: IntakeRecord) => IntakeRecord) => {
-        const record = fn(snapshot.record);
+        const record = current(fn(snapshot.record));
         if (record.siteKey !== key)
           throw Error("Engineering update belongs to another site.");
         if (record === snapshot.record) return;
@@ -70,8 +136,9 @@ export function createEngineeringStore(
         try {
           const record = storage && loadIntake(storage, key);
           if (record) {
-            snapshot = { ...snapshot, record };
+            snapshot = { ...snapshot, record: current(record) };
             notify();
+            void restoreFiles();
           }
         } catch {
           /* Preserve current record and unreadable stored copy. */
@@ -100,10 +167,20 @@ export function engineeringStore() {
     } catch {
       /* Session-only mode. */
     }
-    browserStore = createEngineeringStore(storage, () => {
-      if (typeof window !== "undefined")
-        window.dispatchEvent(new Event("qore-intake-saved"));
-    });
+    let vault: FileVault | null = null;
+    try {
+      vault = indexedDbVault();
+    } catch {
+      /* Session-only file contents. */
+    }
+    browserStore = createEngineeringStore(
+      storage,
+      () => {
+        if (typeof window !== "undefined")
+          window.dispatchEvent(new Event("qore-intake-saved"));
+      },
+      vault,
+    );
     if (typeof window !== "undefined")
       window.addEventListener("storage", (event) => {
         if (event.key?.startsWith(INTAKE_STORAGE))

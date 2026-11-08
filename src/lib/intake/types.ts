@@ -63,7 +63,13 @@ export interface IntakeField {
     at: string | null;
     note: string;
   };
-  request: { status: RequestStatus; owner: string; notes: string };
+  request: {
+    status: RequestStatus;
+    owner: string;
+    notes: string;
+    /** Request text discovery last wrote into notes, so manual edits are never overwritten. */
+    generatedNotes?: string;
+  };
 }
 export interface IntakeRecord {
   electricalDiscovery?: import("../electrical/types").ElectricalDiscovery;

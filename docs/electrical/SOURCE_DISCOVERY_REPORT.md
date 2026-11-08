@@ -75,3 +75,15 @@ Holliston/Worcester also exercise the no-accessible-electrical-record condition.
 - Browser: downloaded JSON and inspected it: discovery present, 100 permits, 22 customer requests, service voltage null, provider complete=false, and field-specific missing amperage explanation present.
 - Isolated localhost:3002 browser QA: restored an existing synthetic evidence record, re-added an authorized QA text attachment, ran discovery against an intentionally unresolvable synthetic address, and confirmed the document adapter still found the site-linked evidence while the public adapter reported error. Both file references remained; the re-added file was still downloadable, and amperage/voltage remained unpopulated. No synthetic documents were attached to the user's actual site records.
 - UI screenshot: [electrical-discovery-dashboard.png](electrical-discovery-dashboard.png).
+
+## Status synchronization (2026-11-07)
+
+Discovery results used to be a snapshot. They now follow the record (`reconcileElectricalDiscovery` in `src/lib/electrical/record.ts`, run by the shared store on every update, load and file restore):
+
+- **New evidence, values and reviews** update each electrical field's statuses, reasons and open requests right away. Evidence alone never completes a request or verifies a field.
+- **Search dates are kept.** `retrievedAt` is only set by a search. Re-running a search moves the previous one into `previousSearches` with its original date, address, provider candidates and permit count.
+- **Request history.** Each generated request is kept in `requestHistory` as Open, Completed (an engineer-verified value was recorded) or Superseded (wording changed, no longer needed, or results went out of date), with created and resolved dates. Unchanged requests carry over a new search with their original date.
+- **Manual notes are safe.** Discovery records the text it wrote in `request.generatedNotes`. It refreshes notes only when they still equal that text; edited or deliberately cleared notes are never overwritten.
+- **No inherited findings.** Results whose site key or parcel differ from the record, or whose searched address differs from the current address, are marked `stale`: field statuses and open requests are withdrawn, open requests become Superseded, and the panel asks for a new search. History is kept for reference; observations from other sites are never applied.
+
+Live check (79 Lowland Street, Holliston): search found Eversource; attaching a document to Service voltage changed its status to "Document evidence found · Awaiting engineer review" without a new search or date change; a second search kept the first in history and carried over all 22 open requests without duplicates. Tests: `src/lib/electrical-sync.test.ts`.

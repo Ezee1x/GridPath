@@ -141,10 +141,10 @@ export function WorkspacePage({ section }: { section: string }) {
           <section className="card panel-padding">
             <h2>Browser storage</h2>
             <p className="muted">
-              Site records, collection statuses, owners, notes, and document
-              metadata are saved in this browser’s local storage. Uploaded file
-              contents are held in memory only and must be re-added after a page
-              refresh.
+              Site records, collection statuses, owners, notes, and attached
+              files are saved in this browser only. Files survive a refresh but
+              are not shared with teammates or other devices. Export a record
+              to hand it off.
             </p>
             <Badge tone="teal">
               Saved records work without a Google Maps key
